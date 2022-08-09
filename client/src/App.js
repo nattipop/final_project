@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
+import loading from './Coffee_Loading.gif'
 
 function App() {
   return (
     <div className="App">
-      HEllo there
+      <img className="brewing" src={loading} alt="loading" />
     </div>
   );
 }
