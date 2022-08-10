@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const FoodSchema = new Schema({
+const MenuItem = new Schema({
   title: String,
   description: String,
   picture: String,
@@ -30,7 +30,7 @@ const UserSchema = new Schema({
     last: String
   },
   status: String,
-  cart: [FoodSchema],
+  cart: [MenuItem],
   points: Number,
   picture: {
     profile: String,
@@ -39,6 +39,40 @@ const UserSchema = new Schema({
   birthday: String
 });
 
+const OrderSchema = new Schema({
+  placed: Date,
+  due: Date,
+  placed_by: String,
+  items: [MenuItem],
+  before_tax: Number,
+  tax: String,
+  discount: String,
+  total: Number,
+  ready: Boolean,
+  recieved: Boolean
+})
+
+const restaurantSchema = new Schema({
+  title: String,
+  owner: UserSchema,
+  menu: [MenuItem],
+  currentOrders: Array,
+  employees: [UserSchema],
+  hours: {
+    mon_fri: {
+      open: String,
+      close: String
+    },
+    sat: {
+      open: String,
+      close: String
+    }
+  },
+  placeId: String
+})
+
 
 exports.User = mongoose.model("user", UserSchema);
-exports.FoodItem = mongoose.model('foodItem', FoodSchema)
+exports.MenuItem = mongoose.model('foodItem', MenuItem);
+exports.Restaurant = mongoose.model('restaurant', restaurantSchema);
+exports.Order = mongoose.model('order', OrderSchema);

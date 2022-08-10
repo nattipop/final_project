@@ -4,10 +4,12 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser')
 
 const indexRouter = require("./routes/index")
 
 app.use(express.static("public"));
+app.use(bodyParser.json())
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
