@@ -11,6 +11,22 @@ router.get("/restaurant", async (req, res) => {
   res.status(200).send(restaurant)
 })
 
+router.get("/orders/:orderId", (req, res) => {
+  const { orderId } = req.params
+
+  Order.findById(orderId, (err, order) => {
+    if(err){
+      res.status(500).send("There was an error with the format of you request");
+      throw err;
+    };
+    if(!order){
+      res.status(404).send("Order not found");
+    } else {
+      res.status(200).send(order)
+    }
+  })
+})
+
 router.get("/users/:userId", (req, res) => {
   const { userId } = req.params
 
@@ -20,7 +36,7 @@ router.get("/users/:userId", (req, res) => {
       throw err;
     };
     if(!user) {
-      res.send(404).send("User not found")
+      res.status(404).send("User not found")
     } else {
       res.status(200).send(user)
     }
@@ -62,6 +78,7 @@ router.get("/items/product/:productId", (req, res) => {
 
 router.post("/orders", (req, res, next) => {
   if(req.body.user){
+    const restaurantId = req.body.restaurant_id;
     const orderPlaced = new Date()
     let orderTotal = 0;
     const wi_tax = 0.05;
@@ -69,9 +86,10 @@ router.post("/orders", (req, res, next) => {
     let discount = 0;
     let prepTime = 5;
 
+    
     items.forEach((item) => {
       orderTotal += item.price;
-
+      
       if(item.prep_time > 5){
         prepTime = item.prep_time;
       }
@@ -83,10 +101,11 @@ router.post("/orders", (req, res, next) => {
     if(req.body.user.status === "employee"){
       discount = 0.1
     }
-
+    
     const total = orderTotal - (orderTotal * discount);
     const finalTotal = total + (total * wi_tax);
     const order = new Order({
+      restaurant_id: restaurantId,
       placed: orderPlaced.toString(),
       due: new Date(orderPlaced.getTime() + prepTime * 60000).toString(),
       placed_by: `${req.body.user.name.first} ${req.body.user.name.last}`,
@@ -98,15 +117,49 @@ router.post("/orders", (req, res, next) => {
       ready: false,
       recieved: false
     });
-
+    
     order.save();
+    Restaurant.findByIdAndUpdate(restaurantId, {$push: {currentOrders: order}}, (err) => {
+      if(err){
+        throw err;
+      }
+    })
     res.status(200).send("Order placed!")
   } else {
     res.status(400).send("Cannot place an empty order")
   }
 })
 
-router.get("/generateusers", async function (req, res) {
+router.delete("/orders/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+
+  if(orderId){
+    const orderToDelete = Order.findById(orderId, (err) => {
+      res.status(404).send("Order not found")
+    })
+
+    Restaurant.findByIdAndUpdate({currentOrders: orderToDelete}, {$pull: {currentOrders: orderToDelete}}, (err) => {
+      if(err){
+        throw err;
+      }
+    })
+
+    Order.findByIdAndDelete(orderId, (err, order) => {
+      if(err){
+        throw err;
+      } else {
+          res.status(200).send(`Successfully cleared order`)
+        }
+    })
+
+  } else {
+    res.status(400).send("request must contain order id")
+  }
+})
+
+
+//Generating data ---------------------------------------
+router.get("/generate-users", async function (req, res) {
   console.log("generating users");
   //generating users v v v
   let users = [];
@@ -116,9 +169,6 @@ router.get("/generateusers", async function (req, res) {
     const randomNum = Math.floor(Math.random() * 10);
 
     let status = "customer"
-    if(randomNum === 1){
-      status = "owner"
-    }
     if(randomNum > 8){
       status = "employee"
     }
