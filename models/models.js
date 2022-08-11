@@ -40,7 +40,7 @@ const UserSchema = new Schema({
 });
 
 const OrderSchema = new Schema({
-  restaurant_id: String,
+  restaurant_id: {type: Schema.Types.ObjectId, ref: "restaurant"},
   placed: Date,
   due: Date,
   placed_by: String,
@@ -57,7 +57,7 @@ const restaurantSchema = new Schema({
   title: String,
   owner: UserSchema,
   menu: [{type: Schema.Types.ObjectId, ref: "menuItem"}],
-  currentOrders: Array,
+  currentOrders: [{type: Schema.Types.ObjectId, ref: "order"}],
   employees: [{type: Schema.Types.ObjectId, ref: "user"}],
   hours: {
     mon_fri: {
@@ -71,7 +71,6 @@ const restaurantSchema = new Schema({
   },
   placeId: String
 })
-
 
 exports.User = mongoose.model("user", UserSchema);
 exports.MenuItem = mongoose.model('menuItem', MenuItem);

@@ -76,7 +76,7 @@ router.get("/items/product/:productId", (req, res) => {
   })
 });
 
-router.post("/orders", (req, res, next) => {
+router.post("/orders", async (req, res, next) => {
   if(req.body.user){
     const restaurantId = req.body.restaurant_id;
     const orderPlaced = new Date()
@@ -85,8 +85,9 @@ router.post("/orders", (req, res, next) => {
     const items = req.body.user.cart;
     let discount = 0;
     let prepTime = 5;
-
     
+    const restaurant = await Restaurant.findById(restaurantId)
+
     items.forEach((item) => {
       orderTotal += item.price;
       
@@ -105,7 +106,7 @@ router.post("/orders", (req, res, next) => {
     const total = orderTotal - (orderTotal * discount);
     const finalTotal = total + (total * wi_tax);
     const order = new Order({
-      restaurant_id: restaurantId,
+      restaurant_id: restaurant._id,
       placed: orderPlaced.toString(),
       due: new Date(orderPlaced.getTime() + prepTime * 60000).toString(),
       placed_by: `${req.body.user.name.first} ${req.body.user.name.last}`,
@@ -117,14 +118,24 @@ router.post("/orders", (req, res, next) => {
       ready: false,
       recieved: false
     });
-    
-    order.save();
-    Restaurant.findByIdAndUpdate(restaurantId, {$push: {currentOrders: order}}, (err) => {
+
+    order.save((err, order) => {
       if(err){
-        throw err;
+        res.send(err)
       }
-    })
-    res.status(200).send("Order placed!")
+      Restaurant.findOneAndUpdate(
+      { _id: restaurantId },
+      {
+        $addToSet: {
+          "currentOrders": order._id,
+        }
+      }, (err, restaurant) => {
+        if(err){
+          throw err
+        }
+        res.status(200).send("order placed!")
+      })
+    });
   } else {
     res.status(400).send("Cannot place an empty order")
   }
@@ -153,28 +164,23 @@ router.put("/orders/:orderId", (req, res) => {
   }
 })
 
-router.delete("/orders/:orderId", async (req, res) => {
-  const { orderId } = req.params;
+router.delete("/orders/:orderId/:restaurantId", async (req, res) => {
+  const { orderId, restaurantId } = req.params;
 
   if(orderId){
-    const orderToDelete = Order.findById(orderId, (err) => {
-      res.status(404).send("Order not found")
-    })
+    if(restaurantId){
+      const restaurant = await Restaurant.findById(restaurantId);
 
-    Restaurant.findByIdAndUpdate({currentOrders: orderToDelete}, {$pull: {currentOrders: orderToDelete}}, (err) => {
-      if(err){
-        throw err;
-      }
-    })
-
-    Order.findByIdAndDelete(orderId, (err, order) => {
-      if(err){
-        throw err;
-      } else {
-          res.status(200).send(`Successfully cleared order`)
-        }
-    })
-
+      Order.findByIdAndDelete(orderId, (err) => {
+        if(err){
+          throw err;
+        } else {
+            res.status(200).send(`Successfully cleared order`)
+          }
+      })
+    } else {
+      res.status(400).send("request must contain restaurant id")
+    }
   } else {
     res.status(400).send("request must contain order id")
   }
