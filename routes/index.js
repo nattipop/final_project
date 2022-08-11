@@ -169,15 +169,25 @@ router.delete("/orders/:orderId/:restaurantId", async (req, res) => {
 
   if(orderId){
     if(restaurantId){
-      const restaurant = await Restaurant.findById(restaurantId);
-
-      Order.findByIdAndDelete(orderId, (err) => {
+      Restaurant.findOneAndUpdate({ _id: restaurantId },
+      {
+        $pull: {
+          "currentOrders": orderId,
+        }
+      }, (err) => {
         if(err){
-          throw err;
-        } else {
-            res.status(200).send(`Successfully cleared order`)
+          res.status(500).send("there was an error with your request")
+        }
+
+        Order.findByIdAndDelete(orderId, (err) => {
+          if(err){
+            res.status(500).send("there was an error with your request")
+          } else {
+            res.status(200).send(`successfully cleared order`)
           }
+        })
       })
+
     } else {
       res.status(400).send("request must contain restaurant id")
     }
