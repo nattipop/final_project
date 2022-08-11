@@ -128,6 +128,29 @@ router.post("/orders", (req, res, next) => {
   } else {
     res.status(400).send("Cannot place an empty order")
   }
+});
+
+router.put("/orders/:orderId", (req, res) => {
+  const { orderId } = req.params
+
+  for(key in req.body) {
+    Order.findById(orderId, (err, order) => {
+      if(err){
+        res.status(500).send("there was an error with your request")
+      }
+      for(key in req.body) {
+        if(key in order) {
+            order[key] = req.body[key];
+        }
+      }
+      order.save((err) => {
+        if(err){
+          res.status(500).send("there was an error with your request")
+        }
+        res.end("order updated")
+      });
+    })
+  }
 })
 
 router.delete("/orders/:orderId", async (req, res) => {
