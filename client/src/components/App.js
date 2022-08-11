@@ -1,5 +1,5 @@
-import './App.css';
-import loading from './Coffee_Loading.gif'
+import '../App.css';
+import loading from '../Coffee_Loading.gif'
 
 function App() {
   return (

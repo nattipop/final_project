@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const crypto = require("crypto");
 
 const MenuItem = new Schema({
   title: String,
@@ -23,7 +24,8 @@ const MenuItem = new Schema({
 const UserSchema = new Schema({
   login: {
     email: String,
-    password: String
+    hash: String,
+    salt: String
   },
   name: {
     first: String,
@@ -36,8 +38,19 @@ const UserSchema = new Schema({
     profile: String,
     cover: String
   },
-  birthday: String
+  birthday: String,
 });
+
+UserSchema.methods.setPassword = function(password){
+  this.login.salt = crypto.randomBytes(16).toString('hex');
+  this.login.hash = crypto.pbkdf2Sync(password, this.login.salt, 1000, 64, 'sha512').toString('hex');
+};
+
+UserSchema.methods.validPassword = function(password) {
+  var hash = crypto.pbkdf2Sync(password, this.login.salt, 1000, 64, 'sha512').toString('hex');
+
+  return this.login.hash === hash;
+};
 
 const OrderSchema = new Schema({
   restaurant_id: {type: Schema.Types.ObjectId, ref: "restaurant"},

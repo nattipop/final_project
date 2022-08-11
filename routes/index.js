@@ -1,17 +1,78 @@
 const express = require("express");
+const jwt = require('jwt-simple');
 const router = express.Router()
 const {User, MenuItem, Restaurant, Order} = require("../models/models")
 const {faker} = require("@faker-js/faker");
 const axios = require("axios");
+const passport = require("passport");
+require('../services/passport')
+
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
 
 faker.locale = "en_US";
+
+function tokenForUser(user) {
+  return jwt.encode({ sub: user.id,
+    iat: Math.round(Date.now() / 1000),
+    exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, process.env.TOKEN_SECRET)
+};
+
+router.post("/auth/signup", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const firstName = req.body.first;
+  const lastName = req.body.last;
+  const birthdateStr = req.body.birthdate;
+  const birthday = new Date(birthdateStr);
+  const ownerPass = req.body.owner_password;
+  const status = (ownerPass === 13849532638) ? "owner" : "customer"
+
+  if(!email || !password){
+    res.status(422).send({ error: "You must provide email and password" })
+  }
+
+  User.findOne({ "login.email": email }, function(err, existingUser) {
+    if (err) { return next(err); }
+
+    if (existingUser) {
+      return res.status(422).send({ error: 'Email is in use' });
+    }
+
+    const user = new User({
+      login: {
+        email: email
+      },
+      name: {
+        first: firstName,
+        last: lastName
+      },
+      birthday: birthday,
+      status: status
+    });
+
+    user.setPassword(password);
+
+    user.save(function(err, user) {
+      if (err) { return next(err); }
+
+      res.json({ token: tokenForUser(user) });
+    });
+  });
+})
+
+router.post("/auth/signin", requireSignin, (req, res) => {
+  res.send({
+    token: tokenForUser(req.user)
+  });
+})
 
 router.get("/restaurant", async (req, res) => {
   const restaurant = await Restaurant.find();
   res.status(200).send(restaurant)
 })
 
-router.get("/orders/:orderId", (req, res) => {
+router.get("/orders/:orderId", requireAuth, (req, res) => {
   const { orderId } = req.params
 
   Order.findById(orderId, (err, order) => {
@@ -27,7 +88,7 @@ router.get("/orders/:orderId", (req, res) => {
   })
 })
 
-router.get("/users/:userId", (req, res) => {
+router.get("/users/:userId", requireAuth, (req, res) => {
   const { userId } = req.params
 
   User.findById(userId, (err, user) => {
@@ -76,7 +137,7 @@ router.get("/items/product/:productId", (req, res) => {
   })
 });
 
-router.post("/orders", async (req, res, next) => {
+router.post("/orders", requireAuth, async (req, res, next) => {
   if(req.body.user){
     const restaurantId = req.body.restaurant_id;
     const orderPlaced = new Date()
@@ -141,7 +202,7 @@ router.post("/orders", async (req, res, next) => {
   }
 });
 
-router.put("/orders/:orderId", (req, res) => {
+router.put("/orders/:orderId", requireAuth, (req, res) => {
   const { orderId } = req.params
 
   for(key in req.body) {
@@ -164,7 +225,7 @@ router.put("/orders/:orderId", (req, res) => {
   }
 });
 
-router.put("/users/:userId", (req, res) => {
+router.put("/users/:userId", requireAuth, (req, res) => {
   const { userId } = req.params
 
   for(key in req.body) {
@@ -183,7 +244,7 @@ router.put("/users/:userId", (req, res) => {
   }
 })
 
-router.delete("/orders/:orderId/:restaurantId", async (req, res) => {
+router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {
   const { orderId, restaurantId } = req.params;
 
   if(orderId){
