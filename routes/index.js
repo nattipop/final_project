@@ -162,6 +162,25 @@ router.put("/orders/:orderId", (req, res) => {
       });
     })
   }
+});
+
+router.put("/users/:userId", (req, res) => {
+  const { userId } = req.params
+
+  for(key in req.body) {
+    User.findById(userId, (err, user) => {
+      if(err){
+        res.status(500).send("there was an error with your request")
+      }
+      for(key in req.body) {
+        if(key in user) {
+            user[key] = req.body[key];
+        }
+      }
+      user.save();
+      res.end("updated")
+    })
+  }
 })
 
 router.delete("/orders/:orderId/:restaurantId", async (req, res) => {
