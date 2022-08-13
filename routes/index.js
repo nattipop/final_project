@@ -26,7 +26,7 @@ router.post("/auth/signup", (req, res) => {
   const birthdateStr = req.body.birthdate;
   const birthday = new Date(birthdateStr);
   const ownerPass = req.body.owner_password;
-  const status = (ownerPass === 13849532638) ? "owner" : "customer"
+  const status = (ownerPass === 13849532638) ? "owner" : "customer";
 
   if(!email || !password){
     res.status(422).send({ error: "You must provide email and password" })
@@ -104,6 +104,21 @@ router.get("/users/:userId", requireAuth, (req, res) => {
   })
 });
 
+router.get("/items", (req, res) => {
+  MenuItem.find({}, (err, products) => {
+    if(err){
+      res.status(500).send("there was an error with the format of your request");
+      throw err;
+    }
+
+    if(!products){
+      res.status(404).send("no products to show")
+    } else {
+      res.status(200).send(products)
+    }
+  })
+})
+
 router.get("/items/:category", (req, res) => {
   const { category } = req.params;
 
@@ -136,6 +151,42 @@ router.get("/items/product/:productId", (req, res) => {
     }
   })
 });
+
+router.post("/products", requireAuth, (req, res) => {
+  if(req.body.title){
+    if(req.body.description){
+      if(req.body.category){
+        const product = new MenuItem({
+          title: req.body.title,
+          description: req.body.description,
+          picture: req.body.picture,
+          price: req.body.price.toFixed(2),
+          category: req.body.category,
+          availability: {
+            mon_fri: {
+              start: req.body.mon_fri_start,
+              end: req.body.mon_fri_end
+            },
+            sat: {
+              start: req.body.sat_start,
+              end: req.body.sat_end
+            }
+          },
+          prep_time: req.body.prep_time
+        });
+        product.save();
+        res.status(200).send("added product")
+      } else {
+        res.status(422).send("product category required")
+      }
+    } else {
+      res.status(422).send("product description required")
+    }
+  } else {
+    res.status(422).send("product title required")
+  }
+
+})
 
 router.post("/orders", requireAuth, async (req, res, next) => {
   if(req.body.user){
@@ -281,11 +332,11 @@ router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) =>
 router.get("/generate-users", async function (req, res) {
   console.log("generating users");
   //generating users v v v
-  let users = [];
   for(let i = 0; i < 12; i++){
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
     const randomNum = Math.floor(Math.random() * 10);
+    const password = faker.internet.password(10);
 
     let status = "customer"
     if(randomNum > 8){
@@ -294,8 +345,7 @@ router.get("/generate-users", async function (req, res) {
 
     let user = new User({
       login: {
-        email: faker.internet.email(firstName, lastName),
-        password: faker.internet.password(10)
+        email: faker.internet.email(firstName, lastName)
       },
       name: {
         first: firstName,
@@ -310,8 +360,8 @@ router.get("/generate-users", async function (req, res) {
       birthday: faker.date.birthdate({min: 18, max: 70, mode: "age"})
     });
 
+    user.setPassword(password);
     user.save();
-    users.push(user)
   }
   res.send("Users generated");
 });
@@ -336,11 +386,11 @@ router.get("/generate-restaurant/:title", async (req, res) => {
       hours: {
         mon_fri: {
           open: "7:00:00",
-          close: "3:00:00"
+          close: "15:00:00"
         },
         sat: {
           open: "8:00:00",
-          close: "3:00:00"
+          close: "15:00:00"
         }
       },
       placeId: placeId.data.candidates[0].place_id

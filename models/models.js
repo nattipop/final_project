@@ -7,7 +7,7 @@ const MenuItem = new Schema({
   description: String,
   picture: String,
   category: String,
-  price: String,
+  price: Number,
   availability: {
     mon_fri: {
       start: String,
@@ -18,7 +18,7 @@ const MenuItem = new Schema({
       end: String,
     }
   },
-  prep_time: String
+  prep_time: Number
 });
 
 const UserSchema = new Schema({
