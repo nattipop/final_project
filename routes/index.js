@@ -63,7 +63,8 @@ router.post("/auth/signup", (req, res) => {
 
 router.post("/auth/signin", requireSignin, (req, res) => {
   res.send({
-    token: tokenForUser(req.user)
+    token: tokenForUser(req.user),
+    email: req.user.login.email
   });
 })
 
@@ -84,6 +85,22 @@ router.get("/orders/:orderId", requireAuth, (req, res) => {
       res.status(404).send("Order not found");
     } else {
       res.status(200).send(order)
+    }
+  })
+})
+
+router.get("/users/by-email/:email", (req, res) => {
+  const { email } = req.params;
+
+  User.find({ "login.email": email }, (err, user) => {
+    if(err){
+      res.status(500).send("There was an error with the format of your request");
+      throw err;
+    }
+    if(!user){
+      res.status(404).send("User not found")
+    } else {
+      res.status(200).send(user)
     }
   })
 })

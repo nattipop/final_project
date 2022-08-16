@@ -76,3 +76,34 @@ code {
   font-size: 17px;
   padding: 8px;
 }
+
+.pfp {
+  position: fixed;
+  text-align: right;
+  width: 150px;
+}
+
+.pfp img {
+  float: right;
+  margin-right: 20px;
+  margin-top: 20px;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.pfp div {
+  margin-right: 20px;
+  float: right;
+  background-color: rgb(44, 38, 30);
+  color: white;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 40px;
+  margin-top: 20px;
+}
