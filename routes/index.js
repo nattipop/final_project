@@ -117,6 +117,26 @@ router.get("/items", (req, res) => {
       res.status(200).send(products)
     }
   })
+});
+
+//get items by availability 
+router.get("/items/:time", (req, res) => {
+  const { time } = req.params;
+
+  MenuItem.find(
+    {"availability.mon_fri.start": { $lt: time }, "availability.mon_fri.end": { $gt: time }},
+    (err, products) => {
+    if(err){
+      res.status(500).send("there was an error with the format of your request");
+      throw err;
+    }
+
+    if(!products){
+      res.status(404).send("no products to show")
+    } else {
+      res.status(200).send(products)
+    }
+  })
 })
 
 router.get("/items/:category", (req, res) => {
