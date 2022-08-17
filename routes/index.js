@@ -25,8 +25,8 @@ router.post("/auth/signup", (req, res) => {
   const lastName = req.body.last;
   const birthdateStr = req.body.birthdate;
   const birthday = new Date(birthdateStr);
-  const ownerPass = req.body.owner_password;
-  const status = (ownerPass === 13849532638) ? "owner" : "customer";
+  const employeePass = req.body.employee_pin;
+  const status = (employeePass === 239853) ? "employee" : "customer";
 
   if(!email || !password){
     res.status(422).send({ error: "You must provide email and password" })
@@ -56,7 +56,7 @@ router.post("/auth/signup", (req, res) => {
     user.save(function(err, user) {
       if (err) { return next(err); }
 
-      res.json({ token: tokenForUser(user) });
+      res.json({ token: tokenForUser(user), email: user.login.email });
     });
   });
 })

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL } from "./types";
+import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER } from "./types";
 
 const BASE_URL = "http://localhost:3000"
 export const signin = (formProps, callback) => dispatch => {
@@ -18,6 +18,15 @@ export const signout = (callback) => dispatch => {
   dispatch({ type: AUTH_USER, payload: '' });
   callback()
 };
+
+export const signup = (formProps) => dispatch => {
+  axios.post(`${BASE_URL}/auth/signup`, formProps).then((response) => {
+    dispatch({ type: CREATE_USER, payload: response.data })
+    localStorage.setItem("token", response.data.token)
+  }).catch((err) => {
+    dispatch({ type: AUTH_ERROR, payload: err })
+  });
+}
 
 export const fetchProducts = () => dispatch => {
   axios.get(`${BASE_URL}/items`).then((response) => {
