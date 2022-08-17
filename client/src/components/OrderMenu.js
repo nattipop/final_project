@@ -20,7 +20,7 @@ const OrderMenu = () => {
 
   const handleSignout = () => {
     setTrigger(true)
-    navigate("signout");
+    navigate("/order-menu/signout", {state: date});
   }
 
   const handleItemClick = (e) => {

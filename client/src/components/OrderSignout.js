@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { signout } from "../actions";
 
-const Signout = ({trigger, toggleTrigger}) => {
+const OrderSignout = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,4 +28,4 @@ const Signout = ({trigger, toggleTrigger}) => {
   ) : ""
 }
 
-export default Signout;
+export default OrderSignout;

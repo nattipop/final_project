@@ -14,8 +14,6 @@ const Menu = () => {
   const [signoutTrigger, setSignout] = useState(false)
   const [createTrigger, setCreate] = useState(false)
   const dispatch = useDispatch();
-  console.log(userEmail)
-
 
   useEffect(() => {
     dispatch(fetchProducts())
@@ -24,7 +22,6 @@ const Menu = () => {
 
   useEffect(() => {
    if(userEmail){
-    console.log(userEmail)
       dispatch(fetchUserByEmail(userEmail))
     } 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +41,7 @@ const Menu = () => {
   }
 
   const handlePfpClick = () => {
-    console.log("hi")
+    navigate(`/profile/${user[0].name.first}`, { state: user[0] })
   }
 
   const renderPfp = () => {
@@ -61,11 +58,10 @@ const Menu = () => {
       </div>
     )
   }
-  console.log(user)
 
   return (authenticated && user[0]) ? (
     <div>Menu
-      <div style={{ "width": "150px", "float": "right", "height": "70px" }}>
+      <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
       </div>
       <button onClick={() => {

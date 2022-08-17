@@ -15,6 +15,9 @@ import rootReducer from './reducers';
 import Signout from './components/Signout';
 import SetTime from './components/SetTime';
 import OrderMenu from './components/OrderMenu';
+import Profile from "./components/Profile"
+import OrderSignout from './components/OrderSignout';
+import ProfileSignout from './components/ProfileSignout';
 
 const store = createStore(rootReducer, {}, applyMiddleware(thunk));
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,13 +26,18 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Menu/>} >
-            <Route path="signout" element={<Signout/>} />
+            <Route exact path="/signout" element={<Signout/>} />
             <Route path="/set-time" element={<SetTime />} />
             <Route path="/menu/:category" element={<Category />} >
               <Route path="/menu/:category/:productId" element={<MenuItem />} />
             </Route>
           </Route>
-          <Route path="/order-menu" element={<OrderMenu />} />
+          <Route exact path="/profile/:userName" element={<Profile />} >
+            <Route path="/profile/:userName/signout" element={<ProfileSignout />} />
+          </Route>
+          <Route exact path="/order-menu" element={<OrderMenu />}>
+            <Route path="/order-menu/signout" element={<OrderSignout />} />
+          </Route>
           <Route path="account/signup" element={<Signup/>} />
           <Route path="account/signin" element={<Signin/>} />
         </Routes>

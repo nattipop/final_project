@@ -80,7 +80,7 @@ code {
 .pfp {
   position: fixed;
   text-align: right;
-  width: 150px;
+  width: 70px;
 }
 
 .pfp img {
@@ -88,8 +88,8 @@ code {
   margin-right: 20px;
   margin-top: 20px;
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -99,11 +99,76 @@ code {
   float: right;
   background-color: rgb(44, 38, 30);
   color: white;
-  width: 100px;
-  height: 100px;
-  line-height: 100px;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
   border-radius: 50%;
   text-align: center;
-  font-size: 40px;
+  font-size: 36px;
   margin-top: 20px;
+}
+
+.pfp:hover {
+  cursor: pointer;
+}
+
+.cover-photo {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.profile-pic {
+  max-width: 130px;
+  max-height: 100px;
+  border-radius: 50%;
+  margin-top: -50px;
+  margin-left: 6vw;
+}
+
+.profile-name {
+  font-size: 30px;
+}
+
+.profile-initial {
+  background-color: rgb(44, 38, 30);
+  color: white;
+  max-width: 100px;
+  max-height: 100px;
+  margin-left: 6vw;
+  line-height: 100px;
+  margin-top: -50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 36px;
+  box-shadow: 2px 3px 3px black;
+}
+
+.profile-details {
+  font-size: 17px;
+  margin-left: 20vw;
+  font-weight: bold;
+}
+
+.detail-div {
+  margin-top: 40px;
+}
+
+#back-to-menu {
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+  position: relative;
+  float: right;
+  padding: 15px;
+}
+
+#back-to-menu:hover {
+  cursor: pointer;
+}
+
+.back-div {
+  width: 100%;
+  height: 20px;
+  position: fixed;
 }
