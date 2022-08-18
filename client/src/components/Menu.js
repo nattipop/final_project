@@ -10,7 +10,7 @@ const Menu = () => {
   const authenticated = useSelector(state => state.auth.authenticated);
   const userEmail = useSelector(state => state.auth.email)
   const products = useSelector(state => state.products)
-  const user = useSelector(state => state.user)
+  const user = useSelector(state => state.user[0])
   const [signoutTrigger, setSignout] = useState(false)
   const [createTrigger, setCreate] = useState(false)
   const dispatch = useDispatch();
@@ -41,12 +41,12 @@ const Menu = () => {
   }
 
   const handlePfpClick = () => {
-    navigate(`/profile/${user[0].name.first}`, { state: user[0] })
+    navigate(`/profile/${user.name.first}`, { state: user })
   }
 
   const renderPfp = () => {
-    const pfp = user[0].picture?.profile || null;
-    const initial = user[0].name.first[0];
+    const pfp = user.picture?.profile || null;
+    const initial = user.name.first[0];
 
     return pfp ? (
       <div className="pfp">
@@ -59,7 +59,7 @@ const Menu = () => {
     )
   }
 
-  return (authenticated && user[0]) ? (
+  return (authenticated && user) ? (
     <div>Menu
       <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}

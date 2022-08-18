@@ -11,6 +11,7 @@ const OrderMenu = () => {
   const dispatch = useDispatch();
   const [triggerSignout, setTrigger] = useState(false);
   const products = useSelector(state => state.products);
+  const user = useSelector(state => state.user[0]);
   const time = date.toLocaleTimeString("it-IT")
 
   useEffect(() => {
@@ -49,8 +50,30 @@ const OrderMenu = () => {
     })
   }
 
+  const handlePfpClick = () => {
+    navigate(`/profile/${user.name.first}`, { state: user })
+  }
+
+  const renderPfp = () => {
+    const pfp = user.picture?.profile || null;
+    const initial = user.name.first[0];
+
+    return pfp ? (
+      <div className="pfp">
+        <img onClick={handlePfpClick} src={pfp} alt={initial} />
+      </div>
+    ) : (
+      <div className="pfp">
+        <div onClick={handlePfpClick}>{initial}</div>
+      </div>
+    )
+  }
+
   return (
     <div>
+      <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
+        {renderPfp()}
+      </div>
       <button onClick={handleSignout}>Signout</button>
       <button onClick={() => navigate(-1)}>Back</button>
       <h3 className="pickup-time">{`Your scheduled pickup time: ${date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit'})}`}</h3>
