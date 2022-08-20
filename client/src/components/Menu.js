@@ -27,6 +27,7 @@ const Menu = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated])
 
+  console.log(products)
   const renderProducts = () => {
     return products[0] ? products.map((product, i) => {
       return product ? (
