@@ -16,6 +16,7 @@ const Menu = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("hello")
     dispatch(fetchProducts())
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -29,7 +30,7 @@ const Menu = () => {
 
   console.log(products)
   const renderProducts = () => {
-    return products[0] ? products.map((product, i) => {
+    return products.map((product, i) => {
       return product ? (
         <div className="card col" key={i}>
           <img src={product.picture} alt="product" />
@@ -38,7 +39,7 @@ const Menu = () => {
           <p>{product.description}</p>
         </div>
       ) : ""
-    }) : ""
+    })
   }
 
   const handlePfpClick = () => {
