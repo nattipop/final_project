@@ -29,7 +29,7 @@ const Menu = () => {
 
   console.log(products)
   const renderProducts = () => {
-    if(products.isArray()){
+    if(products[1]){
       return products.map((product, i) => {
         return product ? (
           <div className="card col" key={i}>
