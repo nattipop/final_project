@@ -28,16 +28,18 @@ const Menu = () => {
   }, [authenticated])
 
   const renderProducts = () => {
-    return products.map((product, i) => {
-      return product ? (
-        <div className="card col" key={i}>
-          <img src={product.picture} alt="product" />
-          <h3>{product.title}</h3>
-          <p>starting at ${product.price}</p>
-          <p>{product.description}</p>
-        </div>
-      ) : ""
-    })
+    if(products) {
+      return products.map((product, i) => {
+        return product ? (
+          <div className="card col" key={i}>
+            <img src={product.picture} alt="product" />
+            <h3>{product.title}</h3>
+            <p>starting at ${product.price}</p>
+            <p>{product.description}</p>
+          </div>
+        ) : ""
+      })
+    }
   }
 
   const handlePfpClick = () => {
