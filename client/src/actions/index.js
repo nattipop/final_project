@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER } from "./types";
+import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT } from "./types";
 
 const BASE_URL = "http://localhost:3000"
 export const signin = (formProps, callback) => dispatch => {
@@ -59,3 +59,11 @@ export const fetchUserByEmail = (email) => dispatch => {
     console.log(err)
   })
 };
+
+export const fetchProduct = (id) => dispatch => {
+  axios.get(`${BASE_URL}/items/product/${id}`).then((response) => {
+    dispatch({ type: FETCH_PRODUCT, payload: response.data })
+  }).catch(err => {
+    console.log(err)
+  })
+}

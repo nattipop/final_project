@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Menu from './components/Menu';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
-import Category from './components/Category';
 import MenuItem from './components/MenuItem';
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -28,16 +27,15 @@ root.render(
           <Route exact path="/" element={<Menu/>} >
             <Route exact path="/signout" element={<Signout/>} />
             <Route path="/set-time" element={<SetTime />} />
-            <Route path="/menu/:category" element={<Category />} >
-              <Route path="/menu/:category/:productId" element={<MenuItem />} />
-            </Route>
           </Route>
+          
           <Route exact path="/profile/:userName" element={<Profile />} >
             <Route path="/profile/:userName/signout" element={<ProfileSignout />} />
           </Route>
           <Route exact path="/order-menu" element={<OrderMenu />}>
             <Route path="/order-menu/signout" element={<OrderSignout />} />
           </Route>
+          <Route path="/products/:productId" element={<MenuItem />} />
           <Route path="account/signup" element={<Signup/>} />
           <Route path="account/signin" element={<Signin/>} />
         </Routes>

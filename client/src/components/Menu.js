@@ -33,7 +33,7 @@ const Menu = () => {
         <div className="card col" key={i}>
           <img src={product.picture} alt="product" />
           <h3>{product.title}</h3>
-          <p>${product.price}</p>
+          <p>starting at ${product.price}</p>
           <p>{product.description}</p>
         </div>
       ) : ""
@@ -60,7 +60,7 @@ const Menu = () => {
   }
 
   return (authenticated && user) ? (
-    <div>Menu
+    <div>
       <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
       </div>

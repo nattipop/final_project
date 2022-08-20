@@ -34,7 +34,7 @@ const OrderMenu = () => {
       return product.title === title
     })
 
-    navigate(`/menu/${item.category}/${item._id}`, { state: item })
+    navigate(`/products/${item._id}`)
   }
 
   const renderProducts = () => {
