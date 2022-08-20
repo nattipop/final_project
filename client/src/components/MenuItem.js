@@ -9,9 +9,6 @@ const MenuItem = () => {
   const navigate = useNavigate();
   let {productId} = useParams();
   const currentProduct = useSelector(state => state.currentProduct[0])
-  const [drinkOption, setDrinkOption] = useState("");
-  const [drinkSize, setDrinkSize] = useState("");
-  const [extraEspresso, setExtraEspresso] = useState("");
 
   useEffect(() => {
     dispatch(fetchProduct(productId))
@@ -29,12 +26,12 @@ const MenuItem = () => {
       case "coffee":
         return (
           <div>
-            <select onChange={(e) => setDrinkOption(e.target.value)} className="options form-select">
+            <select className="options form-select">
               <option defaultValue>Hot or Iced</option>
               <option value="Hot">Hot</option>
               <option value="Iced">Iced</option>
             </select>
-            <select onChange={(e) => setDrinkSize(e.target.value)} className="options form-select">
+            <select className="options form-select">
               <option defaultValue>Size</option>
               <option value="Small">{"Small (12oz, 1 shot of espresso)"}</option>
               <option value="Medium">{"Medium (16oz, 2 shots of espresso)"}</option>
@@ -44,7 +41,7 @@ const MenuItem = () => {
               <option defaultValue>Flavor</option>
               {renderFlavors()}
             </select>
-            <select onChange={(e) => setExtraEspresso(e.target.value)} className="options form-select">
+            <select className="options form-select">
               <option defaultValue>{"Extra Espresso (not required)"}</option>
               <option value="1 shot">{"1 Extra Shot"}</option>
               <option value="2 shots">{"2 Extra Shots"}</option>
