@@ -2,7 +2,6 @@ const express = require("express");
 const jwt = require('jwt-simple');
 const router = express.Router()
 const {User, MenuItem, Restaurant, Order} = require("../models/models")
-const {faker} = require("@faker-js/faker");
 const axios = require("axios");
 const passport = require("passport");
 require('../services/passport')
@@ -366,76 +365,76 @@ router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) =>
 
 
 //Generating data ---------------------------------------
-router.get("/generate-users", async function (req, res) {
-  console.log("generating users");
-  //generating users v v v
-  for(let i = 0; i < 12; i++){
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
-    const randomNum = Math.floor(Math.random() * 10);
-    const password = faker.internet.password(10);
+// router.get("/generate-users", async function (req, res) {
+//   console.log("generating users");
+//   //generating users v v v
+//   for(let i = 0; i < 12; i++){
+//     const firstName = faker.name.firstName();
+//     const lastName = faker.name.lastName();
+//     const randomNum = Math.floor(Math.random() * 10);
+//     const password = faker.internet.password(10);
 
-    let status = "customer"
-    if(randomNum > 8){
-      status = "employee"
-    }
+//     let status = "customer"
+//     if(randomNum > 8){
+//       status = "employee"
+//     }
 
-    let user = new User({
-      login: {
-        email: faker.internet.email(firstName, lastName)
-      },
-      name: {
-        first: firstName,
-        last: lastName
-      },
-      status: status,
-      cart: [],
-      picture: {
-        profile: faker.image.people(300, 250, true),
-        cover: faker.image.abstract(640, 480, true)
-      },
-      birthday: faker.date.birthdate({min: 18, max: 70, mode: "age"})
-    });
+//     let user = new User({
+//       login: {
+//         email: faker.internet.email(firstName, lastName)
+//       },
+//       name: {
+//         first: firstName,
+//         last: lastName
+//       },
+//       status: status,
+//       cart: [],
+//       picture: {
+//         profile: faker.image.people(300, 250, true),
+//         cover: faker.image.abstract(640, 480, true)
+//       },
+//       birthday: faker.date.birthdate({min: 18, max: 70, mode: "age"})
+//     });
 
-    user.setPassword(password);
-    user.save();
-  }
-  res.send("Users generated");
-});
+//     user.setPassword(password);
+//     user.save();
+//   }
+//   res.send("Users generated");
+// });
 
-router.get("/generate-restaurant/:title", async (req, res) => {
-  // generating restaurant v v v
-  const {title} = req.params
+// router.get("/generate-restaurant/:title", async (req, res) => {
+//   // generating restaurant v v v
+//   const {title} = req.params
 
-  const placeId = await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${title}&inputtype=textquery&key=${process.env.API_KEY}`)
+//   const placeId = await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${title}&inputtype=textquery&key=${process.env.API_KEY}`)
 
-  const owner = await User.findOne({"status": "owner"})
-  let menu = await MenuItem.find({}, {"_id": 1, "total": 1})
-  let employees = await User.find({ "status": "employee" }, {"_id": 1, "total": 1})
+//   const owner = await User.findOne({"status": "owner"})
+//   let menu = await MenuItem.find({}, {"_id": 1, "total": 1})
+//   let employees = await User.find({ "status": "employee" }, {"_id": 1, "total": 1})
 
-  if(owner !== undefined){
-    let restaurant = new Restaurant({
-      title: title,
-      owner: owner,
-      menu: menu,
-      currentOrders: [],
-      employees: employees,
-      hours: {
-        mon_fri: {
-          open: "7:00:00",
-          close: "15:00:00"
-        },
-        sat: {
-          open: "8:00:00",
-          close: "15:00:00"
-        }
-      },
-      placeId: placeId.data.candidates[0].place_id
-    });
+//   if(owner !== undefined){
+//     let restaurant = new Restaurant({
+//       title: title,
+//       owner: owner,
+//       menu: menu,
+//       currentOrders: [],
+//       employees: employees,
+//       hours: {
+//         mon_fri: {
+//           open: "7:00:00",
+//           close: "15:00:00"
+//         },
+//         sat: {
+//           open: "8:00:00",
+//           close: "15:00:00"
+//         }
+//       },
+//       placeId: placeId.data.candidates[0].place_id
+//     });
     
-    restaurant.save();
-    res.send("restaurant generated");
-  }
-})
+//     restaurant.save();
+//     res.send("restaurant generated");
+//   }
+// })
 
 module.exports = router;
