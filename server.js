@@ -6,18 +6,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser')
 
-httpProxy.createProxyServer({
-  target: 'https://final-project-parsity.herokuapp.com/',
-  toProxy: true,
-  changeOrigin: true,
-  xfwd: true
-});
-
 const indexRouter = require("./routes/index")
 
 if(process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-
   const path = require("path");
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
