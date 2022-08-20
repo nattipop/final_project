@@ -5,7 +5,13 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser')
-const DATABASE_URL = require("./config/prod")
+
+httpProxy.createProxyServer({
+  target: 'https://final-project-parsity.herokuapp.com/',
+  toProxy: true,
+  changeOrigin: true,
+  xfwd: true
+});
 
 const indexRouter = require("./routes/index")
 
