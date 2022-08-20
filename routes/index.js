@@ -9,7 +9,7 @@ require('../services/passport')
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 
-faker.locale = "en_US";
+// faker.locale = "en_US";
 
 function tokenForUser(user) {
   return jwt.encode({ sub: user.id,
