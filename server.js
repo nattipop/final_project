@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const indexRouter = require("./routes/index")
 
 if(process.env.NODE_ENV === "production") {
+  app.use(express.static("build"))
   const path = require("path");
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
@@ -25,7 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static("build"));
+app.use(express.static("public"));
 app.use(bodyParser.json())
 
 const mongoose = require("mongoose");
