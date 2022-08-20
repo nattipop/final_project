@@ -32,7 +32,7 @@ app.use(express.static("public"));
 app.use(bodyParser.json())
 
 const mongoose = require("mongoose");
-mongoose.connect(DATABASE_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", error => console.log(error))
 db.once("open", () => console.log("connected to database"))
