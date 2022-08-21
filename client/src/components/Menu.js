@@ -27,19 +27,18 @@ const Menu = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated])
 
+  console.log(process.env.MONGODB_URI)
   const renderProducts = () => {
-    if(products[1]){
-      return products.map((product, i) => {
-        return product ? (
-          <div className="card col" key={i}>
-            <img src={product.picture} alt="product" />
-            <h3>{product.title}</h3>
-            <p>starting at ${product.price}</p>
-            <p>{product.description}</p>
-          </div>
-        ) : ""
-      })
-    }
+    return products.map((product, i) => {
+      return product ? (
+        <div className="card col" key={i}>
+          <img src={product.picture} alt="product" />
+          <h3>{product.title}</h3>
+          <p>starting at ${product.price}</p>
+          <p>{product.description}</p>
+        </div>
+      ) : ""
+    })
   }
 
   const handlePfpClick = () => {

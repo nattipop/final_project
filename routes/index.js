@@ -80,7 +80,7 @@ router.get("/orders/:orderId", requireAuth, (req, res) => {
       res.status(500).send("There was an error with the format of you request");
       throw err;
     };
-    if(!order){
+    if(!order[0]){
       res.status(404).send("Order not found");
     } else {
       res.status(200).send(order)
@@ -96,7 +96,7 @@ router.get("/users/by-email/:email", (req, res) => {
       res.status(500).send("There was an error with the format of your request");
       throw err;
     }
-    if(!user){
+    if(!user[0]){
       res.status(404).send("User not found")
     } else {
       res.status(200).send(user)
@@ -112,7 +112,7 @@ router.get("/users/:userId", requireAuth, (req, res) => {
       res.status(500).send("There was an error with the format of your request");
       throw err;
     };
-    if(!user) {
+    if(!user[0]) {
       res.status(404).send("User not found")
     } else {
       res.status(200).send(user)
@@ -121,13 +121,15 @@ router.get("/users/:userId", requireAuth, (req, res) => {
 });
 
 router.get("/items", (req, res) => {
+  console.log("test")
   MenuItem.find({}, (err, products) => {
+    console.log(products)
     if(err){
       res.status(500).send("there was an error with the format of your request");
       throw err;
     }
 
-    if(!products){
+    if(!products[0]){
       res.status(404).send("no products to show")
     } else {
       res.status(200).send(products)
@@ -147,7 +149,7 @@ router.get("/items/:time", (req, res) => {
       throw err;
     }
 
-    if(!products){
+    if(!products[0]){
       res.status(404).send("no products to show")
     } else {
       res.status(200).send(products)
@@ -163,7 +165,7 @@ router.get("/items/:category", (req, res) => {
       res.status(500).send("There was an error with the format of your request");
       throw err;
     };
-    if(!products) {
+    if(!products[0]) {
       res.send(404).send("No Products To Show")
     } else {
       res.status(200).send(products)
@@ -179,7 +181,7 @@ router.get("/items/product/:productId", (req, res) => {
       res.status(500).send("There was an error with the format of your request");
       throw err;
     };
-    if(!product) {
+    if(!product[0]) {
       res.send(404).send("Product Not Found")
     } else {
       console.log(product)

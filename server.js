@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const keys = require("./config/keys")
 
 const indexRouter = require("./routes/index")
 
@@ -23,7 +24,8 @@ app.use(express.static("public"));
 app.use(bodyParser.json())
 
 const mongoose = require("mongoose");
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+console.log(keys.MONGODB_URI)
+mongoose.connect(keys.MONGODB_URI, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", error => console.log(error))
 db.once("open", () => console.log("connected to database"))
