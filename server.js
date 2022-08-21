@@ -4,7 +4,8 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const indexRouter = require("./routes/index")
 
@@ -16,15 +17,7 @@ if(process.env.NODE_ENV === "production") {
   });
 }
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3001");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-  res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(cors());
 
 app.use(express.static("public"));
 app.use(bodyParser.json())

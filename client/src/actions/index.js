@@ -28,7 +28,9 @@ export const signup = (formProps) => dispatch => {
 }
 
 export const fetchProducts = () => dispatch => {
+  debugger;
   axios.get(`/items`).then((response) => {
+    debugger;
     dispatch({ type: FETCH_PRODUCTS, payload: response.data })
   }).catch((err) => {
     console.log(err)

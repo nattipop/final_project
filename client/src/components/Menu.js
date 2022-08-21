@@ -27,7 +27,6 @@ const Menu = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated])
 
-  console.log(products)
   const renderProducts = () => {
     if(products[1]){
       return products.map((product, i) => {
@@ -86,7 +85,7 @@ const Menu = () => {
       <button onClick={() => navigate("/account/signup")}>Signup</button>
       <button onClick={() => navigate("/account/signin")}>Signin</button>
       <div className="row d-flex justify-content-center product-div">
-        {/* {renderProducts()} */}
+        {renderProducts()}
       </div>
     </div>
   )
