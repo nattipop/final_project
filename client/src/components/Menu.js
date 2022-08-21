@@ -86,7 +86,7 @@ const Menu = () => {
       <button onClick={() => navigate("/account/signup")}>Signup</button>
       <button onClick={() => navigate("/account/signin")}>Signin</button>
       <div className="row d-flex justify-content-center product-div">
-        {renderProducts()}
+        {/* {renderProducts()} */}
       </div>
     </div>
   )
