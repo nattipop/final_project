@@ -27,16 +27,28 @@ code {
 
 .popup-inner {
   margin-top: -60px;
+  color: white;
+  border-radius: 5px;
   font-weight: bold;
   position: relative;
   padding: 32px;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   height: fit-content;
-  background-color: white;
+  background-color: rgb(66, 41, 28);
 }
 
-.product-div .card {
+.popup-inner h2 {
+  margin: 30px;
+  text-align: center;
+}
+
+.popup-inner h3 {
+  margin: 30px;
+  text-align: center;
+}
+
+.all-products .card {
   margin: 10px;
   padding: 5px;
   min-width: 300px;
@@ -45,21 +57,25 @@ code {
   padding-right: 20px;
   padding-left: 20px;
   border: 3px solid white;
+  box-shadow: 2px 3px rgba(7, 45, 25, 0.4);
 }
 
-.product-div .card:hover {
+.all-products .card:hover {
   cursor: pointer;
   border: 3px solid rgba(85, 167, 243, 0.5);
 }
 
-.product-div .card img {
+.all-products .card img {
   width: 200px;
   height: 200px;
+  margin: 20px;
   object-fit: cover;
 }
 
-.product-div {
-  margin: 40px;
+.all-products {
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-bottom: 50px;
 }
 
 .react-datepicker {
@@ -193,7 +209,7 @@ code {
   margin: auto;
 }
 
-#add-to-cart {
+.add-to-cart {
   background-color: white;
   margin: auto;
   text-align: center;
@@ -203,9 +219,9 @@ code {
   padding: 10px;
 }
 
-#add-to-cart:hover {
+.add-to-cart:hover {
   cursor: pointer;
-  background-color: rgba(7, 45, 25, 0.4);
+  background-color: rgb(7, 45, 25);
   color: white;
 }
 
@@ -230,4 +246,247 @@ code {
   color: white;
   cursor: pointer;
   background-color: rgba(7, 45, 25, 0.4);
+}
+
+.signout {
+  position: fixed;
+  margin: 10px;
+  margin-top: 60px;
+  background: url("./images/signout.png");
+  background-size: 80px;
+  width: 80px;
+  height: 30px;
+  border-radius: 3px;
+}
+
+.signout:hover {
+  cursor: pointer;
+  background: url("./images/signout-hover.png");
+  background-size: 80px;
+  width: 80px;
+  height: 30px;
+}
+
+.cartimage {
+  position: fixed;
+  margin: 10px;
+  background: url("./images/cart.png") no-repeat;
+  background-size: 40px;
+  width: 40px;
+  height: 35px;
+  margin-left: 30px;
+}
+
+.cartimage:hover {
+  cursor: pointer;
+  -webkit-transform: rotate(7deg);
+  -moz-transform: rotate(7deg);
+}
+
+.backimage {
+  position: fixed;
+  margin: 10px;
+  margin-top: 100px;
+  background: url("./images/goback.png") no-repeat;
+  background-size: 80px;
+  background-position: bottom;
+  width: 80px;
+  height: 30px;
+  border-radius: 3px;
+}
+
+.backimage:hover {
+  cursor: pointer;
+  background: url("./images/goback-hover.png");
+  background-size: 80px;
+  background-position: bottom;
+  width: 80px;
+  height: 30px;
+}
+
+.signin {
+  position: fixed;
+  margin: 10px;
+  background: url("./images/signin.png") no-repeat;
+  background-size: 80px;
+  width: 80px;
+  height: 32px;
+  border-radius: 3px;
+}
+
+.signin:hover {
+  cursor: pointer;
+  background: url("./images/signin-hover.png");
+  background-size: 80px;
+  width: 80px;
+  height: 32px;
+}
+
+.signup {
+  position: fixed;
+  margin: 10px;
+  margin-top: 50px;
+  background: url("./images/signup.png") no-repeat;
+  background-size: 80px;
+  width: 80px;
+  height: 32px;
+  border-radius: 3px;
+}
+
+.signup:hover {
+  cursor: pointer;
+  background: url("./images/signup-hover.png");
+  background-size: 80px;
+  width: 80px;
+  height: 32px;
+}
+
+.createorder {
+  position: fixed;
+  margin: 10px;
+  margin-top: -10px;
+  background: url("./images/create-order.png") no-repeat;
+  background-size: 80px;
+  width: 80px;
+  height: 53px;
+  border-radius: 3px;
+}
+
+.createorder:hover {
+  cursor: pointer;
+  background: url("./images/create-order-hover.png");
+  background-size: 80px;
+  width: 80px;
+  height: 53px;
+}
+
+.exit {
+  margin-left: 330px;
+  margin-top: -20px;
+}
+
+.exit:hover {
+  cursor: pointer;
+}
+
+.signout-yes {
+  margin: 20px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.signout-yes:hover {
+  cursor: pointer;
+  color: rgb(149, 149, 149);
+  margin-top: 18px;
+  margin-bottom: 22px;
+}
+
+.signout-no {
+  font-size: 22px;
+  margin: 20px;
+  text-align: center;
+}
+
+.signout-no:hover {
+  cursor: pointer;
+  color: rgb(149, 149, 149);
+  margin-top: 18px;
+  margin-bottom: 22px;
+}
+
+.react-datepicker__input-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.continue-menu {
+  margin-left: 87px;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 5px;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.continue-menu:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu-title {
+  margin-top: 30px;
+  font-size: 40px;
+}
+
+.signin-container {
+  margin-top: 130px;
+  background-color: rgba(66, 41, 28, 0.5);
+  border-radius: 5px;
+  max-width: 700px;
+  height: 300px;
+  padding: 30px;
+}
+
+.signin-container div {
+  margin: 30px;
+}
+
+.signin-button {
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 8px;
+  max-width: 100px;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.signin-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.signin-button-div {
+  margin: auto;
+  text-align: center;
+}
+
+.signup-container {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  background-color: rgba(66, 41, 28, 0.5);
+  border-radius: 5px;
+  max-width: 700px;
+  height: 700px;
+  padding: 30px;
+}
+
+.signup-container div {
+  margin: 30px;
+}
+
+.emp-pin {
+  color: white;
+  text-align: center;
+}
+
+.cat-div {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.cart-card {
+  color: rgba(66, 41, 28, 1);
+  margin: 5px;
+  min-width: 300px;
+  max-width: 300px;
+  height: 200px;
+  margin-top: 10px;
+}
+
+.item-option {
+  margin: 0px;
+  margin-left: 20px;
+  font-style: italic;
 }

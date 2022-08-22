@@ -10,11 +10,11 @@ const initialState = {
 export default function(state = initialState, action) {
   switch(action.type) {
     case AUTH_USER:
-      return {...state, authenticated: action.payload.token, email: action.payload.email || null};
+      return {...state, authenticated: action.payload.token, email: action.payload.email || null, errorMessage: null};
     case AUTH_ERROR:
       return {...state, errorMessage: action.payload};
     case CREATE_USER:
-      return {...state, authenticated: action.payload.token, email: action.payload.email || null}
+      return {...state, authenticated: action.payload.token, email: action.payload.email || null, errorMessage: null}
     default:
       return state;
   }

@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
+import exitimage from "../images/exit.png"
 
 const SetTime = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
   const [selectedDate, setDate] = useState();
+  const hours = useSelector(state => state.restaurant.hours)
 
   const handleContinue = () => navigate("/order-menu", { state: selectedDate })
 
@@ -22,17 +25,18 @@ const SetTime = ({trigger, toggleTrigger}) => {
     const day = date.getDay();
     return day !== 0 && day !== 6
   };
-
+  
   const filterHours = (date) => {
     if(isOpen(date)){
       if(isWeekday(date)){
         const now = new Date()
         const time = date.toLocaleTimeString("it-IT")
-        return time > "07:00:00" && time < "15:00:00" && date > now;
+        return time > hours.mon_fri.open && time < hours.mon_fri.close && date > now;
       } else {
         const now = new Date()
+        
         const time = date.toLocaleTimeString("it-IT")
-        return time > "08:00:00" && time < "15:00:00" && date > now;
+        return time > hours.sat.open && time < hours.sat.close && date > now;
       }
     }
   };
@@ -40,13 +44,14 @@ const SetTime = ({trigger, toggleTrigger}) => {
   return trigger ? (
     <div className="popup-outer">
       <div className="popup-inner">
-        <button onClick={() => {
+        <img className="exit" src={exitimage} width="20px" alt="close" onClick={() => {
           toggleTrigger(false)
           navigate("/")
-        }}>Close</button>
+        }}/>
         <h3>When will you pick up your order?</h3>
       
         <DatePicker
+          className="datepicker form-control"
           selected={selectedDate}
           onChange={(date) => setDate(date)}
           showTimeSelect
@@ -56,7 +61,7 @@ const SetTime = ({trigger, toggleTrigger}) => {
           timeIntervals={15}
           timeCaption="time"
         />
-        <button onClick={handleContinue} disabled={!selectedDate}>Continue To Menu</button>
+        <button className="continue-menu" onClick={handleContinue} disabled={!selectedDate}>Continue To Menu</button>
       </div>
     </div>
   ) : ""

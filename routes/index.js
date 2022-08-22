@@ -5,6 +5,7 @@ const {User, MenuItem, Restaurant, Order} = require("../models/models")
 const axios = require("axios");
 const passport = require("passport");
 require('../services/passport')
+const keys = require("../config/keys")
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
@@ -14,7 +15,7 @@ const requireSignin = passport.authenticate('local', { session: false });
 function tokenForUser(user) {
   return jwt.encode({ sub: user.id,
     iat: Math.round(Date.now() / 1000),
-    exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, process.env.TOKEN_SECRET)
+    exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
 
 router.post("/auth/signup", (req, res) => {
@@ -104,7 +105,7 @@ router.get("/users/by-email/:email", (req, res) => {
   })
 })
 
-router.get("/users/:userId", requireAuth, (req, res) => {
+router.get("/users/:userId", (req, res) => {
   const { userId } = req.params
 
   User.findById(userId, (err, user) => {
@@ -121,9 +122,7 @@ router.get("/users/:userId", requireAuth, (req, res) => {
 });
 
 router.get("/items", (req, res) => {
-  console.log("test")
   MenuItem.find({}, (err, products) => {
-    console.log(products)
     if(err){
       res.status(500).send("there was an error with the format of your request");
       throw err;
@@ -314,23 +313,15 @@ router.put("/orders/:orderId", requireAuth, (req, res) => {
   }
 });
 
-router.put("/users/:userId", requireAuth, (req, res) => {
+router.put("/users/cart/:userId", (req, res) => {
   const { userId } = req.params
-
-  for(key in req.body) {
-    User.findById(userId, (err, user) => {
+  console.log(req.body)
+  User.findOneAndUpdate({ _id: userId }, {"$push": {"cart": req.body}}, { "new": true }, (err, user) => {
       if(err){
         res.status(500).send("there was an error with your request")
       }
-      for(key in req.body) {
-        if(key in user) {
-            user[key] = req.body[key];
-        }
-      }
-      user.save();
-      res.end("updated")
+      res.status(200).send(user)
     })
-  }
 })
 
 router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {

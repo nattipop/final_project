@@ -8,7 +8,6 @@ const Profile = () => {
   const user = location.state;
   const birthday = new Date(user.birthday);
   const [clickTrigger, setClick] = useState(false)
-  console.log(user)
 
   const renderCover = () => {
     return (user.picture?.cover) ? (

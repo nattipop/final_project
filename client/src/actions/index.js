@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT } from "./types";
+import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER } from "./types";
 import {url} from "../config/keys"
 
 export const signin = (formProps, callback) => dispatch => {
@@ -29,9 +29,7 @@ export const signup = (formProps) => dispatch => {
 }
 
 export const fetchProducts = () => dispatch => {
-  debugger;
   axios.get(`${url}/items`).then((response) => {
-    debugger;
     dispatch({ type: FETCH_PRODUCTS, payload: response.data })
   }).catch((err) => {
     console.log(err)
@@ -68,4 +66,21 @@ export const fetchProduct = (id) => dispatch => {
   }).catch(err => {
     console.log(err)
   })
+}
+
+export const fetchRestaurant = () => dispatch => {
+  axios.get(`${url}/restaurant`).then((response) => {
+    dispatch({ type: FETCH_RESTAURANT, payload: response.data })
+  }).catch(err => {
+    console.log(err)
+  })
+};
+
+export const addToCart = (id, user, email) => dispatch => {
+  axios.put(`${url}/users/cart/${id}`, user).then(response => {
+    dispatch({ type: CLEAR_USER })
+    dispatch({ type: ADD_TO_CART, payload: response.data });
+  }).catch(err => {
+    console.log(err)
+  });
 }

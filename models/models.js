@@ -32,7 +32,7 @@ const UserSchema = new Schema({
     last: String
   },
   status: String,
-  cart: [MenuItem],
+  cart: Array,
   points: Number,
   picture: {
     profile: String,
@@ -72,6 +72,7 @@ const restaurantSchema = new Schema({
   menu: [{type: Schema.Types.ObjectId, ref: "menuItem"}],
   currentOrders: [{type: Schema.Types.ObjectId, ref: "order"}],
   employees: [{type: Schema.Types.ObjectId, ref: "user"}],
+  flavors: Array,
   hours: {
     mon_fri: {
       open: String,

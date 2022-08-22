@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { fetchProducts, fetchUserByEmail } from "../actions";
+import { fetchProducts, fetchRestaurant, fetchUserByEmail } from "../actions";
 import SetTime from "./SetTime";
 import Signout from "./Signout";
 
 const Menu = () => {
   const navigate = useNavigate();
   const authenticated = useSelector(state => state.auth.authenticated);
+  const authError = useSelector(state => state.auth.errorMessage)
   const userEmail = useSelector(state => state.auth.email)
-  const products = useSelector(state => state.products)
-  const user = useSelector(state => state.user[0])
+  const products = useSelector(state => state.products);
+  const restaurant = useSelector(state => state.restaurant)
+  const user = useSelector(state => state.user.user)
   const [signoutTrigger, setSignout] = useState(false)
   const [createTrigger, setCreate] = useState(false)
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts())
+    if(!restaurant[0]) {
+      dispatch(fetchRestaurant())
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -27,18 +32,124 @@ const Menu = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated])
 
-  console.log(process.env.MONGODB_URI)
-  const renderProducts = () => {
-    return products.map((product, i) => {
-      return product ? (
-        <div className="card col" key={i}>
-          <img src={product.picture} alt="product" />
-          <h3>{product.title}</h3>
-          <p>starting at ${product.price}</p>
-          <p>{product.description}</p>
+  if(authError?.message === "Request failed with status code 401"){
+    navigate("/account/signin", { state: "Incorrect Username or Password" })
+  }
+
+  const handleItemClick = () => {
+    if(authenticated){
+      navigate("/set-time")
+      setCreate(true)
+    } else {
+      alert("Signin to place an order")
+    }
+  }
+
+  const coffees = [];
+  const nonCoffees = [];
+  const lunches = [];
+  const breakfasts = [];
+
+  const renderCoffee = () => {
+    return coffees.map((coffee, i) => {
+      return coffee ? (
+        <div onClick={handleItemClick} className="card col product-card" key={i}>
+          <img src={coffee.picture} alt="product" />
+          <h3>{coffee.title}</h3>
+          <p>${coffee.price}</p>
+          <p>{coffee.description}</p>
         </div>
       ) : ""
     })
+  }
+
+  const renderNonCoffee = () => {
+    return nonCoffees.map((drink, i) => {
+      return drink ? (
+        <div onClick={handleItemClick} className="card col product-card" key={i}>
+          <img src={drink.picture} alt="product" />
+          <h3>{drink.title}</h3>
+          <p>${drink.price}</p>
+          <p>{drink.description}</p>
+        </div>
+      ) : ""
+    })
+  }
+
+  const renderLunch = () => {
+    return lunches[0] ? lunches.map((lunch, i) => {
+      return lunch ? (
+        <div onClick={handleItemClick} className="card col product-card" key={i}>
+          <img src={lunch.picture} alt="product" />
+          <h3>{lunch.title}</h3>
+          <p>${lunch.price}</p>
+          <p>{lunch.description}</p>
+        </div>
+      ) : ""
+    }) : (
+      <p>Lunch only served 11:00am - 2:30pm</p>
+    )
+  }
+
+  const renderBreakfast = () => {
+    return breakfasts[0] ? breakfasts.map((breakfast, i) => {
+      return breakfast ? (
+        <div onClick={handleItemClick} className="card col product-card" key={i}>
+          <img src={breakfast.picture} alt="product" />
+          <h3>{breakfast.title}</h3>
+          <p>${breakfast.price}</p>
+          <p>{breakfast.description}</p>
+        </div>
+      ) : ""
+    }) : (
+        <p>Breakfast only served 7:00am - 11:00am</p>
+      )
+  }
+
+  const renderProducts = () => {
+    products.forEach(product => {
+      switch(product.category){
+        case "coffee":
+          coffees.push(product);
+          break;
+        case "non-coffee":
+          nonCoffees.push(product);
+          break;
+        case "lunch":
+          lunches.push(product);
+          break;
+        case "breakfast":
+          breakfasts.push(product);
+          break;
+        default:
+          break;
+      }
+    })
+
+    return (
+      <div>
+        <hr/>
+        <div className="row cat-div">
+          <h2>Coffee Drinks</h2>
+          {renderCoffee()}
+        </div>
+        <hr/>
+        <div className="row cat-div">
+          <h2>Non Coffee Drinks</h2>
+          {renderNonCoffee()}
+        </div>
+        <hr/>
+        <div className="row cat-div">
+          <h2>Lunch</h2>
+          {renderLunch()}
+        </div>
+        <hr/>
+        <div className="row cat-div">
+          <h2>Breakfast</h2>
+          {renderBreakfast()}
+        </div>
+      </div>
+    )
   }
 
   const handlePfpClick = () => {
@@ -50,11 +161,11 @@ const Menu = () => {
     const initial = user.name.first[0];
 
     return pfp ? (
-      <div className="pfp">
+      <div className="pfp" style={{ "marginTop": "-40px"}}>
         <img onClick={handlePfpClick} src={pfp} alt={initial} />
       </div>
     ) : (
-      <div className="pfp">
+      <div className="pfp" style={{ "marginTop": "-40px"}}>
         <div onClick={handlePfpClick}>{initial}</div>
       </div>
     )
@@ -65,25 +176,27 @@ const Menu = () => {
       <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
       </div>
-      <button onClick={() => {
+      <div className="signout" onClick={() => {
         navigate("signout")
         setSignout(true)
-      }}>Signout</button>
-      <button onClick={() => {
+      }}></div>
+      <div className="createorder" onClick={() => {
         navigate("/set-time")
         setCreate(true)
-      }}>Create Order</button>
-      <div className="row d-flex justify-content-center product-div">
+      }}></div>
+      <h2 className="text-center menu-title">Menu</h2>
+      <div className="row d-flex justify-content-center all-products">
         {renderProducts()}
       </div>
       <Signout trigger={signoutTrigger} toggleTrigger={setSignout} />
       <SetTime trigger={createTrigger} toggleTrigger={setCreate} />
     </div>
   ) : (
-    <div>Menu
-      <button onClick={() => navigate("/account/signup")}>Signup</button>
-      <button onClick={() => navigate("/account/signin")}>Signin</button>
-      <div className="row d-flex justify-content-center product-div">
+    <div>
+      <div className="signup" onClick={() => navigate("/account/signup")}></div>
+      <div className="signin" onClick={() => navigate("/account/signin")}></div>
+      <h2 className="text-center menu-title">Menu</h2>
+      <div className="row d-flex justify-content-center all-products">
         {renderProducts()}
       </div>
     </div>

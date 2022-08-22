@@ -37,7 +37,7 @@ const Signup = () => {
       onSubmit={handleSignup}
     >
       <Form>
-        <div className="container">
+        <div className="container signup-container">
           <div>
             <Field className="form-control form-item" name="email" type="text" placeholder="Email" />
             <ErrorMessage className="error-message" name="email" component="div" />
@@ -62,14 +62,16 @@ const Signup = () => {
             <Field className="form-control form-item" name="birthdate" type="date" placeholder="Birthday" />
             <ErrorMessage className="error-message" name="birthdate" component="div" />
           </div>
-          <p>If you are an employee, enter employee pin here:</p>
+          <p className="emp-pin">If you are an employee, enter employee pin here:</p>
           <div>
             <Field className="form-control form-item" name="employee_pin" type="number" placeholder="Pin" />
             <ErrorMessage className="error-message" name="employee_pin" component="div" />
           </div>
-          <button className="form-item" type="submit" >
-            <span>Signin</span>
-          </button>
+          <div className="signin-button-div">
+            <button className="form-item signin-button" type="submit" >
+              <span>Signup</span>
+            </button>
+          </div>
         </div>
       </Form>
     </Formik>

@@ -3,12 +3,14 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useState } from "react";
 import { signin } from "../actions";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const Signin = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const errorMessage = location.state;
   const initialValues = {
     email: "",
     password: ""
@@ -26,6 +28,12 @@ const Signin = () => {
     setLoading(false)
   }
 
+  const renderError = () => {
+    return errorMessage ? (
+      <p style={{"color": "white", "fontWeight": "bold", "textAlign": "center"}}>*{errorMessage}*</p>
+    ) : ""
+  }
+
   return (
     <Formik
       initialValues={initialValues}
@@ -33,7 +41,8 @@ const Signin = () => {
       onSubmit={handleSignin}
     >
       <Form>
-        <div className="container">
+        <div className="container signin-container">
+          {renderError()}
           <div>
             <Field className="form-control form-item" name="email" type="text" placeholder="Email" />
             <ErrorMessage className="error-message" name="email" component="div" />
@@ -42,12 +51,14 @@ const Signin = () => {
             <Field className="form-control form-item" name="password" type="password" placeholder="Password" />
             <ErrorMessage className="error-message" name="password" component="div" />
           </div>
-          <button className="form-item" type="submit" disabled={loading}>
-            {loading && (
-              <span className="spinner-border spinner-border-sm"></span>
-            )}
-            <span>Signin</span>
-          </button>
+          <div className="signin-button-div">
+            <button className="signin-button" type="submit" disabled={loading}>
+              {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
+              <span>Signin</span>
+            </button>
+          </div>
         </div>
       </Form>
     </Formik>
