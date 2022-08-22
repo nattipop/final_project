@@ -234,12 +234,12 @@ code {
 
 .back-button {
   background-color: white;
-  margin: auto;
   text-align: center;
   max-width: 90px;
   border-radius: 4px;
   padding: 10px;
-  margin: 20px;
+  margin-top: 40px;
+  margin-left: 40px;
 }
 
 .back-button:hover {

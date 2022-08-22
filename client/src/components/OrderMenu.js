@@ -14,8 +14,8 @@ const OrderMenu = () => {
   const [triggerCart, setCart] = useState(false)
   const products = useSelector(state => state.products);
   const user = useSelector(state => state.user.user);
-  const cart = useSelector(state => state.user.cart)
-  const time = date.toLocaleTimeString("it-IT")
+  const time = date.toLocaleTimeString("it-IT");
+
   useEffect(() => {
     dispatch(fetchAvailable(time))
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,7 +36,7 @@ const OrderMenu = () => {
       return product.title === title
     })
 
-    navigate(`/products/${item._id}`)
+    navigate(`/products/${item._id}`, {state: date})
   }
 
   const coffees = [];
@@ -170,7 +170,7 @@ const OrderMenu = () => {
     navigate("/order-menu/cart", {state: date});
   }
 
-  return (
+  return (date && user)? (
     <div>
       <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
@@ -186,7 +186,7 @@ const OrderMenu = () => {
       <Signout trigger={triggerSignout} toggleTrigger={setTrigger} />
       <Cart trigger={triggerCart} toggleTrigger={setCart} />
     </div>
-  )
+  ) : navigate("/account/signin")
 }
 
 export default OrderMenu;
