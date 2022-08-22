@@ -7,7 +7,7 @@ const MenuItem = new Schema({
   description: String,
   picture: String,
   category: String,
-  price: Number,
+  price: Object,
   availability: {
     mon_fri: {
       start: String,

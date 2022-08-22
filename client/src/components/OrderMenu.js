@@ -50,7 +50,7 @@ const OrderMenu = () => {
         <div onClick={handleItemClick} className="card col product-card" key={i}>
           <img src={coffee.picture} alt="product" />
           <h3>{coffee.title}</h3>
-          <p>${coffee.price}</p>
+          <p>{`$${coffee.price.Small.$numberDecimal} - $${coffee.price.Large.$numberDecimal}`}</p>
           <p>{coffee.description}</p>
         </div>
       ) : ""
@@ -63,7 +63,7 @@ const OrderMenu = () => {
         <div onClick={handleItemClick} className="card col product-card" key={i}>
           <img src={drink.picture} alt="product" />
           <h3>{drink.title}</h3>
-          <p>${drink.price}</p>
+          <p>{`$${drink.price.Small.$numberDecimal} - $${drink.price.Large.$numberDecimal}`}</p>
           <p>{drink.description}</p>
         </div>
       ) : ""
@@ -76,7 +76,7 @@ const OrderMenu = () => {
         <div onClick={handleItemClick} className="card col product-card" key={i}>
           <img src={lunch.picture} alt="product" />
           <h3>{lunch.title}</h3>
-          <p>${lunch.price}</p>
+          <p>{`$${lunch.price.Half.$numberDecimal} - $${lunch.price.Whole.$numberDecimal}`}</p>
           <p>{lunch.description}</p>
         </div>
       ) : ""
@@ -91,7 +91,7 @@ const OrderMenu = () => {
         <div onClick={handleItemClick} className="card col product-card" key={i}>
           <img src={breakfast.picture} alt="product" />
           <h3>{breakfast.title}</h3>
-          <p>${breakfast.price}</p>
+          <p>${breakfast.price.Any.$numberDecimal}</p>
           <p>{breakfast.description}</p>
         </div>
       ) : ""
@@ -177,8 +177,8 @@ const OrderMenu = () => {
       </div>
       <div className="cartimage" onClick={handleCartClick}></div>
       <div className="signout" onClick={handleSignout} ></div>
-      <div className="backimage" onClick={() => navigate(-1)}></div>
-      <h3 className="pickup-time text-center">{`Your scheduled pickup time: ${date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit'})}`}</h3>
+      <div className="backimage" onClick={() => navigate("/")}></div>
+      <h3 className="pickup-time">{`Your scheduled pickup time: ${date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit'})}`}</h3>
       <h2 className="available-items">Available Items:</h2>
       <div className="d-flex justify-content-center all-products">
         {renderProducts()}

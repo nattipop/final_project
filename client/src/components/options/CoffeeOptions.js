@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router";
 import { addToCart } from "../../actions";
@@ -7,19 +8,69 @@ const CoffeeOptions = ({product}) => {
   const user = useSelector(state => state.user.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [size, setSize] = useState(undefined);
+  const [coffeeTemp, setCoffeeTemp] = useState(undefined);
 
+  let price = (size) ? product.price[size].$numberDecimal : undefined
+  let decimal = Number(price);
+  
   let optionValues = {
     title: product.title,
-    net_price: product.price,
-    hot_iced: undefined,
-    size: undefined,
+    net_price: price,
+    hot_iced: coffeeTemp,
+    milk: undefined,
+    size: size,
     cream: undefined,
     flavor: undefined,
     extra_espresso: undefined,
-    notes: undefined
+    notes: undefined,
+    price: undefined
   }
 
   const handleAddToCart = () => {
+    if(!optionValues.hot_iced){
+      return alert("Please choose Hot or Iced")
+    }
+    if(!optionValues.size){
+      return alert("Please choose Size")
+    }
+    if(product.title === "Latte" && !optionValues.milk){
+      return alert("Please choose Milk Option")
+    }
+    if(product.title === "Americano" && !optionValues.cream){
+      return alert("Please choose Cream Option")
+    }
+    if(optionValues.flavor){
+      decimal += 0.6
+    }
+
+    switch(optionValues.extra_espresso){
+      case "1 shot":
+        decimal += 0.6;
+        break;
+      case "2 shots":
+        decimal += 1.2;
+        break;
+      case "3 shots":
+        decimal += 1.8;
+        break;
+      default:
+        break;
+    }
+
+    switch(optionValues.milk){
+      case "Oat Milk":
+        decimal += 0.6;
+        break;
+      case "Almond Milk":
+        decimal += 0.6;
+        break;
+      default:
+        break;
+    }
+
+    optionValues.price = decimal.toFixed(2);
+
     if(!user){
       navigate("/account/signin")
       alert("You must be signed in to add to cart")
@@ -34,7 +85,7 @@ const CoffeeOptions = ({product}) => {
   const renderCreamOption = () => {
     return (product.title === "Americano" || product.title === "Brewed Coffee") ? (
       <select onChange={e => optionValues.cream = e.target.value} className="options form-select">
-        <option defaultValue>Add Cream</option>
+        <option defaultValue>Cream Option</option>
         <option value="">No Cream</option>
         <option value="Cream">Cream</option>
       </select>
@@ -47,15 +98,29 @@ const CoffeeOptions = ({product}) => {
     }
   }
 
+  const renderMilkOption = () => {
+    return (product.title === "Latte") ? (
+      <select onChange={e => optionValues.milk = e.target.value} className="options form-select">
+        <option defaultValue>Milk Options</option>
+        <option value="Whole Milk">Whole Milk</option>
+        <option value="Skim Milk">Skim Milk</option>
+        <option value="Oat Milk">Oat Milk</option>
+        <option value="Almond Milk">Almond Milk</option>
+      </select>
+    ) : ""
+  }
+
   return (
     <div>
-      <select onChange={e => optionValues.hot_iced = e.target.value} className="options form-select">
+      <select onChange={e => {
+        setCoffeeTemp(e.target.value)
+      }} className="options form-select">
         <option defaultValue>Hot or Iced</option>
         <option value="Hot">Hot</option>
         <option value="Iced">Iced</option>
       </select>
       <select onChange={e => {
-        optionValues.size = e.target.value
+        setSize(e.target.value)
       }} className="size options form-select">
         <option defaultValue>Size</option>
         <option value="Small">{"Small (12oz, 1 shot of espresso)"}</option>
@@ -63,11 +128,16 @@ const CoffeeOptions = ({product}) => {
         <option value="Large">{"Large (20oz, 3 shots of espresso)"}</option>
       </select>
       {renderCreamOption()}
-      <select onChange={e => optionValues.flavor = e.target.value} className="options form-select">
+      {renderMilkOption()}
+      <select onChange={e => {
+        optionValues.flavor = e.target.value;
+      }} className="options form-select">
         <option defaultValue>Flavor</option>
         {renderFlavors()}
       </select>
-      <select onChange={e => optionValues.extra_espresso = e.target.value} className="options form-select">
+      <select onChange={e => {
+        optionValues.extra_espresso = e.target.value;
+      }} className="options form-select">
         <option defaultValue>{"Extra Espresso (not required)"}</option>
         <option value="1 shot">{"1 Extra Shot"}</option>
         <option value="2 shots">{"2 Extra Shots"}</option>
