@@ -38,7 +38,9 @@ const Cart = ({trigger, toggleTrigger}) => {
           )
         }
         return item[option] ? (
-          <p className="item-option">{item[option]}</p>
+          <div>
+            <p className="item-option">{item[option]}</p>
+          </div>
         ) : ""
         }
 

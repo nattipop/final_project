@@ -520,3 +520,9 @@ code {
 .x-item:hover {
   cursor: pointer;
 }
+
+.item-input {
+  width: 90px;
+  text-align: center;
+  margin-left: 103px;
+}
