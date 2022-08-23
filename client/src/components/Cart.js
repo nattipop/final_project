@@ -1,10 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { editCart } from "../actions";
 import exitimage from "../images/exit.png"
 
 const Cart = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cart = useSelector(state => state.user.cart);
+  const user = useSelector(state => state.user.user)
+
+  const handleItemRemove = (e) => {
+    const index = e.target.parentElement.getAttribute("index");
+
+    let updatedCart = [];
+    cart.forEach(item => updatedCart.push(item))
+    updatedCart.splice(index, 1)
+    dispatch(editCart(user._id, updatedCart))
+  } 
 
   if(!cart){
     navigate("/")
@@ -17,7 +29,7 @@ const Cart = ({trigger, toggleTrigger}) => {
   const totalPrice = price.toFixed(2)
 
   const renderCartItems = () => {
-    return cart[0] ? cart.map(item => {
+    return cart[0] ? cart.map((item, i) => {
 
       const renderItem = (option) => {
         if(option === "notes") {
@@ -31,7 +43,8 @@ const Cart = ({trigger, toggleTrigger}) => {
         }
 
       return (
-        <div className="card cart-card" style={{"paddingBottom": "10px"}}>
+        <div index={i} key={i} className="card cart-card" style={{"paddingBottom": "10px"}}>
+          <p onClick={handleItemRemove} title="remove from cart" className="x-item">x</p>
           <h3 style={{"marginBottom": "0px", "marginTop": "10px"}}>{item.title}</h3>
           {renderItem("size")}
           {renderItem("bread")}
@@ -76,7 +89,6 @@ const Cart = ({trigger, toggleTrigger}) => {
           {renderCartItems()}
           <h2>{`Cart Total: $${totalPrice}`}</h2>
           {renderCheckout()}
-          
         </div>
       </div>
     </div>

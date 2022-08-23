@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER } from "./types";
+import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER, FETCH_LOCATION, EDIT_CART } from "./types";
 import {url} from "../config/keys"
 
 export const signin = (formProps, callback) => dispatch => {
@@ -76,11 +76,27 @@ export const fetchRestaurant = () => dispatch => {
   })
 };
 
-export const addToCart = (id, user, email) => dispatch => {
+export const addToCart = (id, user) => dispatch => {
   axios.put(`${url}/users/cart/${id}`, user).then(response => {
     dispatch({ type: CLEAR_USER })
     dispatch({ type: ADD_TO_CART, payload: response.data });
   }).catch(err => {
     console.log(err)
   });
+};
+
+export const editCart = (id, cart) => dispatch => {
+  axios.put(`${url}/users/cart/edit/${id}`, cart).then(response => {
+    dispatch({ type: EDIT_CART, payload: response.data.cart})
+  }).catch(err => {
+    console.log(err)
+  })
+}
+
+export const fetchLocation = (place_id) => dispatch => {
+  axios.get(`https://maps.googleapis.com/maps/api/place/details/output?place_id=${place_id}`).then(response => {
+    dispatch({ type: FETCH_LOCATION, payload: response.data })
+  }).catch(err => {
+    console.log(err)
+  })
 }

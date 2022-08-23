@@ -10,6 +10,9 @@ const CoffeeOptions = ({product}) => {
   const navigate = useNavigate();
   const [size, setSize] = useState(undefined);
   const [coffeeTemp, setCoffeeTemp] = useState(undefined);
+  const [milk, setMilk] = useState(undefined);
+
+  console.log(coffeeTemp)
 
   let price = (size) ? product.price[size].$numberDecimal : undefined
   let decimal = Number(price);
@@ -18,7 +21,7 @@ const CoffeeOptions = ({product}) => {
     title: product.title,
     net_price: price,
     hot_iced: coffeeTemp,
-    milk: undefined,
+    milk: milk,
     size: size,
     cream: undefined,
     flavor: undefined,
@@ -100,7 +103,7 @@ const CoffeeOptions = ({product}) => {
 
   const renderMilkOption = () => {
     return (product.title === "Latte") ? (
-      <select onChange={e => optionValues.milk = e.target.value} className="options form-select">
+      <select onChange={e => setMilk(e.target.value)} className="options form-select">
         <option defaultValue>Milk Options</option>
         <option value="Whole Milk">Whole Milk</option>
         <option value="Skim Milk">Skim Milk</option>

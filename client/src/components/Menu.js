@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { fetchProducts, fetchRestaurant, fetchUserByEmail } from "../actions";
+import { fetchLocation, fetchProducts, fetchRestaurant, fetchUserByEmail } from "../actions";
 import SetTime from "./SetTime";
 import Signout from "./Signout";
 
@@ -22,15 +23,20 @@ const Menu = () => {
     if(!restaurant[0]) {
       dispatch(fetchRestaurant())
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
    if(userEmail){
       dispatch(fetchUserByEmail(userEmail))
     } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated])
+
+  console.log(restaurant.placeId)
+  useEffect(() => {
+    if(restaurant.placeId){
+      dispatch(fetchLocation(restaurant.placeId))
+    }
+  }, [])
 
   if(authError?.message === "Request failed with status code 401"){
     navigate("/account/signin", { state: "Incorrect Username or Password" })
@@ -173,6 +179,7 @@ const Menu = () => {
 
   return (authenticated && user) ? (
     <div>
+      <img className="hero" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/20476052_333653513758935_4535391380775282065_n_1618593385.jpeg" alt="hope and anchor" />
       <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
       </div>
@@ -195,6 +202,7 @@ const Menu = () => {
     <div>
       <div className="signup" onClick={() => navigate("/account/signup")}></div>
       <div className="signin" onClick={() => navigate("/account/signin")}></div>
+      <img className="hero" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/20476052_333653513758935_4535391380775282065_n_1618593385.jpeg" alt="hope and anchor"/>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">
         {renderProducts()}

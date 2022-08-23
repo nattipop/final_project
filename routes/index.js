@@ -315,13 +315,24 @@ router.put("/orders/:orderId", requireAuth, (req, res) => {
 
 router.put("/users/cart/:userId", (req, res) => {
   const { userId } = req.params
-  console.log(req.body)
+
   User.findOneAndUpdate({ _id: userId }, {"$push": {"cart": req.body}}, { "new": true }, (err, user) => {
       if(err){
         res.status(500).send("there was an error with your request")
       }
       res.status(200).send(user)
     })
+});
+
+router.put("/users/cart/edit/:userId", (req, res) => {
+  const { userId } = req.params
+
+  User.findOneAndUpdate({ _id: userId }, {"$set": { "cart": req.body }}, { "new": true}, (err, user) => {
+    if(err){
+      res.status(500).send("there was an error with your request")
+    }
+    res.status(200).send(user);
+  })
 })
 
 router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {

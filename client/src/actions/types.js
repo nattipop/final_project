@@ -9,3 +9,5 @@ export const FETCH_PRODUCT = "fetch_product";
 export const FETCH_RESTAURANT = "fetch_restaurant";
 export const ADD_TO_CART = "add_to_cart";
 export const CLEAR_USER = "clear_user";
+export const FETCH_LOCATION = "fetch_location";
+export const EDIT_CART = "edit_cart"

@@ -504,3 +504,19 @@ code {
   margin: 0px;
   opacity: 50%;
 }
+
+.hero {
+  height: 500px;
+  width: 100%;
+  object-fit: cover;
+  padding: 80px;
+}
+
+.x-item {
+  margin-left: 10px;
+  position: absolute;
+}
+
+.x-item:hover {
+  cursor: pointer;
+}
