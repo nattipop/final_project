@@ -13,7 +13,7 @@ const indexRouter = require("./routes/index")
 if(process.env.NODE_ENV === "production") {
   const path = require("path");;
 
-    app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static('client/build'));
 }
 
 app.use(cors());
