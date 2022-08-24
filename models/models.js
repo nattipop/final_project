@@ -69,6 +69,7 @@ const OrderSchema = new Schema({
 const restaurantSchema = new Schema({
   title: String,
   owner: UserSchema,
+  img: String,
   menu: [{type: Schema.Types.ObjectId, ref: "menuItem"}],
   currentOrders: [{type: Schema.Types.ObjectId, ref: "order"}],
   employees: [{type: Schema.Types.ObjectId, ref: "user"}],

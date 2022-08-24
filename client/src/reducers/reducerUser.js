@@ -8,14 +8,14 @@ export default function(state = initialState, action) {
     case FETCH_BY_EMAIL:
       return {
         ...state,
-        user: action.payload[0],
-        cart: action.payload[0].cart
+        user: action.payload,
+        cart: action.payload.cart
       }
     case FETCH_USER:
       return {
         ...state,
-        user: action.payload[0],
-        cart: action.payload[0].cart
+        user: action.payload,
+        cart: action.payload.cart
       }
     case ADD_TO_CART:
       return {

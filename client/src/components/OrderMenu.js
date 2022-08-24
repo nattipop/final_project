@@ -81,7 +81,7 @@ const OrderMenu = () => {
         </div>
       ) : ""
     }) : (
-      <p>Lunch only served 11:00am - 2:30pm</p>
+      <p className="text-center">Lunch only served 11:00am - 2:30pm</p>
     )
   }
 
@@ -96,7 +96,7 @@ const OrderMenu = () => {
         </div>
       ) : ""
     }) : (
-        <p>Breakfast only served 7:00am - 11:00am</p>
+        <p className="text-center">Breakfast only served 7:00am - 11:00am</p>
       )
   }
 
@@ -124,22 +124,22 @@ const OrderMenu = () => {
       <div>
         <hr/>
         <div className="row cat-div">
-          <h2>Coffee Drinks</h2>
+          <h2 className="text-center">Coffee Drinks</h2>
           {renderCoffee()}
         </div>
         <hr/>
         <div className="row cat-div">
-          <h2>Non Coffee Drinks</h2>
+          <h2 className="text-center">Non Coffee Drinks</h2>
           {renderNonCoffee()}
         </div>
         <hr/>
         <div className="row cat-div">
-          <h2>Lunch</h2>
+          <h2 className="text-center">Lunch</h2>
           {renderLunch()}
         </div>
         <hr/>
         <div className="row cat-div">
-          <h2>Breakfast</h2>
+          <h2 className="text-center">Breakfast</h2>
           {renderBreakfast()}
         </div>
       </div>

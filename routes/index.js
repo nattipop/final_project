@@ -13,7 +13,7 @@ const requireSignin = passport.authenticate('local', { session: false });
 // faker.locale = "en_US";
 
 function tokenForUser(user) {
-  return jwt.encode({ sub: user.id,
+  return jwt.encode({ sub: user._id,
     iat: Math.round(Date.now() / 1000),
     exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
@@ -62,9 +62,9 @@ router.post("/auth/signup", (req, res) => {
 })
 
 router.post("/auth/signin", requireSignin, (req, res) => {
+  console.log(tokenForUser(req.user))
   res.send({
-    token: tokenForUser(req.user),
-    email: req.user.login.email
+    token: tokenForUser(req.user)
   });
 })
 
@@ -90,35 +90,35 @@ router.get("/orders/:orderId", requireAuth, (req, res) => {
 })
 
 router.get("/users/by-email/:email", (req, res) => {
+  const { user } = req.user;
   const { email } = req.params;
+  console.log(user)
 
-  User.find({ "login.email": email }, (err, user) => {
-    if(err){
-      res.status(500).send("There was an error with the format of your request");
-      throw err;
-    }
-    if(!user[0]){
-      res.status(404).send("User not found")
-    } else {
-      res.status(200).send(user)
-    }
-  })
+  if(user){
+    res.status(200).send(user)
+  }
+
+  if(!user && email){
+    User.find({ "login.email": email }, (err, user) => {
+      if(err){
+        res.status(500).send("There was an error with the format of your request");
+        throw err;
+      }
+      if(!user[0]){
+        res.status(404).send("User not found")
+      } else {
+        res.status(200).send(user)
+      }
+    })
+  }
 })
 
-router.get("/users/:userId", (req, res) => {
-  const { userId } = req.params
+router.get("/user", requireAuth, (req, res) => {
+  const user = req.user
+  console.log(user)
+  
 
-  User.findById(userId, (err, user) => {
-    if(err){
-      res.status(500).send("There was an error with the format of your request");
-      throw err;
-    };
-    if(!user[0]) {
-      res.status(404).send("User not found")
-    } else {
-      res.status(200).send(user)
-    }
-  })
+  res.send(user);
 });
 
 router.get("/items", (req, res) => {

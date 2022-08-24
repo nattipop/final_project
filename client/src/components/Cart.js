@@ -26,7 +26,10 @@ const Cart = ({trigger, toggleTrigger}) => {
   cart.forEach(item => {
     price += Number(item.price)
   })
-  const totalPrice = price.toFixed(2)
+  const tax = (price * 0.05);
+  const withTax = price + tax;
+  const totalPrice = withTax.toFixed(2);
+  
 
   const renderCartItems = () => {
     return cart[0] ? cart.map((item, i) => {
@@ -89,6 +92,7 @@ const Cart = ({trigger, toggleTrigger}) => {
         <div className="render-cart">
           <h2>Your Cart:</h2>
           {renderCartItems()}
+          <p className="tax">{`Tax: $${tax.toFixed(2)}`}</p>
           <h2>{`Cart Total: $${totalPrice}`}</h2>
           {renderCheckout()}
         </div>

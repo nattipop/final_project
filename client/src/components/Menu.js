@@ -2,42 +2,53 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { fetchLocation, fetchProducts, fetchRestaurant, fetchUserByEmail } from "../actions";
+import { fetchProducts, fetchRestaurant, fetchUser } from "../actions";
 import SetTime from "./SetTime";
 import Signout from "./Signout";
+import coffeeLoading from "../Coffee_Loading.gif"
 
 const Menu = () => {
   const navigate = useNavigate();
   const authenticated = useSelector(state => state.auth.authenticated);
   const authError = useSelector(state => state.auth.errorMessage)
-  const userEmail = useSelector(state => state.auth.email)
   const products = useSelector(state => state.products);
   const restaurant = useSelector(state => state.restaurant)
   const user = useSelector(state => state.user.user)
   const [signoutTrigger, setSignout] = useState(false)
   const [createTrigger, setCreate] = useState(false)
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    dispatch(fetchProducts())
+    getProducts()
+
+    if(products.length){
+      setIsLoading(false)
+    }
+    
     if(!restaurant[0]) {
       dispatch(fetchRestaurant())
     }
-  }, [])
+  }, [products.length]);
 
   useEffect(() => {
-   if(userEmail){
-      dispatch(fetchUserByEmail(userEmail))
-    } 
-  }, [authenticated])
-
-  console.log(restaurant.placeId)
-  useEffect(() => {
-    if(restaurant.placeId){
-      dispatch(fetchLocation(restaurant.placeId))
+    if(token){
+      dispatch(fetchUser())
     }
-  }, [])
+  }, [token])
 
+  useEffect(() => {
+    const title = document.getElementsByClassName("restaurant-title")[0]
+    if(title){
+      const list = title.classList
+      list.add("load")
+    }
+  })
+
+  const getProducts = () => {
+    dispatch(fetchProducts())
+  }
+ 
   if(authError?.message === "Request failed with status code 401"){
     navigate("/account/signin", { state: "Incorrect Username or Password" })
   }
@@ -136,22 +147,22 @@ const Menu = () => {
       <div>
         <hr/>
         <div className="row cat-div">
-          <h2>Coffee Drinks</h2>
+          <h2 className="text-center">Coffee Drinks</h2>
           {renderCoffee()}
         </div>
         <hr/>
         <div className="row cat-div">
-          <h2>Non Coffee Drinks</h2>
+          <h2 className="text-center">Non Coffee Drinks</h2>
           {renderNonCoffee()}
         </div>
         <hr/>
         <div className="row cat-div">
-          <h2>Lunch</h2>
+          <h2 className="text-center">Lunch</h2>
           {renderLunch()}
         </div>
         <hr/>
         <div className="row cat-div">
-          <h2>Breakfast</h2>
+          <h2 className="text-center">Breakfast</h2>
           {renderBreakfast()}
         </div>
       </div>
@@ -177,10 +188,17 @@ const Menu = () => {
     )
   }
 
-  return (authenticated && user) ? (
+  if(isLoading){
+    return (
+      <img style={{"width": "200px", "marginLeft": "41vw", "marginTop": "50px"}} src={coffeeLoading} alt="loading" />
+    )
+  }
+
+  const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyCyuOwgjQWC6n0LUik7iiTVjzMQPTin5Rc&q=" + restaurant.title : ""
+
+  return (user) ? (
     <div>
-      <img className="hero" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/20476052_333653513758935_4535391380775282065_n_1618593385.jpeg" alt="hope and anchor" />
-      <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
+      <div title="Your Profile" style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
       </div>
       <div className="signout" onClick={() => {
@@ -191,6 +209,22 @@ const Menu = () => {
         navigate("/set-time")
         setCreate(true)
       }}></div>
+      <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
+        <h1 className="restaurant-title">{restaurant.title}</h1>
+        <div className="row">
+          <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
+          <iframe
+            className="col-6"
+            title="coffeeshop map"
+            width="600"
+            height="450"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src={locationUrl}>
+          </iframe>
+        </div>
+      </div>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">
         {renderProducts()}
@@ -202,7 +236,22 @@ const Menu = () => {
     <div>
       <div className="signup" onClick={() => navigate("/account/signup")}></div>
       <div className="signin" onClick={() => navigate("/account/signin")}></div>
-      <img className="hero" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/20476052_333653513758935_4535391380775282065_n_1618593385.jpeg" alt="hope and anchor"/>
+      <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
+        <h1 className="restaurant-title">{restaurant.title}</h1>
+        <div className="row">
+          <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
+          <iframe
+            className="col-6"
+            title="coffeeshop map"
+            width="600"
+            height="450"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src={locationUrl}>
+          </iframe>
+        </div>
+      </div>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">
         {renderProducts()}

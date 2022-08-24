@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signin } from "../actions";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import coffeeLoading from "../Coffee_Loading.gif"
 
 const Signin = () => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,9 @@ const Signin = () => {
     ) : ""
   }
 
-  return (
+  return loading ? (
+    <img src={coffeeLoading} alt="loading" />
+  ) : (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
