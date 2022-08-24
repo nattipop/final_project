@@ -19,7 +19,7 @@ export const signout = (callback) => dispatch => {
 };
 
 export const signup = (formProps) => dispatch => {
-  axios.post(`auth/signup`, formProps).then((response) => {
+  axios.post(`${url}auth/signup`, formProps).then((response) => {
     dispatch({ type: CREATE_USER, payload: response.data })
     localStorage.setItem("token", response.data.token)
   }).catch((err) => {
@@ -28,7 +28,7 @@ export const signup = (formProps) => dispatch => {
 }
 
 export const fetchProducts = () => dispatch => {
-  axios.get(`items`).then((response) => {
+  axios.get(`${url}items`).then((response) => {
     dispatch({ type: FETCH_PRODUCTS, payload: response.data })
   }).catch((err) => {
     console.log(err)
@@ -36,7 +36,7 @@ export const fetchProducts = () => dispatch => {
 };
 
 export const fetchAvailable = (time) => dispatch => {
-  axios.get(`items/${time}`).then((response) => {
+  axios.get(`${url}items/${time}`).then((response) => {
     dispatch({ type: FETCH_AVAILABLE, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -51,7 +51,7 @@ export const fetchUser = () => dispatch => {
   };
 
   axios.get(
-    'http://localhost:3000/user',
+    `${url}user`,
     config
   ).then(function (response) {
     dispatch({ type: FETCH_USER, payload: response.data });
@@ -62,7 +62,7 @@ export const fetchUser = () => dispatch => {
 };
 
 export const fetchUserByEmail = (email) => dispatch => {
-  axios.get(`users/by-email/${email}`).then((response) => {
+  axios.get(`${url}users/by-email/${email}`).then((response) => {
     dispatch({ type: FETCH_BY_EMAIL, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -78,7 +78,7 @@ export const fetchProduct = (id) => dispatch => {
 }
 
 export const fetchRestaurant = () => dispatch => {
-  axios.get(`restaurant`).then((response) => {
+  axios.get(`${url}restaurant`).then((response) => {
     dispatch({ type: FETCH_RESTAURANT, payload: response.data })
   }).catch(err => {
     console.log(err)

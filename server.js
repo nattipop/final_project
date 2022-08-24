@@ -11,7 +11,7 @@ const keys = require("./config/keys")
 const indexRouter = require("./routes/index")
 
 if(process.env.NODE_ENV === "production") {
-  const path = require("path");;
+  const path = require("path");
 
   app.use(express.static('client/build'));
 }
