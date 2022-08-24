@@ -1,3 +1,3 @@
 module.exports = {
-  url: ""
+  url: "http://final-project-parsity.herokuapp.com/"
 }
