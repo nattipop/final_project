@@ -88,6 +88,6 @@ const restaurantSchema = new Schema({
 })
 
 exports.User = mongoose.model("user", UserSchema);
-exports.MenuItem = mongoose.model('menuItem', MenuItem);
+exports.MenuItem = mongoose.model('menuitem', MenuItem);
 exports.Restaurant = mongoose.model('restaurant', restaurantSchema);
 exports.Order = mongoose.model('order', OrderSchema);
