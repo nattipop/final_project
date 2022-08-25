@@ -89,28 +89,25 @@ router.get("/orders/:orderId", requireAuth, (req, res) => {
   })
 })
 
+router.get("/test", (req, res) => {
+  res.send("WORKS")
+})
+
 router.get("/users/by-email/:email", (req, res) => {
-  const { user } = req.user;
   const { email } = req.params;
-  console.log(user)
+  console.log(email)
 
-  if(user){
-    res.status(200).send(user)
-  }
-
-  if(!user && email){
-    User.find({ "login.email": email }, (err, user) => {
-      if(err){
-        res.status(500).send("There was an error with the format of your request");
-        throw err;
-      }
-      if(!user[0]){
-        res.status(404).send("User not found")
-      } else {
-        res.status(200).send(user)
-      }
-    })
-  }
+  User.find({ "login.email": email }, (err, user) => {
+    if(err){
+      res.status(500).send("There was an error with the format of your request");
+      throw err;
+    }
+    if(!user[0]){
+      res.status(404).send("User not found")
+    } else {
+      res.status(200).send(user)
+    }
+  })
 })
 
 router.get("/user", requireAuth, (req, res) => {
@@ -323,6 +320,19 @@ router.put("/users/cart/:userId", (req, res) => {
       res.status(200).send(user)
     })
 });
+
+router.put("/user/:userId", (req, res) => {
+  const { userId } = req.params;
+  const path = req.body.path;
+  const value = req.body.value;
+
+  User.findOneAndUpdate({ _id: userId }, { "$set": { [path]: value }}, { "new": true }, (err, user) => {
+    if(err){
+      res.status(500).send("there was an error with your request")
+    }
+    res.status(200).send(user)
+  })
+})
 
 router.put("/users/cart/edit/:userId", (req, res) => {
   const { userId } = req.params

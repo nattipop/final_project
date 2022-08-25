@@ -144,7 +144,29 @@ code {
 }
 
 .profile-name {
+  max-width: 400px;
   font-size: 30px;
+  color: white;
+}
+
+.profile-name div {
+  padding: 5px;
+}
+
+input.profile-first {
+  width: 80%;
+  text-align: center;
+  float: right;
+}
+
+input.profile-last {
+  width: 80%;
+  text-align: center;
+  float: left;
+}
+
+.profile-name input {
+  color: black;
 }
 
 .profile-initial {
@@ -162,9 +184,22 @@ code {
 }
 
 .profile-details {
+  color: white;
   font-size: 17px;
   margin-left: 20vw;
   font-weight: bold;
+}
+
+.profile-first {
+  text-align: right;
+}
+
+.profile-last {
+  text-align: left;
+}
+
+input.profile-details {
+  color: black;
 }
 
 .detail-div {
@@ -543,4 +578,19 @@ code {
 .tax {
   margin-left: 8.8vw;
   margin-top: 30px;
+}
+
+.name-input {
+  font-size: 20px;
+  margin: 5px;
+  margin-left: 15px;
+  height: 35px;
+}
+
+.date-error {
+  color: white;
+  font-size: 20px;
+  margin-left: 19vw;
+  padding: 10px;
+  font-style: italic;
 }

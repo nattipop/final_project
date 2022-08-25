@@ -1,39 +1,90 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import { editUser, fetchUser, fetchUserByEmail } from "../actions";
 import Signout from "./Signout";
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = location.state;
-  const birthday = new Date(user.birthday);
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const userEmail = location.state.login.email;
+  const user = useSelector(state => state.user.user);
+  const birthday = user ? new Date(user.birthday) : undefined;
   const [clickTrigger, setClick] = useState(false)
+  const [invalidDate, setInvalidDate] = useState(false)
+  
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUser())
+    } else if (userEmail) {
+      dispatch(fetchUserByEmail(userEmail))
+    }
+  }, [token]);
+  
+  useEffect(() => {
+    if(!userEmail && !token){
+      navigate("/account/signin")
+    }
+  }, [userEmail]);
 
   const renderCover = () => {
-    return (user.picture?.cover) ? (
-      <img className="cover-photo" src={user.picture.cover} alt="cover" />
-    ) : (
-      <img className="cover-photo" src="https://wineandblooms.com/wp-content/uploads/2019/12/WB-Create-Your-New-Year-Plant-Journal-houseplant-leaf-header.png" alt="cover" />
-    )
+    if(user){
+      return (user.picture?.cover) ? (
+        <img className="cover-photo" src={user.picture.cover} alt="cover" />
+      ) : (
+        <img className="cover-photo" src="https://wineandblooms.com/wp-content/uploads/2019/12/WB-Create-Your-New-Year-Plant-Journal-houseplant-leaf-header.png" alt="cover" />
+      )
+    }
   };
 
   const renderProfile = () => {
     return (user.picture?.profile) ? (
       <div className="row">
         <img className="profile-pic col" src={user.picture.profile} alt="profile" />
-        <p className="col profile-name">{user.name.first} {user.name.last}</p>
+        <p className="col profile-name row">
+          <div className="col">
+            <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
+            <input onBlur={handleFirstBlur} className="profile-first col-1 name-input" style={{"display": "none"}} />
+          </div>
+          <div className="col">
+            <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
+            <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
+          </div>
+        </p>
       </div>
     ) : (
       <div className="row">
         <div className="col profile-initial">{user.name.first[0]}</div>
-        <p className="col profile-name">{user.name.first} {user.name.last}</p>
+        <p className="col profile-name row">
+          <div className="col">
+            <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
+            <input onBlur={handleFirstBlur} className="col-1 name-input profile-first" style={{"display": "none"}} />
+          </div>
+          <div className="col">
+            <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
+            <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
+          </div>
+        </p>
       </div>
     )
   };
 
+  const renderError = () => {
+    return invalidDate ? (
+      <p className="date-error">Invalid Date. Please enter valid birthday.</p>
+    ) : ""
+  }
+
   const renderBirthday = () => {
     return (user.birthday) ? (
-      <p className="profile-details">Birthday: {birthday.toLocaleString(undefined, { month: "long", day: "numeric", year: "numeric" })}</p>
+      <div>
+        <p onClick={handleDetailClick} className="profile-details">Birthday: {birthday.toLocaleString(undefined, { month: "long", day: "numeric", year: "numeric" })}</p>
+        <input onBlur={handleBirthdayBlur} className="profile-details" style={{"display": "none"}} />
+        {renderError()}
+      </div>
     ) : ""
   };
   
@@ -42,7 +93,86 @@ const Profile = () => {
     navigate(`/profile/${user.name.first}/signout`, { state: user })
   }
 
-  return (
+  const handleNameClick = (e) => {
+    const name = e.target;
+    const input = e.target.parentElement.childNodes[1];
+
+    input.value = name.innerHTML;
+
+    name.style.display = "none";
+    input.style.display = "block";
+  }
+
+  const handleFirstBlur = (e) => {
+    const input = e.target;
+    const first = e.target.parentElement.childNodes[0];
+
+    const value = input.value;
+    const path = "name.first";
+    dispatch(editUser(user._id, path, value))
+
+    input.style.display = "none";
+    first.style.display = "block";
+  };
+
+  const handleLastBlur = (e) => {
+    const input = e.target;
+    const last = e.target.parentElement.childNodes[0];
+
+    const value = input.value;
+    const path = "name.last"
+    dispatch(editUser(user._id, path, value))
+
+    input.style.display = "none";
+    last.style.display = "block";
+  }
+
+  const handleDetailClick = (e) => {
+    const detail = e.target;
+    const input = e.target.parentElement.childNodes[1];
+
+    if(detail.innerHTML[0] === "E") {
+      input.value = detail.innerHTML.substring(7);
+    }
+    if(detail.innerHTML[0] === "B") {
+      input.value = detail.innerHTML.substring(10)
+    }
+
+    detail.style.display = "none";
+    input.style.display = "block";
+  }
+
+  const handleEmailBlur = (e) => {
+    const input = e.target;
+    const email = e.target.parentElement.childNodes[0];
+
+    const value = input.value;
+    const path = "login.email";
+    dispatch(editUser(user._id, path, value))
+
+    input.style.display = "none";
+    email.style.display = "block";
+  }
+
+  const handleBirthdayBlur = (e) => {
+    setInvalidDate(false)
+    const input = e.target;
+    const birthday = e.target.parentElement.childNodes[0];
+
+    const value = new Date(input.value);
+    const path = "birthday";
+
+    if(value == "Invalid Date") {
+      return setInvalidDate(true)
+    }
+
+    dispatch(editUser(user._id, path, value));
+
+    input.style.display = "none";
+    birthday.style.display = "block";
+  }
+
+  return user ? (
     <div>
       <div className="back-div">
         <div id="back-to-menu" onClick={() => navigate(-1)}>Back To Menu</div>
@@ -50,14 +180,15 @@ const Profile = () => {
       {renderCover()}
       {renderProfile()}
       <div className="detail-div">
-        <p className="profile-details">Email: {user.login.email}</p>
+        <p onClick={handleDetailClick} className="profile-details">Email: {user.login.email}</p>
+        <input className="profile-details" onBlur={handleEmailBlur} style={{"display": "none"}} />
         {renderBirthday()}
         <p className="profile-details">Role: {user.status}</p>
       </div>
-      <button className="profile-details" onClick={handleSignout}>Signout</button>
+      <button style={{"marginLeft": "20vw"}} className="continue-menu" onClick={handleSignout}>Signout</button>
       <Signout trigger={clickTrigger} toggleTrigger={setClick} />
     </div>
-  )
+  ) : ""
 }
 
 export default Profile;
