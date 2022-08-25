@@ -91,6 +91,20 @@ router.get("/orders/:orderId", requireAuth, (req, res) => {
 
 router.get("/test", (req, res) => {
   res.send("WORKS")
+});
+
+router.get("/set", (req, res) => {
+  const user = new User();
+  const restaurant = new Restaurant();
+  const item = new MenuItem();
+  const order = new Order();
+
+  user.save();
+  restaurant.save();
+  item.save();
+  order.save();
+
+  res.send(user, restaurant, item, order)
 })
 
 router.get("/users/by-email/:email", (req, res) => {
