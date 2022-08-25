@@ -23,7 +23,7 @@ app.use(express.static("public"));
 app.use(bodyParser.json())
 
 const mongoose = require("mongoose");
-mongoose.connect(keys.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+mongoose.connect(keys.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", error => console.log(error))
 db.once("open", () => console.log("connected to database"))
