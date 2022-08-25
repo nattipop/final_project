@@ -196,7 +196,7 @@ const Menu = () => {
 
   const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyCyuOwgjQWC6n0LUik7iiTVjzMQPTin5Rc&q=" + restaurant.title : ""
 
-  return (user) ? (
+  return (token) ? (
     <div>
       <div title="Your Profile" style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
