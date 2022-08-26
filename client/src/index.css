@@ -556,6 +556,10 @@ input.profile-details {
   transition: opacity 2s ease-in;
 }
 
+.restaurant-phone {
+  text-align: center;
+}
+
 .restaurant-title.load {
   opacity: 1;
 }

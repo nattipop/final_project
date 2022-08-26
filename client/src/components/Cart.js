@@ -1,13 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { editCart } from "../actions";
 import exitimage from "../images/exit.png"
 
 const Cart = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const date = location.state;
   const cart = useSelector(state => state.user.cart);
   const user = useSelector(state => state.user.user)
+  console.log(date)
 
   const handleItemRemove = (e) => {
     const index = e.target.parentElement.getAttribute("index");

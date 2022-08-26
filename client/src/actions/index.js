@@ -43,10 +43,10 @@ export const fetchAvailable = (time) => dispatch => {
   })
 };
 
-export const fetchUser = () => dispatch => {
+export const fetchUser = (token) => dispatch => {
   const config = {
     headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
+      Authorization: 'Bearer ' + token,
     }
   };
 

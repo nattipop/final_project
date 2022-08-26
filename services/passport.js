@@ -44,7 +44,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     //    .then((user) => done(null, user.dataValues))
     //    .catch((jwtErr) => console.error(`JWT Error: ${jwtErr}`));
     //  }
-
+    console.log(user)
     if(user) {
       done(null, user)
     } else {

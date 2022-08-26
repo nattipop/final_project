@@ -127,9 +127,11 @@ router.get("/users/by-email/:email", (req, res) => {
 router.get("/user", requireAuth, (req, res) => {
   const user = req.user
   console.log(user)
-  
-
-  res.send(user);
+  if(user){
+    res.status(200).send(user);
+  } else {
+    res.status(404).send("not found")
+  }
 });
 
 router.get("/items", (req, res) => {

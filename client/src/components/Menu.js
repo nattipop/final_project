@@ -33,7 +33,7 @@ const Menu = () => {
 
   useEffect(() => {
     if(token){
-      dispatch(fetchUser())
+      dispatch(fetchUser(token))
     }
   }, [token])
 
@@ -174,8 +174,8 @@ const Menu = () => {
   }
 
   const renderPfp = () => {
-    const pfp = user.picture?.profile || null;
-    const initial = user.name.first[0];
+    const pfp = user ? user.picture?.profile : null;
+    const initial = user ? user.name.first[0] : null;
 
     return pfp ? (
       <div className="pfp" style={{ "marginTop": "-40px"}}>
@@ -196,7 +196,7 @@ const Menu = () => {
 
   const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyCyuOwgjQWC6n0LUik7iiTVjzMQPTin5Rc&q=" + restaurant.title : ""
 
-  return (token) ? (
+  return (user) ? (
     <div>
       <div title="Your Profile" style={{ "width": "70px", "float": "right", "height": "70px" }}>
         {renderPfp()}
@@ -211,6 +211,7 @@ const Menu = () => {
       }}></div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 className="restaurant-title">{restaurant.title}</h1>
+        <h3 className="restaurant-phone">Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
           <iframe
@@ -219,8 +220,8 @@ const Menu = () => {
             width="600"
             height="450"
             loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
             src={locationUrl}>
           </iframe>
         </div>
@@ -246,8 +247,8 @@ const Menu = () => {
             width="600"
             height="450"
             loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
             src={locationUrl}>
           </iframe>
         </div>

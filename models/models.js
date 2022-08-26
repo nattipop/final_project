@@ -84,7 +84,8 @@ const restaurantSchema = new Schema({
       close: String
     }
   },
-  placeId: String
+  placeId: String,
+  phone: String
 })
 
 exports.User = mongoose.model("user", UserSchema);

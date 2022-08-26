@@ -13,6 +13,7 @@ export default function(state = initialState, action) {
         cart: action.payload[0].cart
       }
     case FETCH_USER:
+      debugger;
       return {
         ...state,
         user: action.payload,
