@@ -35,7 +35,12 @@ const UserSchema = new Schema({
   cart: Array,
   points: Number,
   picture: {
-    profile: String,
+    profile: {
+      name: String,
+      lastModified: Number,
+      size: Number,
+      type: String
+    },
     cover: String
   },
   birthday: String,

@@ -12,3 +12,5 @@ export const CLEAR_USER = "clear_user";
 export const EDIT_CART = "edit_cart";
 export const SET_USER = "set_user";
 export const EDIT_USER = "edit_user";
+export const REMOVE_USER = "remove_user";
+export const EDIT_IMAGE = "edit_image";

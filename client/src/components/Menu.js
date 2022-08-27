@@ -19,9 +19,10 @@ const Menu = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     getProducts()
-
+    
     if(products.length){
       setIsLoading(false)
     }
@@ -30,20 +31,21 @@ const Menu = () => {
       dispatch(fetchRestaurant())
     }
   }, [products.length]);
-
+  
   useEffect(() => {
-    if(token){
+    if(token && !user){
       dispatch(fetchUser(token))
     }
   }, [token])
-
+  
   useEffect(() => {
-    const title = document.getElementsByClassName("restaurant-title")[0]
+    const title = document.getElementById("restaurant-title")
+
     if(title){
       const list = title.classList
       list.add("load")
     }
-  })
+  }, [])
 
   const getProducts = () => {
     dispatch(fetchProducts())
@@ -210,7 +212,7 @@ const Menu = () => {
         setCreate(true)
       }}></div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
-        <h1 className="restaurant-title">{restaurant.title}</h1>
+        <h1 id="restaurant-title">{restaurant.title}</h1>
         <h3 className="restaurant-phone">Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
@@ -238,7 +240,8 @@ const Menu = () => {
       <div className="signup" onClick={() => navigate("/account/signup")}></div>
       <div className="signin" onClick={() => navigate("/account/signin")}></div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
-        <h1 className="restaurant-title">{restaurant.title}</h1>
+        <h1 id="restaurant-title">{restaurant.title}</h1>
+        <h3 className="restaurant-phone">Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
           <iframe

@@ -1,0 +1,16 @@
+/* eslint-disable import/no-anonymous-default-export */
+import { FETCH_IMAGE, SET_IMAGE } from "../actions/types";
+
+const initialValues = [];
+
+export const ImageReducer = (state = initialValues, action) => {
+  switch(action.type) {
+    case FETCH_IMAGE:
+      debugger;
+      return state.push(action.payload);
+    case SET_IMAGE:
+      return state;
+    default:
+      return state;
+  }
+}

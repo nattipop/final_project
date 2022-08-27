@@ -23,11 +23,14 @@
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-ejs-layouts": "^2.5.1",
+    "fs": "^0.0.1-security",
     "jwt-simple": "^0.5.6",
     "mongoose": "^6.5.1",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "serve": "^14.0.1"
   },
   "devDependencies": {

@@ -18,6 +18,19 @@ function tokenForUser(user) {
     exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
 
+router.put("/images/:userId", (req, res) => {
+  const { userId } = req.params;
+  console.log(req.body)
+
+  User.findOneAndUpdate({ "_id": userId }, {"$set": { "picture.profile": req.body }}, { "new": true }, (err, user) => {
+    if(err) {
+      res.send(err)
+    } else {
+      res.status(200).send(user)
+    }
+  })
+})
+
 router.post("/auth/signup", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -62,7 +75,6 @@ router.post("/auth/signup", (req, res) => {
 })
 
 router.post("/auth/signin", requireSignin, (req, res) => {
-  console.log(tokenForUser(req.user))
   res.send({
     token: tokenForUser(req.user)
   });
@@ -109,7 +121,6 @@ router.get("/set", (req, res) => {
 
 router.get("/users/by-email/:email", (req, res) => {
   const { email } = req.params;
-  console.log(email)
 
   User.find({ "login.email": email }, (err, user) => {
     if(err){
@@ -126,7 +137,7 @@ router.get("/users/by-email/:email", (req, res) => {
 
 router.get("/user", requireAuth, (req, res) => {
   const user = req.user
-  console.log(user)
+  
   if(user){
     res.status(200).send(user);
   } else {

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { editUser, fetchUser, fetchUserByEmail } from "../actions";
 import Signout from "./Signout";
+import UploadPic from "./UploadPic";
+import edit from "../images/edit.png"
 
 const Profile = () => {
   const location = useLocation();
@@ -15,17 +17,20 @@ const Profile = () => {
   const birthday = user ? new Date(user.birthday) : undefined;
   const [clickTrigger, setClick] = useState(false)
   const [invalidDate, setInvalidDate] = useState(false)
+  const [fileTrigger, setFileTrigger] = useState(false);
   
   useEffect(() => {
-    if (token) {
-      dispatch(fetchUser())
-    } else if (userEmail) {
-      dispatch(fetchUserByEmail(userEmail))
+    if(!user){
+      if (token) {
+        dispatch(fetchUser())
+      } else if (userEmail) {
+        dispatch(fetchUserByEmail(userEmail))
+      }
     }
   }, [token]);
   
   useEffect(() => {
-    if(!userEmail && !token){
+    if(!user){
       navigate("/account/signin")
     }
   }, [userEmail]);
@@ -40,24 +45,40 @@ const Profile = () => {
     }
   };
 
+  const renderEditPfp = (e) => {
+    const edit = e.target.parentElement.childNodes[1]
+    edit.style.display = "block";
+  }
+
+  const removeEdit = (e) => {
+    const edit = e.target;
+    edit.style.display = "none";
+  }
+
   const renderProfile = () => {
-    return (user.picture?.profile) ? (
+    if(user.picture?.profile){
+      return (
+        <div className="row">
+          <img onMouseOver={renderEditPfp} className="profile-pic col" src={user.picture.profile} alt="profile" />
+          <img onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit} src={edit} style={{"display": "none"}} alt="edit" className="editing" />
+          <p className="col profile-name row">
+            <div className="col">
+              <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
+              <input onBlur={handleFirstBlur} className="profile-first col-1 name-input" style={{"display": "none"}} />
+            </div>
+            <div className="col">
+              <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
+              <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
+            </div>
+          </p>
+        </div>
+      )
+    }
+    
+    return (
       <div className="row">
-        <img className="profile-pic col" src={user.picture.profile} alt="profile" />
-        <p className="col profile-name row">
-          <div className="col">
-            <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
-            <input onBlur={handleFirstBlur} className="profile-first col-1 name-input" style={{"display": "none"}} />
-          </div>
-          <div className="col">
-            <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
-            <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
-          </div>
-        </p>
-      </div>
-    ) : (
-      <div className="row">
-        <div className="col profile-initial">{user.name.first[0]}</div>
+        <div onMouseOver={renderEditPfp} className="col profile-initial">{user.name.first[0]}</div>
+        <img onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit} src={edit} style={{"display": "none"}} alt="edit" className="editing" />
         <p className="col profile-name row">
           <div className="col">
             <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
@@ -162,6 +183,7 @@ const Profile = () => {
     const value = new Date(input.value);
     const path = "birthday";
 
+    // eslint-disable-next-line eqeqeq
     if(value == "Invalid Date") {
       return setInvalidDate(true)
     }
@@ -186,6 +208,7 @@ const Profile = () => {
         <p className="profile-details">Role: {user.status}</p>
       </div>
       <button style={{"marginLeft": "20vw"}} className="continue-menu" onClick={handleSignout}>Signout</button>
+      <UploadPic trigger={fileTrigger} toggleTrigger={setFileTrigger} />
       <Signout trigger={clickTrigger} toggleTrigger={setClick} />
     </div>
   ) : ""

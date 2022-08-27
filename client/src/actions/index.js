@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER, EDIT_CART, EDIT_USER } from "./types";
+import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER, EDIT_CART, EDIT_USER, REMOVE_USER, EDIT_IMAGE } from "./types";
 
 import { url } from "../config/keys"
 
@@ -14,6 +14,7 @@ export const signin = (formProps) => dispatch => {
 export const signout = (callback) => dispatch => {
   localStorage.removeItem('token');
 
+  dispatch({ type: REMOVE_USER, payload: '' })
   dispatch({ type: AUTH_USER, payload: '' });
   callback()
 };
@@ -109,3 +110,7 @@ export const editUser = (id, path, value) => dispatch => {
     console.log(err)
   })
 }
+
+export const setImage = (blob) => dispatch => {
+  dispatch({ type: EDIT_IMAGE, payload: blob })
+};

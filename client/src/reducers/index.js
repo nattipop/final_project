@@ -3,14 +3,14 @@ import AuthReducer from "./reducerAuth";
 import ProductsReducer from "./reducerProducts";
 import UserReducer from "./reducerUser";
 import CurrentProductReducer from "./reducerProduct";
-import RestaurantReducer from "./reducerRestaurant"
+import RestaurantReducer from "./reducerRestaurant";
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
   products: ProductsReducer,
   user: UserReducer,
   currentProduct: CurrentProductReducer,
-  restaurant: RestaurantReducer,
+  restaurant: RestaurantReducer
 })
 
 export default rootReducer;
