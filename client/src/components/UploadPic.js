@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setImage } from "../actions";
 import exit from "../images/exit.png"
 
@@ -8,7 +8,6 @@ const UploadPic = ({trigger, toggleTrigger}) => {
   const [data, isData] = useState();
   const [image, isImage] = useState();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.user);
 
   const onFileChange = event => { 
     setFile(event.target.files[0])
@@ -21,7 +20,7 @@ const UploadPic = ({trigger, toggleTrigger}) => {
       isData(true)
     }
 
-    if(selectedFile.type !== "image/jpeg"){
+    if(selectedFile.type !== "image/jpeg" && selectedFile.type !== "image/heic"){
       return isImage(false)
     };
 

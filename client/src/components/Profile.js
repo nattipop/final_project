@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router";
 import { editUser, fetchUser, fetchUserByEmail } from "../actions";
 import Signout from "./Signout";
 import UploadPic from "./UploadPic";
-import edit from "../images/edit.png"
 
 const Profile = () => {
   const location = useLocation();
@@ -64,11 +63,11 @@ const Profile = () => {
           <div className="col profile-name row">
             <div className="col">
               <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
-              <input onBlur={handleFirstBlur} className="profile-first col-1 name-input" style={{"display": "none"}} />
+              <input onBlur={handleFirstBlur} onKeyUp={handleFirstKey} onKeyPress={handleFirstKey} className="profile-first col-1 name-input" style={{"display": "none"}} />
             </div>
             <div className="col">
               <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
-              <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
+              <input onBlur={handleLastBlur} onKeyUp={handleLastKey} className="col-1 name-input profile-last" style={{"display": "none"}} />
             </div>
           </div>
         </div>
@@ -82,11 +81,11 @@ const Profile = () => {
         <p className="col profile-name row">
           <div className="col">
             <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
-            <input onBlur={handleFirstBlur} className="col-1 name-input profile-first" style={{"display": "none"}} />
+            <input onBlur={handleFirstBlur} onKeyUp={handleFirstKey} className="col-1 name-input profile-first" style={{"display": "none"}} />
           </div>
           <div className="col">
             <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
-            <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
+            <input onBlur={handleLastBlur} onKeyUp={handleLastKey} className="col-1 name-input profile-last" style={{"display": "none"}} />
           </div>
         </p>
       </div>
@@ -103,7 +102,7 @@ const Profile = () => {
     return (user.birthday) ? (
       <div>
         <p onClick={handleDetailClick} className="profile-details">Birthday: {birthday.toLocaleString(undefined, { month: "long", day: "numeric", year: "numeric" })}</p>
-        <input onBlur={handleBirthdayBlur} className="profile-details" style={{"display": "none"}} />
+        <input onBlur={handleBirthdayBlur} onKeyUp={handleBirthKey} className="profile-details" style={{"display": "none"}} />
         {renderError()}
       </div>
     ) : ""
@@ -124,6 +123,26 @@ const Profile = () => {
     input.style.display = "block";
   }
 
+  const handleFirstKey = (e) => {
+    if(e.key === "Enter"){
+      handleFirstBlur(e)
+    }
+  }
+  const handleLastKey = (e) => {
+    if(e.key === "Enter"){
+      handleLastBlur(e)
+    }
+  }
+  const handleBirthKey = (e) => {
+    if(e.key === "Enter"){
+      handleBirthdayBlur(e)
+    }
+  }
+  const handleEmailKey = (e) => {
+    if(e.key === "Enter"){
+      handleEmailBlur(e)
+    }
+  }
   const handleFirstBlur = (e) => {
     const input = e.target;
     const first = e.target.parentElement.childNodes[0];
@@ -203,7 +222,7 @@ const Profile = () => {
       {renderProfile()}
       <div className="detail-div">
         <p onClick={handleDetailClick} className="profile-details">Email: {user.login.email}</p>
-        <input className="profile-details" onBlur={handleEmailBlur} style={{"display": "none"}} />
+        <input className="profile-details" onBlur={handleEmailBlur} onKeyUp={handleEmailKey} style={{"display": "none"}} />
         {renderBirthday()}
         <p className="profile-details">Role: {user.status}</p>
       </div>
