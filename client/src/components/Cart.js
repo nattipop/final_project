@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { editCart } from "../actions";
-import exitimage from "../images/exit.png"
+import exit from "../images/exit.png"
 
 const Cart = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
@@ -107,10 +107,10 @@ const Cart = ({trigger, toggleTrigger}) => {
   return trigger ? (
     <div className="popup-outer">
       <div className="popup-inner" style={{"minWidth": "500px", "maxHeight": "500px", "overflow": "scroll"}}>
-        <img className="exit" onClick={() => {
+        <img src={exit} className="exit" onClick={() => {
           toggleTrigger(false);
           navigate(-1)
-        }} src={exitimage} alt="close" style={{"marginLeft": "0px"}} width="20px" />
+        }} alt="close" style={{"marginLeft": "0px"}} width="20px" />
         <div className="render-cart">
           <h2>Your Cart:</h2>
           {renderCartItems()}
