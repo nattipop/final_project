@@ -407,11 +407,6 @@ input.profile-details {
   height: 53px;
 }
 
-.exit {
-  margin-left: 330px;
-  margin-top: -20px;
-}
-
 .exit:hover {
   cursor: pointer;
 }
@@ -627,14 +622,16 @@ input.profile-details {
 
 .editing {
   background-color: rgba(0, 0, 0, 0.3);
+  background: url("./images/edit.png") no-repeat;
+  background-size: 70px;
   max-width: 100px;
   padding: 15px;
   border-radius: 50%;
   height: 100px;
   overflow: visible;
-  margin-top: -50px;
+  margin-top: -35px;
   position: absolute;
-  margin-left: 6vw;
+  margin-left: 7.2vw;
 }
 
 .editing:hover {

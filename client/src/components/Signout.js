@@ -15,7 +15,7 @@ const Signout = ({trigger, toggleTrigger}) => {
   return (trigger) ? (
     <div className="popup-outer">
       <div className="popup-inner">
-        <img className="exit" src={exitimage} width="20px" alt="close" onClick={() => toggleTrigger(false)} />
+        <div className="exit" src={exitimage} width="20px" alt="close" onClick={() => toggleTrigger(false)} >x</div>
         <h2>Are you sure you want to signout?</h2>
         <div className="row">
           <p className="col signout-yes" onClick={handleYesClick}>Yes</p>

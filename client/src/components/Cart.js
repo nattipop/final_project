@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { editCart } from "../actions";
-import exit from "../images/exit.png"
 
 const Cart = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
@@ -19,6 +18,7 @@ const Cart = ({trigger, toggleTrigger}) => {
     setFilteredCart(cart.filter(items => {
       return items.availability.start < time && items.availability.end > time
     }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleItemRemove = (e) => {
@@ -107,10 +107,10 @@ const Cart = ({trigger, toggleTrigger}) => {
   return trigger ? (
     <div className="popup-outer">
       <div className="popup-inner" style={{"minWidth": "500px", "maxHeight": "500px", "overflow": "scroll"}}>
-        <img src={exit} className="exit" onClick={() => {
+        <div className="exit" onClick={() => {
           toggleTrigger(false);
           navigate(-1)
-        }} alt="close" style={{"marginLeft": "0px"}} width="20px" />
+        }} alt="close" style={{"marginTop": "-10px"}} width="20px">x</div>
         <div className="render-cart">
           <h2>Your Cart:</h2>
           {renderCartItems()}

@@ -60,8 +60,8 @@ const Profile = () => {
       return (
         <div className="row">
           <img onMouseOver={renderEditPfp} className="profile-pic col" src={user.picture.profile} alt="profile" />
-          <img onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit} src={edit} style={{"display": "none"}} alt="edit" className="editing" />
-          <p className="col profile-name row">
+          <div onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit}style={{"display": "none"}} className="editing"></div>
+          <div className="col profile-name row">
             <div className="col">
               <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
               <input onBlur={handleFirstBlur} className="profile-first col-1 name-input" style={{"display": "none"}} />
@@ -70,7 +70,7 @@ const Profile = () => {
               <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
               <input onBlur={handleLastBlur} className="col-1 name-input profile-last" style={{"display": "none"}} />
             </div>
-          </p>
+          </div>
         </div>
       )
     }
@@ -78,7 +78,7 @@ const Profile = () => {
     return (
       <div className="row">
         <div onMouseOver={renderEditPfp} className="col profile-initial">{user.name.first[0]}</div>
-        <img onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit} src={edit} style={{"display": "none"}} alt="edit" className="editing" />
+        <div onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit}style={{"display": "none"}} className="editing"></div>
         <p className="col profile-name row">
           <div className="col">
             <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>

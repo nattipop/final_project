@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { signout } from "../actions";
-import exitimage from "../images/exit.png"
 
 const ProfileSignout = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const ProfileSignout = ({trigger, toggleTrigger}) => {
   return (trigger) ? (
     <div className="popup-outer">
       <div className="popup-inner">
-        <img className="exit" src={exitimage} width="20px" alt="close" onClick={() => toggleTrigger(false)} />
+      <div className="exit" onClick={() => toggleTrigger(false)} alt="close" style={{"marginTop": "-10px"}} width="20px">x</div>
         <h2>Are you sure you want to signout?</h2>
         <div className="row">
           <p className="col signout-yes" onClick={handleYesClick}>Yes</p>

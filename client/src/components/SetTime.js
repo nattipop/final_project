@@ -49,10 +49,10 @@ const SetTime = ({trigger, toggleTrigger}) => {
   return trigger ? (
     <div className="popup-outer">
       <div className="popup-inner">
-        <img className="exit" src={exitimage} width="20px" alt="close" onClick={() => {
+        <div className="exit" src={exitimage} width="20px" alt="close" onClick={() => {
           toggleTrigger(false)
           navigate("/")
-        }}/>
+        }}>x</div>
         <h3>When will you pick up your order?</h3>
       
         <DatePicker
