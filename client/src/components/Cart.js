@@ -19,7 +19,7 @@ const Cart = ({trigger, toggleTrigger}) => {
       return items.availability.start < time && items.availability.end > time
     }))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cart]);
 
   const handleItemRemove = (e) => {
     const index = e.target.parentElement.getAttribute("index");

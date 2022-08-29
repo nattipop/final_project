@@ -40,7 +40,7 @@ router.post("/auth/signup", (req, res) => {
   const birthdateStr = req.body.birthdate;
   const birthday = new Date(birthdateStr);
   const employeePass = req.body.employee_pin;
-  const status = (employeePass === 239853) ? "employee" : "customer";
+  const status = (employeePass == 239853) ? "employee" : "customer";
 
   if(!email || !password){
     res.status(422).send({ error: "You must provide email and password" })
