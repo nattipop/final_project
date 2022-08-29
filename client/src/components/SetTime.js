@@ -7,7 +7,12 @@ import exitimage from "../images/exit.png"
 
 const SetTime = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
-  const [selectedDate, setDate] = useState();
+  const oldDate = new Date("Sun Aug 27 2022 08:00:00");
+  const newDate = new Date();
+  newDate.setHours(oldDate.getHours());
+  newDate.setMinutes(oldDate.getMinutes());
+  newDate.setSeconds(oldDate.getSeconds());
+  const [selectedDate, setDate] = useState(newDate);
   const hours = useSelector(state => state.restaurant.hours)
 
   const handleContinue = () => navigate("/order-menu", { state: selectedDate })
