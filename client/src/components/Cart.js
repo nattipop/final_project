@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { editCart } from "../actions";
@@ -8,9 +9,17 @@ const Cart = ({trigger, toggleTrigger}) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const date = location.state;
+  const time = date.toLocaleTimeString('en-US', {hour12: false});
   const cart = useSelector(state => state.user.cart);
   const user = useSelector(state => state.user.user)
-  console.log(date)
+  const [filteredCart, setFilteredCart] = useState([])
+  
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setFilteredCart(cart.filter(items => {
+      return items.availability.start < time && items.availability.end > time
+    }))
+  }, []);
 
   const handleItemRemove = (e) => {
     const index = e.target.parentElement.getAttribute("index");
@@ -26,7 +35,7 @@ const Cart = ({trigger, toggleTrigger}) => {
   }
 
   let price = 0;
-  cart.forEach(item => {
+  filteredCart.forEach(item => {
     price += Number(item.price)
   })
   const tax = (price * 0.05);
@@ -35,7 +44,7 @@ const Cart = ({trigger, toggleTrigger}) => {
   
 
   const renderCartItems = () => {
-    return cart[0] ? cart.map((item, i) => {
+    return filteredCart[0] ? filteredCart.map((item, i) => {
 
       const renderItem = (option) => {
         if(option === "notes") {
@@ -79,9 +88,19 @@ const Cart = ({trigger, toggleTrigger}) => {
     )
   }
 
+  const handleCheckout = () => {
+    const orderInfo = {
+      items: filteredCart,
+      priceTotal: totalPrice,
+      tax: tax.toFixed(2)
+    }
+    
+    navigate("/order-checkout", { state: orderInfo })
+  }
+
   const renderCheckout = () => {
     return cart[0] ? (
-      <button className="continue-menu" style={{"marginLeft": "0px"}}>Checkout</button>
+      <button onClick={handleCheckout} className="continue-menu" style={{"marginLeft": "0px"}}>Checkout</button>
     ) : ""
   }
   

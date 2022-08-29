@@ -9,14 +9,8 @@ const MenuItem = new Schema({
   category: String,
   price: Object,
   availability: {
-    mon_fri: {
-      start: String,
-      end: String
-    },
-    sat: {
-      start: String,
-      end: String,
-    }
+    start: String,
+    end: String
   },
   prep_time: Number
 });
@@ -93,7 +87,12 @@ const restaurantSchema = new Schema({
   phone: String
 })
 
+const ImageSchema = new Schema({
+  file: Schema.Types.Mixed
+})
+
 exports.User = mongoose.model("user", UserSchema);
 exports.MenuItem = mongoose.model('menuitem', MenuItem);
 exports.Restaurant = mongoose.model('restaurant', restaurantSchema);
 exports.Order = mongoose.model('order', OrderSchema);
+exports.Image = mongoose.model('image', ImageSchema)

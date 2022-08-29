@@ -15,6 +15,10 @@ const LunchOptions = ({product}) => {
   let decimal = Number(price);
 
   let optionValues = {
+    availability: {
+      start: product.availability.start,
+      end: product.availability.end
+    },
     title: product.title,
     net_price: price,
     size: servingSize,

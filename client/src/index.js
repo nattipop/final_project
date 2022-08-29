@@ -18,6 +18,7 @@ import Profile from "./components/Profile"
 import OrderSignout from './components/OrderSignout';
 import ProfileSignout from './components/ProfileSignout';
 import Cart from './components/Cart';
+import Checkout from './components/Checkout';
 
 const store = createStore(rootReducer, {}, applyMiddleware(thunk));
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -37,6 +38,7 @@ root.render(
             <Route path="/order-menu/signout" element={<OrderSignout />} />
             <Route path="/order-menu/cart" element={<Cart />} />
           </Route>
+          <Route path="/order-checkout" element={<Checkout />} />
           <Route path="/products/:productId" element={<MenuItem />} />
           <Route path="account/signup" element={<Signup/>} />
           <Route path="account/signin" element={<Signin/>} />

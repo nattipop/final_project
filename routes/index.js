@@ -1,11 +1,12 @@
 const express = require("express");
 const jwt = require('jwt-simple');
 const router = express.Router()
-const {User, MenuItem, Restaurant, Order} = require("../models/models")
+const {User, MenuItem, Restaurant, Order, Image} = require("../models/models")
 const axios = require("axios");
 const passport = require("passport");
 require('../services/passport')
 const keys = require("../config/keys")
+const crypto = require("crypto");
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
@@ -83,6 +84,20 @@ router.post("/auth/signin", requireSignin, (req, res) => {
 router.get("/restaurant", async (req, res) => {
   const restaurant = await Restaurant.find();
   res.status(200).send(restaurant)
+})
+
+router.get("/images/:imageId", (req, res) => {
+  const { imageId } = req.params
+  Image.find({ _id: imageId }, (err, images) => {
+    if(err){
+      res.status(500).send(err)
+    }
+    if(images){
+      res.status(200).send(images)
+    } else {
+      res.status(404).send("no images found")
+    }
+  })
 })
 
 router.get("/orders/:orderId", requireAuth, (req, res) => {
@@ -165,7 +180,7 @@ router.get("/items/:time", (req, res) => {
   const { time } = req.params;
 
   MenuItem.find(
-    {"availability.mon_fri.start": { $lt: time }, "availability.mon_fri.end": { $gt: time }},
+    {"availability.start": { $lt: time }, "availability.end": { $gt: time }},
     (err, products) => {
     if(err){
       res.status(500).send("there was an error with the format of your request");
@@ -249,69 +264,34 @@ router.post("/products", requireAuth, (req, res) => {
 
 })
 
-router.post("/orders", requireAuth, async (req, res, next) => {
-  if(req.body.user){
-    const restaurantId = req.body.restaurant_id;
-    const orderPlaced = new Date()
-    let orderTotal = 0;
-    const wi_tax = 0.05;
-    const items = req.body.user.cart;
-    let discount = 0;
-    let prepTime = 5;
-    
-    const restaurant = await Restaurant.findById(restaurantId)
+router.post("/orders", requireAuth, (req, res, next) => {
+  const user = req.user;
+  const order = req.body;
 
-    items.forEach((item) => {
-      orderTotal += item.price;
-      
-      if(item.prep_time > 5){
-        prepTime = item.prep_time;
-      }
-    })
-    
-    if(req.body.user.status === "owner"){
-      discount = 1
-    };
-    if(req.body.user.status === "employee"){
-      discount = 0.1
+  const generateId = crypto.randomUUID()
+
+  const config = {
+    headers: {
+      "Authorization": "Bearer EAAAEL03fyJ103CWwetYFfh5XlopfvBeply3gUFYKDc7TOiW6Nn1E7zvfgACJKg0",
+      "Square-Version": "2022-8-23"
     }
-    
-    const total = orderTotal - (orderTotal * discount);
-    const finalTotal = total + (total * wi_tax);
-    const order = new Order({
-      restaurant_id: restaurant._id,
-      placed: orderPlaced.toString(),
-      due: new Date(orderPlaced.getTime() + prepTime * 60000).toString(),
-      placed_by: `${req.body.user.name.first} ${req.body.user.name.last}`,
-      items: items,
-      before_tax: orderTotal,
-      tax: `${wi_tax * 100}%`,
-      discount: `${discount * 100}%`,
-      total: finalTotal.toFixed(2),
-      ready: false,
-      recieved: false
-    });
-
-    order.save((err, order) => {
-      if(err){
-        res.send(err)
-      }
-      Restaurant.findOneAndUpdate(
-      { _id: restaurantId },
-      {
-        $addToSet: {
-          "currentOrders": order._id,
-        }
-      }, (err, restaurant) => {
-        if(err){
-          throw err
-        }
-        res.status(200).send("order placed!")
-      })
-    });
-  } else {
-    res.status(400).send("Cannot place an empty order")
   }
+  const price = parseInt(order.priceTotal)
+  console.log(price === 14)
+  const data = {
+    "amount_money": {
+      "amount": order.priceTotal,
+      "currency": "USD"
+    },
+    "idempotency_key": generateId,
+    "source_id": "cnon:card-nonce-ok"
+  }
+
+  axios.post("https://connect.squareupsandbox.com/v2/payments", data, config).then(response => {
+    res.send(response.data)
+  }).catch(err => {
+    res.send(err)
+  })
 });
 
 router.put("/orders/:orderId", requireAuth, (req, res) => {

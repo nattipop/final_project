@@ -112,5 +112,5 @@ export const editUser = (id, path, value) => dispatch => {
 }
 
 export const setImage = (blob) => dispatch => {
-  dispatch({ type: EDIT_IMAGE, payload: blob })
+  dispatch({ type: EDIT_IMAGE, payload: blob });
 };

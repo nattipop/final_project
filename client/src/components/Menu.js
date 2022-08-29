@@ -38,14 +38,13 @@ const Menu = () => {
     }
   }, [token])
   
+  const title = document.getElementById("restaurant-title");
   useEffect(() => {
-    const title = document.getElementById("restaurant-title")
-
     if(title){
       const list = title.classList
       list.add("load")
     }
-  }, [])
+  }, [title])
 
   const getProducts = () => {
     dispatch(fetchProducts())
@@ -197,7 +196,7 @@ const Menu = () => {
   }
 
   const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyCyuOwgjQWC6n0LUik7iiTVjzMQPTin5Rc&q=" + restaurant.title : ""
-
+  
   return (user) ? (
     <div>
       <div title="Your Profile" style={{ "width": "70px", "float": "right", "height": "70px" }}>
