@@ -172,12 +172,12 @@ const OrderMenu = () => {
 
   return (date && user)? (
     <div>
-      <div style={{ "width": "70px", "float": "right", "height": "70px" }}>
+      <div style={{ "width": "70px", "float": "right", "height": "70px", "marginTop": "-35px" }}>
         {renderPfp()}
       </div>
       <div className="cartimage" onClick={handleCartClick}></div>
       <div className="signout" onClick={handleSignout} ></div>
-      <div className="backimage" onClick={() => navigate("/")}></div>
+      <div className="signup" onClick={() => navigate("/")}>Go Back</div>
       <h3 className="pickup-time">{`Your scheduled pickup time: ${date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit'})}`}</h3>
       <h2 className="available-items">Available Items:</h2>
       <div className="d-flex justify-content-center all-products">

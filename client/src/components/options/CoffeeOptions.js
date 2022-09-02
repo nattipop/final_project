@@ -11,6 +11,12 @@ const CoffeeOptions = ({product}) => {
   const [size, setSize] = useState(undefined);
   const [coffeeTemp, setCoffeeTemp] = useState(undefined);
   const [milk, setMilk] = useState(undefined);
+  const [whipped, setWhip] = useState(false);
+  const [cream, setCream] = useState(false);
+  const [coffeeRoast, setRoast] = useState(undefined);
+  const [cappuccino, setCapp] = useState(undefined);
+  const [flavor, setFlavor] = useState(undefined);
+  const [dirtyChai, setDirtyChai] = useState(undefined);
 
   console.log(coffeeTemp)
 
@@ -27,15 +33,19 @@ const CoffeeOptions = ({product}) => {
     hot_iced: coffeeTemp,
     milk: milk,
     size: size,
-    cream: undefined,
-    flavor: undefined,
+    flavor: flavor,
     extra_espresso: undefined,
     notes: undefined,
-    price: undefined
+    price: undefined,
+    whip: whipped ? "Whipped Cream" : undefined,
+    cream: cream ? "Add Cream" : undefined,
+    roast: coffeeRoast,
+    capp: cappuccino,
+    chai_option: dirtyChai,
   }
 
   const handleAddToCart = () => {
-    if(!optionValues.hot_iced){
+    if(!optionValues.hot_iced && product.title !== "Brewed Coffee" && product.title !== "Cappuccino" && product.title !== "Cold Press Coffee"){
       return alert("Please choose Hot or Iced")
     }
     if(!optionValues.size){
@@ -44,7 +54,22 @@ const CoffeeOptions = ({product}) => {
     if(product.title === "Latte" && !optionValues.milk){
       return alert("Please choose Milk Option")
     }
+    if(product.title === "Mocha" && !optionValues.milk){
+      return alert("Please choose Milk Option")
+    }
+    if(product.title === "Dirty Chai" && !optionValues.milk){
+      return alert("Please choose Milk Option")
+    }
+    if(product.title === "Caramel Macchiato" && !optionValues.milk){
+      return alert("Please choose Milk Option")
+    }
+    if(product.title === "Cappuccino" && !optionValues.milk){
+      return alert("Please choose Milk Option")
+    }
     if(product.title === "Americano" && !optionValues.cream){
+      return alert("Please choose Cream Option")
+    }
+    if(product.title === "Brewed Coffee" && !optionValues.cream){
       return alert("Please choose Cream Option")
     }
     if(optionValues.flavor){
@@ -90,12 +115,13 @@ const CoffeeOptions = ({product}) => {
   }
 
   const renderCreamOption = () => {
-    return (product.title === "Americano" || product.title === "Brewed Coffee") ? (
-      <select onChange={e => optionValues.cream = e.target.value} className="options form-select">
-        <option defaultValue>Cream Option</option>
-        <option value="">No Cream</option>
-        <option value="Cream">Cream</option>
-      </select>
+    return (product.title === "Americano" || product.title === "Brewed Coffee" || product.title === "Cold Press Coffee") ? (
+      <div className="form-check options">
+        <input onChange={() => setCream(!cream)} className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+        <label className="form-check-label" for="flexCheckDefault">
+          Add Cream
+        </label>
+      </div>
     ) : ""
   }
 
@@ -105,8 +131,19 @@ const CoffeeOptions = ({product}) => {
     }
   }
 
+  const renderWhip = () => {
+    return (product.title === "Mocha") ? (
+      <div className="form-check options">
+        <input onChange={() => setWhip(!whipped)} className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+        <label className="form-check-label" for="flexCheckDefault">
+          Add Whipped Cream
+        </label>
+      </div>
+    ) : ""
+  }
+  
   const renderMilkOption = () => {
-    return (product.title === "Latte") ? (
+    return (product.title === "Latte" || product.title === "Mocha" || product.title === "Cappuccino" || product.title === "Caramel Macchiato" || product.title === "Dirty Chai") ? (
       <select onChange={e => setMilk(e.target.value)} className="options form-select">
         <option defaultValue>Milk Options</option>
         <option value="Whole Milk">Whole Milk</option>
@@ -116,9 +153,102 @@ const CoffeeOptions = ({product}) => {
       </select>
     ) : ""
   }
+  const FlavorOption = () => {
+    return (product.title !== "Caramel Macchiato") ? (
+      <select onChange={e => {
+        setFlavor(e.target.value);
+      }} className="options form-select">
+        <option defaultValue>Flavor</option>
+        {renderFlavors()}
+      </select>
+    ) : ""
+  }
 
-  return (
-    <div>
+  if(product.title === "Dirty Chai"){
+    return (
+      <div>
+        <select onChange={e => {
+          setSize(e.target.value)
+        }} className="size options form-select">
+          <option defaultValue>Size</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+        <select onChange={e => {
+          setCoffeeTemp(e.target.value)
+        }} className="options form-select">
+          <option defaultValue>Hot or Iced</option>
+          <option value="Hot">Hot</option>
+          <option value="Iced">Iced</option>
+        </select>
+        <select onChange={e => setDirtyChai(e.target.value)} className="options form-select">
+          <option defaultValue>Choose Kind</option>
+          <option value="Spiced">Spiced Chai</option>
+          <option value="Vanilla">Vanilla Chai</option>
+          <option value="Raspberry">Raspberry Chai</option>
+          <option value="Pumpkin Spice">Pumpkin Spice Chai</option>
+        </select>
+        <select onChange={e => {
+          optionValues.extra_espresso = e.target.value;
+        }} className="options form-select">
+          <option defaultValue>{"Extra Espresso (If you want more than 1 shot)"}</option>
+          <option value="1 shot">{"1 Extra Shot"}</option>
+          <option value="2 shots">{"2 Extra Shots"}</option>
+          <option value="3 shots">{"3 Extra Shots"}</option>
+        </select>
+        {renderMilkOption()}
+        {FlavorOption()}
+        <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
+      </div>
+    )
+  }
+
+  if(product.title === "Brewed Coffee"){
+    return (
+      <div>
+        <select onChange={e => setRoast(e.target.value)} className="options form-select">
+          <option defaultValue>Choose Roast</option>
+          <option value="6 Lakes">6 Lakes - House Blend</option>
+          <option value="Flavor">Flavor of the Day</option>
+          <option value="Dark">Dark Roast</option>
+          <option value="Decaf">Decaf</option>
+        </select>
+        <select onChange={e => {
+          setSize(e.target.value)
+        }} className="size options form-select">
+          <option defaultValue>Size</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+        {renderCreamOption()}
+        {FlavorOption()}
+        <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
+      </div>
+    )
+  }
+
+  if(product.title === "Cold Press Coffee") {
+    return (
+      <div>
+        <select onChange={e => {
+          setSize(e.target.value)
+        }} className="size options form-select">
+          <option defaultValue>Size</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+        {renderCreamOption()}
+        {FlavorOption()}
+        <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
+      </div>
+    )
+  }
+
+  const renderHotorIced = () => {
+    return (product.title !== "Cappuccino" && product.title !== "Cold Press Coffee") ? (
       <select onChange={e => {
         setCoffeeTemp(e.target.value)
       }} className="options form-select">
@@ -126,6 +256,25 @@ const CoffeeOptions = ({product}) => {
         <option value="Hot">Hot</option>
         <option value="Iced">Iced</option>
       </select>
+    ) : ""
+  }
+
+  const renderCapp = () => {
+    return (product.title === "Cappuccino") ? (
+      <select onChange={e => {
+        setCapp(e.target.value)
+      }} className="options form-select">
+        <option defaultValue>Amount of Foam</option>
+        <option value="Wet">{`Wet (Less Foam)`}</option>
+        <option value="Dry">{`Dry (More Foam)`}</option>
+      </select>
+    ) : ""
+  }
+
+
+  return (
+    <div>
+      {renderHotorIced()}
       <select onChange={e => {
         setSize(e.target.value)
       }} className="size options form-select">
@@ -136,12 +285,8 @@ const CoffeeOptions = ({product}) => {
       </select>
       {renderCreamOption()}
       {renderMilkOption()}
-      <select onChange={e => {
-        optionValues.flavor = e.target.value;
-      }} className="options form-select">
-        <option defaultValue>Flavor</option>
-        {renderFlavors()}
-      </select>
+      {FlavorOption()}
+      {renderCapp()}
       <select onChange={e => {
         optionValues.extra_espresso = e.target.value;
       }} className="options form-select">
@@ -150,6 +295,7 @@ const CoffeeOptions = ({product}) => {
         <option value="2 shots">{"2 Extra Shots"}</option>
         <option value="3 shots">{"3 Extra Shots"}</option>
       </select>
+      {renderWhip()}
       <textarea onChange={e => optionValues.notes = e.target.value} className="options form-control" placeholder="Special options or notes" type="text-box" />
       <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
     </div>

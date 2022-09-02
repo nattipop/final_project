@@ -8,6 +8,7 @@ const BreakfastOptions = ({product}) => {
   const [secondMeat, setSecondMeat] = useState(undefined);
   const [cheese, setCheese] = useState(undefined);
   const [addVeggies, setAddVeggies] = useState(false)
+  const [creamCheese, setCreamCheese] = useState(undefined);
   const [addPB, setAddPB] = useState(false);
   const [breadOption, setBreadOption] = useState(undefined);
   const user = useSelector(state => state.user.user);
@@ -31,21 +32,28 @@ const BreakfastOptions = ({product}) => {
     addVeggies: addVeggies ? "Add Veggies" : undefined,
     addPB: addPB ? "Add Peanut Butter" : undefined,
     notes: undefined,
-    price: undefined
+    price: undefined,
+    cream_cheese: creamCheese
   }
 
   const handleAddToCart = () => {
-    if(!optionValues.meat && product.title !== "Anchors Away Oatmeal"){
+    if(!optionValues.meat && product.title !== "Anchors Away Oatmeal" && product.title !== "Yogurt Parfait" && product.title !== "Chain of Lakes Bagel"){
       return alert("Please choose a Meat Option")
     }
     if(!optionValues.second_meat && product.title === "Big Boys Sandwich"){
       return alert("Please choose a Second Meat Option")
     }
-    if(!optionValues.cheese && product.title !== "Anchors Away Oatmeal"){
+    if(!optionValues.cheese && product.title !== "Anchors Away Oatmeal" && product.title !== "Yogurt Parfait" && product.title !== "Chain of Lakes Bagel"){
       return alert("Please choose a Cheese Option")
     }
-    if(!optionValues.bread && product.title !== "Anchors Away Oatmeal"){
+    if(!optionValues.bread && product.title === "Chain of Lakes Bagel"){
+      return alert("Please choose a Bagel")
+    }
+    if(!optionValues.bread && product.title !== "Anchors Away Oatmeal" && product.title !== "Yogurt Parfait"){
       return alert("Please choose a Bread Option")
+    }
+    if(!optionValues.cream_cheese && product.title === "Chain of Lakes Bagel"){
+      return alert("Please choose cream cheese option")
     }
 
     if(optionValues.addVeggies === "Add Veggies"){
@@ -82,6 +90,37 @@ const BreakfastOptions = ({product}) => {
     ) : ""
   }
 
+  if(product.title === "Yogurt Parfait") {
+    return (
+      <div>
+        <textarea className="options form-control" placeholder="Special options or notes" type="text-box" />
+        <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
+      </div>
+    )
+  };
+
+  if(product.title === "Chain of Lakes Bagel") {
+    return (
+      <div>
+        <select onChange={(e) => setBreadOption(e.target.value)} className="options form-select">
+          <option defaultValue>Choose Kind</option>
+          <option value="Plain">Plain Bagel</option>
+          <option value="Asiago Bagel">Asiago Bagel</option>
+          <option value="Cheddar Herb Bagel">Cheddar Herb Bagel</option>
+          <option value="Apple Cinnamon Bagel">Apple Cinnamon Bagel</option>
+        </select>
+        <select onChange={(e) => setCreamCheese(e.target.value)} className="options form-select">
+          <option defaultValue>Cream Cheese</option>
+          <option value="Regular">Regular Cream Cheese</option>
+          <option value="Bacon Olive">Bacon Olive Cream Cheese</option>
+          <option value="Apple Cinnamon">Apple Cinnamon Cream Cheese</option>
+        </select>
+        <textarea className="options form-control" placeholder="Special options or notes" type="text-box" />
+        <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
+    </div>
+    )
+  }
+
   return (product.title === "Anchors Away Oatmeal") ? (
     <div>
       <div className="form-check options">
@@ -91,7 +130,7 @@ const BreakfastOptions = ({product}) => {
         </label>
       </div>
       <textarea className="options form-control" placeholder="Special options or notes" type="text-box" />
-      <div className="add-to-cart">Add to Cart</div>
+      <div onClick={handleAddToCart} className="add-to-cart">Add to Cart</div>
     </div>
   ) : (
     <div>

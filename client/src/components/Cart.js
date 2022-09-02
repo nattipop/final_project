@@ -42,6 +42,7 @@ const Cart = ({trigger, toggleTrigger}) => {
   const withTax = price + tax;
   const totalPrice = withTax.toFixed(2);
   
+  console.log(filteredCart)
 
   const renderCartItems = () => {
     return filteredCart[0] ? filteredCart.map((item, i) => {
@@ -64,6 +65,9 @@ const Cart = ({trigger, toggleTrigger}) => {
           <p onClick={handleItemRemove} title="remove from cart" className="x-item">x</p>
           <h3 style={{"marginBottom": "0px", "marginTop": "10px"}}>{item.title}</h3>
           {renderItem("size")}
+          {renderItem("tea_kind")}
+          {renderItem("roast")}
+          {renderItem("capp")}
           {renderItem("bread")}
           {renderItem("meat")}
           {renderItem("second_meat")}
@@ -77,6 +81,8 @@ const Cart = ({trigger, toggleTrigger}) => {
           {renderItem("addVeggies")}
           {renderItem("addPB")}
           {renderItem("extra_espresso")}
+          {renderItem("cream_cheese")}
+          {renderItem("whip")}
           {renderItem("notes")}
           <p className="item-option">${item.price}</p>
         </div>
