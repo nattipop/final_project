@@ -195,7 +195,7 @@ const Menu = () => {
     )
   }
 
-  const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyCyuOwgjQWC6n0LUik7iiTVjzMQPTin5Rc&q=" + restaurant.title : ""
+  const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyBhffW2K0hmR5dOA5Jg4UsW_a9YY_1AhyI&q=" + restaurant.title : ""
   
   return (user) ? (
     <div>
@@ -205,14 +205,17 @@ const Menu = () => {
       <div className="signout" onClick={() => {
         navigate("signout")
         setSignout(true)
-      }}></div>
+      }}>Signout</div>
       <div className="createorder" onClick={() => {
         navigate("/set-time")
         setCreate(true)
-      }}></div>
+      }}>Create<br/>Order</div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 id="restaurant-title">{restaurant.title}</h1>
-        <h3 className="restaurant-phone">Phone: {restaurant.phone}</h3>
+        <h3 className="restaurant-phone">Hours:</h3>
+        <p className="restaurant-phone">Monday - Friday:  7am - 3pm</p>
+        <p className="restaurant-phone">Saturday:  8am - 3pm</p>
+        <h3 className="restaurant-phone" style={{"paddingBottom": "20px"}}>Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
           <iframe
@@ -236,11 +239,14 @@ const Menu = () => {
     </div>
   ) : (
     <div>
-      <div className="signup" onClick={() => navigate("/account/signup")}></div>
-      <div className="signin" onClick={() => navigate("/account/signin")}></div>
+      <div className="signup" onClick={() => navigate("/account/signup")}>Signup</div>
+      <div className="signin" onClick={() => navigate("/account/signin")}>Signin</div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 id="restaurant-title">{restaurant.title}</h1>
-        <h3 className="restaurant-phone">Phone: {restaurant.phone}</h3>
+        <h3 className="restaurant-phone">Hours:</h3>
+        <p className="restaurant-phone">Monday - Friday:  7am - 3pm</p>
+        <p className="restaurant-phone">Saturday:  8am - 3pm</p>
+        <h3 className="restaurant-phone" style={{"paddingBottom": "20px"}}>Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
           <iframe

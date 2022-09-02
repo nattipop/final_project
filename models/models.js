@@ -12,7 +12,8 @@ const MenuItem = new Schema({
     start: String,
     end: String
   },
-  prep_time: Number
+  prep_time: Number,
+  price_id: String
 });
 
 const UserSchema = new Schema({

@@ -32,7 +32,8 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "serve": "^14.0.1",
-    "square": "^21.1.0"
+    "square": "^21.1.0",
+    "stripe": "^10.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

@@ -7,6 +7,7 @@ const passport = require("passport");
 require('../services/passport')
 const keys = require("../config/keys")
 const crypto = require("crypto");
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
@@ -18,6 +19,25 @@ function tokenForUser(user) {
     iat: Math.round(Date.now() / 1000),
     exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
+
+router.post('/create-checkout-session', async (req, res) => {
+  const { price } = req.body.price;
+
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+        price: price,
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  });
+
+  res.redirect(303, session.url);
+});
 
 router.put("/images/:userId", (req, res) => {
   const { userId } = req.params;
@@ -228,27 +248,32 @@ router.get("/items/product/:productId", (req, res) => {
   })
 });
 
-router.post("/products", requireAuth, (req, res) => {
+router.post("/products", async (req, res) => {
   if(req.body.title){
     if(req.body.description){
       if(req.body.category){
+        const item = await stripe.products.create({name: req.body.title})
+        const price = await stripe.prices.create({
+          product: item.id,
+          unit_amount: 2000,
+          currency: 'usd',
+        });
         const product = new MenuItem({
           title: req.body.title,
           description: req.body.description,
           picture: req.body.picture,
-          price: req.body.price.toFixed(2),
+          price: {
+            Small: req.body.price.small,
+            Medium: req.body.price.medium,
+            Large: req.body.price.large
+          },
           category: req.body.category,
           availability: {
-            mon_fri: {
-              start: req.body.mon_fri_start,
-              end: req.body.mon_fri_end
-            },
-            sat: {
-              start: req.body.sat_start,
-              end: req.body.sat_end
-            }
+            start: req.body.start,
+            end: req.body.end
           },
-          prep_time: req.body.prep_time
+          prep_time: req.body.prep_time,
+          price_id: price.id
         });
         product.save();
         res.status(200).send("added product")
