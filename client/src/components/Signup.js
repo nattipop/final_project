@@ -39,26 +39,32 @@ const Signup = () => {
       <Form>
         <div className="container signup-container">
           <div>
+            <label className="signup-label">Email</label>
             <Field className="form-control form-item" name="email" type="text" placeholder="Email" />
             <ErrorMessage className="error-message" name="email" component="div" />
           </div>
           <div>
+            <label className="signup-label">Password:</label>
             <Field className="form-control form-item" name="password" type="password" placeholder="Password" />
             <ErrorMessage className="error-message" name="password" component="div" />
           </div>
           <div>
+            <label className="signup-label">Confirm Password:</label>
             <Field className="form-control form-item" name="confirmPassword" type="password" placeholder="Confirm Password" />
             <ErrorMessage className="error-message" name="confirmPassword" component="div" />
           </div>
           <div>
+            <label className="signup-label">First Name:</label>
             <Field className="form-control form-item" name="first" type="text" placeholder="First Name" />
             <ErrorMessage className="error-message" name="first" component="div" />
           </div>
           <div>
+            <label className="signup-label">Last Name:</label>
             <Field className="form-control form-item" name="last" type="text" placeholder="Last Name" />
             <ErrorMessage className="error-message" name="last" component="div" />
           </div>
           <div>
+            <label className="signup-label">Birthday:</label>
             <Field className="form-control form-item" name="birthdate" type="date" placeholder="Birthday" />
             <ErrorMessage className="error-message" name="birthdate" component="div" />
           </div>

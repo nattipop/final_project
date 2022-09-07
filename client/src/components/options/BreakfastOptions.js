@@ -33,7 +33,8 @@ const BreakfastOptions = ({product}) => {
     addPB: addPB ? "Add Peanut Butter" : undefined,
     notes: undefined,
     price: undefined,
-    cream_cheese: creamCheese
+    cream_cheese: creamCheese,
+    picture: product.picture
   }
 
   const handleAddToCart = () => {

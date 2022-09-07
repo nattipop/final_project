@@ -11,6 +11,7 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
+const { upload, uploadImage } = require("../services/multer");
 
 // faker.locale = "en_US";
 
@@ -247,6 +248,8 @@ router.get("/items/product/:productId", (req, res) => {
     }
   })
 });
+
+router.post("/image/upload", uploadImage, upload)
 
 router.post("/products", async (req, res) => {
   if(req.body.title){

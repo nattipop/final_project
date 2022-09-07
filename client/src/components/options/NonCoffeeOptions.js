@@ -41,6 +41,7 @@ const NonCoffeeOptions = ({product}) => {
     kid_temp: kidTemp ? "Kids Temperature" : undefined,
     whip: whipCream ? "Whipped Cream" : undefined,
     tea_kind: tea,
+    picture: product.picture
   }
 
   const renderTempOps = () => {

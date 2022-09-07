@@ -13,4 +13,4 @@ export const EDIT_CART = "edit_cart";
 export const SET_USER = "set_user";
 export const EDIT_USER = "edit_user";
 export const REMOVE_USER = "remove_user";
-export const EDIT_IMAGE = "edit_image";
+export const UPLOAD_IMG = "upload_img";

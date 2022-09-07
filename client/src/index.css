@@ -319,6 +319,11 @@ input.profile-details {
   color: rgba(30, 25, 19, 0.7);
 }
 
+.signup-label {
+  padding: 10px;
+  color: white;
+}
+
 .cartimage {
   position: fixed;
   margin: 10px;
@@ -501,8 +506,12 @@ input.profile-details {
   background-color: rgba(66, 41, 28, 0.5);
   border-radius: 5px;
   max-width: 700px;
-  height: 700px;
+  height: auto;
   padding: 30px;
+}
+
+.image-prod {
+  max-width: 100px;
 }
 
 .signup-container div {
@@ -652,4 +661,13 @@ p.restaurant-phone {
 
 #file-input:hover {
   cursor: pointer;
+}
+
+.product {
+  width: 700px;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin: auto;
+  align-items: center;
 }

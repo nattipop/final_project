@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { ADD_TO_CART, EDIT_CART, EDIT_IMAGE, EDIT_USER, FETCH_BY_EMAIL, FETCH_USER, REMOVE_USER } from "../actions/types";
+import { ADD_TO_CART, EDIT_CART, EDIT_USER, FETCH_BY_EMAIL, FETCH_USER, REMOVE_USER, UPLOAD_IMG } from "../actions/types";
 
 const initialState = {}
 
@@ -34,8 +34,8 @@ export default function(state = initialState, action) {
         ...state,
         user: action.payload
       }
-    case EDIT_IMAGE:
-      console.log(action.payload)
+    case UPLOAD_IMG:
+      debugger;
       return {
         ...state,
         user: {

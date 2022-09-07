@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setImage } from "../actions";
+import { uploadImage } from "../actions";
 import exit from "../images/exit.png"
 
 const UploadPic = ({trigger, toggleTrigger}) => {
@@ -23,9 +23,7 @@ const UploadPic = ({trigger, toggleTrigger}) => {
     if(selectedFile.type !== "image/jpeg" && selectedFile.type !== "image/heic"){
       return isImage(false)
     };
-
-    const blob = URL.createObjectURL(selectedFile)
-    dispatch(setImage(blob));
+    dispatch(uploadImage(selectedFile))
     toggleTrigger(false)
   }; 
 

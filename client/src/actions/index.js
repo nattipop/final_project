@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER, EDIT_CART, EDIT_USER, REMOVE_USER, EDIT_IMAGE } from "./types";
+import { AUTH_ERROR, AUTH_USER, FETCH_PRODUCTS, FETCH_AVAILABLE, FETCH_USER, FETCH_BY_EMAIL, CREATE_USER, FETCH_PRODUCT, FETCH_RESTAURANT, ADD_TO_CART, CLEAR_USER, EDIT_CART, EDIT_USER, REMOVE_USER, UPLOAD_IMG } from "./types";
 
 import { url } from "../config/keys"
 
@@ -111,6 +111,10 @@ export const editUser = (id, path, value) => dispatch => {
   })
 }
 
-export const setImage = (blob) => dispatch => {
-  dispatch({ type: EDIT_IMAGE, payload: blob });
-};
+export const uploadImage = (file) => dispatch => {
+  axios.post(`${url}/image/upload`, file).then(response => {
+    dispatch({ type: UPLOAD_IMG, payload: response.data })
+  }).catch(err => {
+    console.log(err)
+  })
+}
