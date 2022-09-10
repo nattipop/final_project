@@ -37,14 +37,6 @@ const Menu = () => {
       dispatch(fetchUser(token))
     }
   }, [token])
-  
-  const title = document.getElementById("restaurant-title");
-  useEffect(() => {
-    if(title){
-      const list = title.classList
-      list.add("load")
-    }
-  }, [title])
 
   const getProducts = () => {
     dispatch(fetchProducts())
@@ -171,23 +163,10 @@ const Menu = () => {
   }
 
   const handlePfpClick = () => {
-    navigate(`/profile/${user.name.first}`, { state: user })
+    navigate(`/profile`, { state: user })
   }
 
-  const renderPfp = () => {
-    const pfp = user ? user.picture?.profile : null;
-    const initial = user ? user.name.first[0] : null;
-
-    return pfp ? (
-      <div className="pfp" style={{ "marginTop": "-40px"}}>
-        <img onClick={handlePfpClick} src={pfp} alt={initial} />
-      </div>
-    ) : (
-      <div className="pfp" style={{ "marginTop": "-40px"}}>
-        <div onClick={handlePfpClick}>{initial}</div>
-      </div>
-    )
-  }
+  const initial = user?.name ? user.name.first[0] : undefined;
 
   if(isLoading){
     return (
@@ -197,19 +176,25 @@ const Menu = () => {
 
   const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyBhffW2K0hmR5dOA5Jg4UsW_a9YY_1AhyI&q=" + restaurant.title : ""
   
-  return (user) ? (
+  return (user?.name) ? (
     <div>
-      <div title="Your Profile" style={{ "width": "70px", "float": "right", "height": "70px" }}>
-        {renderPfp()}
+      <div title="Your Profile" style={{ "width": "10%", "float": "left", "margin": "auto"}}>
+        <div className="pfp">
+          <div onClick={handlePfpClick}>{initial}</div>
+        </div>
       </div>
-      <div className="signout" onClick={() => {
-        navigate("signout")
-        setSignout(true)
-      }}>Signout</div>
-      <div className="createorder" onClick={() => {
-        navigate("/set-time")
-        setCreate(true)
-      }}>Create<br/>Order</div>
+      <div style={{ "width": "8%", "float": "right"}}>
+        <div className="nav-item" onClick={() => {
+          navigate("signout")
+          setSignout(true)
+        }}>Signout</div>
+      </div>
+      <div style={{ "width": "13%", "float": "right"}}>
+        <div className="nav-item" onClick={() => {
+          navigate("/set-time")
+          setCreate(true)
+        }}>Create Order</div>
+      </div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 id="restaurant-title">{restaurant.title}</h1>
         <h3 className="restaurant-phone">Hours:</h3>
@@ -239,8 +224,12 @@ const Menu = () => {
     </div>
   ) : (
     <div>
-      <div className="signup" onClick={() => navigate("/account/signup")}>Signup</div>
-      <div className="signin" onClick={() => navigate("/account/signin")}>Signin</div>
+      <div style={{ "width": "8%", "float": "right"}}>
+        <div className="nav-item" onClick={() => navigate("/account/signup")}>Signup</div>
+      </div>
+      <div style={{ "width": "8%", "float": "right"}}>
+        <div className="nav-item" onClick={() => navigate("/account/signin")}>Signin</div>
+      </div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 id="restaurant-title">{restaurant.title}</h1>
         <h3 className="restaurant-phone">Hours:</h3>

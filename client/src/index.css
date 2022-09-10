@@ -102,21 +102,14 @@ code {
   position: fixed;
   text-align: right;
   width: 70px;
-}
-
-.pfp img {
-  float: right;
-  margin-right: 20px;
-  margin-top: 50px;
-  position: relative;
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 50%;
+  -webkit-transition: margin-left ease-in 0.2s;
+  -moz-transition: margin-left ease-in 0.2s;
+  -ms-transition: margin-left ease-in 0.2s;
+  -o-transition: margin-left ease-in 0.2s;
+  transition: margin-left ease-in 0.2s;
 }
 
 .pfp div {
-  margin-right: 20px;
   float: right;
   background-color: rgb(44, 38, 30);
   color: white;
@@ -126,37 +119,18 @@ code {
   border-radius: 50%;
   text-align: center;
   font-size: 30px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .pfp:hover {
   cursor: pointer;
+  margin-left: 6px;
 }
 
 .cover-photo {
   width: 100%;
   height: 100px;
   object-fit: cover;
-}
-
-.profile-pic {
-  max-width: 124px;
-  max-height: 100px;
-  border-radius: 50%;
-  margin-top: -50px;
-  margin-left: 5vw;
-  object-fit: cover;
-}
-
-.profile-pic:hover {
-  cursor: pointer;
-  background-image: url("./images/edit.png");
-}
-
-.profile-initial:hover {
-  cursor: pointer;
-  background-color: rgb(30, 25, 19);
-  background-image: url("./images/edit.png");
 }
 
 .profile-name {
@@ -300,38 +274,16 @@ input.profile-details {
   background-color: rgba(7, 45, 25, 0.4);
 }
 
-.signout {
-  position: fixed;
-  margin: 10px;
-  margin-top: 90px;
-  border-radius: 3px;
-  font-size: 25px;
-  -webkit-transition: margin-left ease-in 0.2s;
-  -moz-transition: margin-left ease-in 0.2s;
-  -ms-transition: margin-left ease-in 0.2s;
-  -o-transition: margin-left ease-in 0.2s;
-  transition: margin-left ease-in 0.2s;
-}
-
-.signout:hover {
-  cursor: pointer;
-  margin-left: 14px;
-  color: rgba(30, 25, 19, 0.7);
-}
-
 .signup-label {
   padding: 10px;
   color: white;
 }
 
 .cartimage {
-  position: fixed;
-  margin: 10px;
   background: url("./images/cart.png") no-repeat;
   background-size: 40px;
   width: 40px;
   height: 35px;
-  margin-left: 30px;
 }
 
 .cartimage:hover {
@@ -361,56 +313,18 @@ input.profile-details {
   height: 30px;
 }
 
-.signin {
-  position: fixed;
-  margin: 10px;
-  border-radius: 3px;
+.nav-item {
   font-size: 25px;
-  -webkit-transition: margin-left ease-in 0.2s;
-  -moz-transition: margin-left ease-in 0.2s;
-  -ms-transition: margin-left ease-in 0.2s;
-  -o-transition: margin-left ease-in 0.2s;
-  transition: margin-left ease-in 0.2s;
+  -webkit-transition: margin-top ease-in 0.2s;
+  -moz-transition: margin-top ease-in 0.2s;
+  -ms-transition: margin-top ease-in 0.2s;
+  -o-transition: margin-top ease-in 0.2s;
+  transition: margin-top ease-in 0.2s;
 }
 
-.signin:hover {
+.nav-item:hover {
   cursor: pointer;
-  margin-left: 15px;
-  color: rgba(30, 25, 19, 0.7);
-}
-
-.signup {
-  position: fixed;
-  margin: 10px;
-  margin-top: 50px;
-  font-size: 25px;
-  -webkit-transition: margin-left ease-in 0.2s;
-  -moz-transition: margin-left ease-in 0.2s;
-  -ms-transition: margin-left ease-in 0.2s;
-  -o-transition: margin-left ease-in 0.2s;
-  transition: margin-left ease-in 0.2s;
-}
-
-.signup:hover {
-  cursor: pointer;
-  margin-left: 15px;
-  color: rgba(30, 25, 19, 0.7);
-}
-
-.createorder {
-  position: fixed;
-  margin: 10px;
-  font-size: 25px;
-  -webkit-transition: margin-left ease-in 0.2s;
-  -moz-transition: margin-left ease-in 0.2s;
-  -ms-transition: margin-left ease-in 0.2s;
-  -o-transition: margin-left ease-in 0.2s;
-  transition: margin-left ease-in 0.2s;
-}
-
-.createorder:hover {
-  cursor: pointer;
-  margin-left: 15px;
+  margin-top: 5px;
   color: rgba(30, 25, 19, 0.7);
 }
 
@@ -563,15 +477,8 @@ input.profile-details {
 }
 
 #restaurant-title {
-  opacity: 0;
   text-align: center;
   margin-bottom: 30px;
-
-  -webkit-transition: opacity 2s ease-in;
-  -moz-transition: opacity 2s ease-in;
-  -ms-transition: opacity 2s ease-in;
-  -o-transition: opacity 2s ease-in;
-  transition: opacity 2s ease-in;
 }
 
 .coffee-drinks {
@@ -596,10 +503,6 @@ input.profile-details {
 
 p.restaurant-phone {
   margin: 0px;
-}
-
-#restaurant-title.load {
-  opacity: 1;
 }
 
 .x-item {

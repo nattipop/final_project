@@ -42,7 +42,8 @@ const CoffeeOptions = ({product}) => {
     roast: coffeeRoast,
     capp: cappuccino,
     chai_option: dirtyChai,
-    picture: product.picture
+    picture: product.picture,
+    product_id: product.product_id
   }
 
   const handleAddToCart = () => {

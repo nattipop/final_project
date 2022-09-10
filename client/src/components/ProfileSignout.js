@@ -10,13 +10,10 @@ const ProfileSignout = ({trigger, toggleTrigger}) => {
     toggleTrigger(false)
     dispatch(signout(() => navigate("/")));
   }
-
-  console.log(trigger)
   
   return (trigger) ? (
     <div className="popup-outer">
       <div className="popup-inner">
-      <div className="exit" onClick={() => toggleTrigger(false)} alt="close" style={{"marginTop": "-10px"}} width="20px">x</div>
         <h2>Are you sure you want to signout?</h2>
         <div className="row">
           <p className="col signout-yes" onClick={handleYesClick}>Yes</p>

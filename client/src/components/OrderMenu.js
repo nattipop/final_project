@@ -147,22 +147,7 @@ const OrderMenu = () => {
   }
 
   const handlePfpClick = () => {
-    navigate(`/profile/${user.name.first}`, { state: user })
-  }
-
-  const renderPfp = () => {
-    const pfp = user.picture?.profile || null;
-    const initial = user.name.first[0];
-
-    return pfp ? (
-      <div className="pfp">
-        <img onClick={handlePfpClick} src={pfp} alt={initial} />
-      </div>
-    ) : (
-      <div className="pfp">
-        <div onClick={handlePfpClick}>{initial}</div>
-      </div>
-    )
+    navigate(`/profile`, { state: user })
   }
   
   const handleCartClick = () => {
@@ -170,14 +155,22 @@ const OrderMenu = () => {
     navigate("/order-menu/cart", {state: date});
   }
 
+  const initial = user.name.first[0];
+
   return (date && user)? (
     <div>
-      <div style={{ "width": "70px", "float": "right", "height": "70px", "marginTop": "-35px" }}>
-        {renderPfp()}
+      <div title="Your Profile" style={{ "width": "10%", "float": "left", "margin": "auto"}}>
+        <div className="pfp">
+          <div onClick={handlePfpClick}>{initial}</div>
+        </div>
       </div>
-      <div className="cartimage" onClick={handleCartClick}></div>
+      <div style={{ "width": "5%", "float": "right"}}>
+        <div className="cartimage" onClick={handleCartClick}></div>
+      </div>
       <div className="signout" onClick={handleSignout} ></div>
-      <div className="signup" onClick={() => navigate("/")}>Go Back</div>
+      <div style={{ "width": "9%", "float": "right"}}>
+        <div className="nav-item" onClick={() => navigate("/")}>Go Back</div>
+      </div>
       <h3 className="pickup-time">{`Your scheduled pickup time: ${date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit'})}`}</h3>
       <h2 className="available-items">Available Items:</h2>
       <div className="d-flex justify-content-center all-products">

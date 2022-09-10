@@ -4,19 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { editUser, fetchUser, fetchUserByEmail } from "../actions";
 import Signout from "./Signout";
-import UploadPic from "./UploadPic";
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const userEmail = location.state.login.email;
+  const userEmail = location.state.login?.email;
   const user = useSelector(state => state.user.user);
   const birthday = user ? new Date(user.birthday) : undefined;
   const [clickTrigger, setClick] = useState(false)
   const [invalidDate, setInvalidDate] = useState(false)
-  const [fileTrigger, setFileTrigger] = useState(false);
   
   useEffect(() => {
     if(!user){
@@ -44,40 +42,10 @@ const Profile = () => {
     }
   };
 
-  const renderEditPfp = (e) => {
-    const edit = e.target.parentElement.childNodes[1]
-    edit.style.display = "block";
-  }
-
-  const removeEdit = (e) => {
-    const edit = e.target;
-    edit.style.display = "none";
-  }
-
   const renderProfile = () => {
-    if(user.picture?.profile){
-      return (
-        <div className="row">
-          <img onMouseOver={renderEditPfp} className="profile-pic col" src={user.picture.profile} alt="profile" />
-          <div onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit}style={{"display": "none"}} className="editing"></div>
-          <div className="col profile-name row">
-            <div className="col">
-              <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
-              <input onBlur={handleFirstBlur} onKeyUp={handleFirstKey} onKeyPress={handleFirstKey} className="profile-first col-1 name-input" style={{"display": "none"}} />
-            </div>
-            <div className="col">
-              <p className="profile-last" onClick={handleNameClick}>{user.name.last}</p>
-              <input onBlur={handleLastBlur} onKeyUp={handleLastKey} className="col-1 name-input profile-last" style={{"display": "none"}} />
-            </div>
-          </div>
-        </div>
-      )
-    }
-    
     return (
       <div className="row">
-        <div onMouseOver={renderEditPfp} className="col profile-initial">{user.name.first[0]}</div>
-        <div onClick={() => setFileTrigger(true)} onMouseLeave={removeEdit}style={{"display": "none"}} className="editing"></div>
+        <div className="col profile-initial">{user.name.first[0]}</div>
         <p className="col profile-name row">
           <div className="col">
             <p className="profile-first" onClick={handleNameClick}>{user.name.first}</p>
@@ -227,7 +195,6 @@ const Profile = () => {
         <p className="profile-details">Role: {user.status}</p>
       </div>
       <button style={{"marginLeft": "20vw"}} className="continue-menu" onClick={handleSignout}>Signout</button>
-      <UploadPic trigger={fileTrigger} toggleTrigger={setFileTrigger} />
       <Signout trigger={clickTrigger} toggleTrigger={setClick} />
     </div>
   ) : ""

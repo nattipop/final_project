@@ -26,7 +26,8 @@ const LunchOptions = ({product}) => {
     bread: bread,
     notes: undefined,
     price: undefined,
-    picture: product.picture
+    picture: product.picture,
+    product_id: product.product_id
   }
 
   const handleAddToCart = () => {

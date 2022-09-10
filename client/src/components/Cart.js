@@ -41,8 +41,6 @@ const Cart = ({trigger, toggleTrigger}) => {
   const tax = (price * 0.05);
   const withTax = price + tax;
   const totalPrice = withTax.toFixed(2);
-  
-  console.log(filteredCart)
 
   const renderCartItems = () => {
     return filteredCart[0] ? filteredCart.map((item, i) => {

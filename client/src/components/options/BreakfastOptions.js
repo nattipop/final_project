@@ -11,6 +11,7 @@ const BreakfastOptions = ({product}) => {
   const [creamCheese, setCreamCheese] = useState(undefined);
   const [addPB, setAddPB] = useState(false);
   const [breadOption, setBreadOption] = useState(undefined);
+  const [priceId, setPriceId] = useState(undefined);
   const user = useSelector(state => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,9 +35,12 @@ const BreakfastOptions = ({product}) => {
     notes: undefined,
     price: undefined,
     cream_cheese: creamCheese,
-    picture: product.picture
+    picture: product.picture,
+    product_id: product.product_id,
+    price_id: priceId
   }
 
+  console.log(priceId)
   const handleAddToCart = () => {
     if(!optionValues.meat && product.title !== "Anchors Away Oatmeal" && product.title !== "Yogurt Parfait" && product.title !== "Chain of Lakes Bagel"){
       return alert("Please choose a Meat Option")
@@ -62,6 +66,35 @@ const BreakfastOptions = ({product}) => {
     }
     if(optionValues.addPB === "Add Peanut Butter"){
       decimal += 0.25
+    }
+
+    switch(product.title) {
+      case "Yogurt Parfait":
+        console.log("HI")
+        setPriceId("price_1LfW2PBGLP1BV30TX5cOoYGj")
+        break;
+      case "Anchors Away Oatmeal":
+        setPriceId("price_1LfVaTBGLP1BV30T4BInJWj9")
+        break;
+      case "Chain of Lakes Bagel":
+        setPriceId("price_1LfVXPBGLP1BV30TXHk5nzVh")
+        break;
+      case "Big Boys Sandwich":
+        if(addVeggies){
+          setPriceId("price_1LfmmbBGLP1BV30TmAfuhEig")
+          break;
+        }
+        setPriceId("price_1LfVTlBGLP1BV30ThJ7yDTJu");
+        break;
+      case "Sunrise Sandwich":
+        if(addVeggies){
+          setPriceId("price_1LfmphBGLP1BV30TZdag2bbb");
+          break;
+        }
+        setPriceId("price_1LfVwkBGLP1BV30TPsuFQgS9");
+        break;
+      default:
+        break;
     }
 
     optionValues.price = decimal.toFixed(2);

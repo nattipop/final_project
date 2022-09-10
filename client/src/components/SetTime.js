@@ -7,13 +7,14 @@ import exitimage from "../images/exit.png"
 
 const SetTime = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
-  const oldDate = new Date("Sun Aug 27 2022 08:00:00");
-  const newDate = new Date();
-  newDate.setHours(oldDate.getHours());
-  newDate.setMinutes(oldDate.getMinutes());
-  newDate.setSeconds(oldDate.getSeconds());
-  const [selectedDate, setDate] = useState(newDate);
-  const hours = useSelector(state => state.restaurant.hours)
+  const [selectedDate, setDate] = useState("");
+  const hours = useSelector(state => state.restaurant.hours);
+  const timeDate = new Date();
+  const maxTimeDate = new Date();
+  timeDate.setHours(8);
+  maxTimeDate.setHours(14);
+  timeDate.setMinutes(0);
+  maxTimeDate.setMinutes(50);
 
   const handleContinue = () => navigate("/order-menu", { state: selectedDate })
 
@@ -56,12 +57,15 @@ const SetTime = ({trigger, toggleTrigger}) => {
         <h3>When will you pick up your order?</h3>
       
         <DatePicker
+          autoFocus
           className="datepicker form-control"
           selected={selectedDate}
           onChange={(date) => setDate(date)}
           showTimeSelect
           filterDate={isOpen}
           filterTime={filterHours}
+          minTime={timeDate}
+          maxTime={maxTimeDate}
           dateFormat="MMMM d, yyyy h:mm aa"
           timeIntervals={15}
           timeCaption="time"

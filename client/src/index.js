@@ -31,8 +31,8 @@ root.render(
             <Route path="/set-time" element={<SetTime />} />
           </Route>
           
-          <Route exact path="/profile/:userName" element={<Profile />} >
-            <Route path="/profile/:userName/signout" element={<ProfileSignout />} />
+          <Route exact path="/profile" element={<Profile />} >
+            <Route path="/profile/signout" element={<ProfileSignout />} />
           </Route>
           <Route exact path="/order-menu" element={<OrderMenu />}>
             <Route path="/order-menu/signout" element={<OrderSignout />} />
