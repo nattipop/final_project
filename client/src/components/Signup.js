@@ -37,6 +37,9 @@ const Signup = () => {
       onSubmit={handleSignup}
     >
       <Form>
+        <div style={{ "width": "8%", "float": "right", "marginTop": "-90px"}}>
+          <div className="nav-item" onClick={() => navigate("/")}>Home</div>
+        </div>
         <div className="container signup-container">
           <div>
             <label className="signup-label">Email</label>
@@ -79,6 +82,9 @@ const Signup = () => {
             </button>
           </div>
         </div>
+        <p className="text-center sign-up-in">
+          Already a member? <a href="/account/signup">signin</a>
+        </p>
       </Form>
     </Formik>
   )

@@ -8,6 +8,7 @@ import exitimage from "../images/exit.png"
 const SetTime = ({trigger, toggleTrigger}) => {
   const navigate = useNavigate();
   const [selectedDate, setDate] = useState("");
+  const [timeError, setTimeError] = useState(undefined);
   const hours = useSelector(state => state.restaurant.hours);
   const timeDate = new Date();
   const maxTimeDate = new Date();
@@ -16,7 +17,14 @@ const SetTime = ({trigger, toggleTrigger}) => {
   timeDate.setMinutes(0);
   maxTimeDate.setMinutes(50);
 
-  const handleContinue = () => navigate("/order-menu", { state: selectedDate })
+  const handleContinue = () => {
+    const hour = selectedDate.getHours();
+    if(hour > 7 && hour < 15){
+      navigate("/order-menu", { state: selectedDate })
+    } else {
+      setTimeError("Please select valid time")
+    }
+  }
 
   const isOpen = (date) => {
     const now = new Date();
@@ -47,6 +55,16 @@ const SetTime = ({trigger, toggleTrigger}) => {
     }
   };
 
+  const renderError = () => {
+    return timeError ? (
+      <div>
+        <p className="text-center">{timeError}</p>
+        <p className="text-center">Monday - Friday: 7am-3pm</p>
+        <p className="text-center">Saturday: 8am-3pm</p>
+      </div>
+    ) : ""
+  }
+
   return trigger ? (
     <div className="popup-outer">
       <div className="popup-inner">
@@ -70,6 +88,7 @@ const SetTime = ({trigger, toggleTrigger}) => {
           timeIntervals={15}
           timeCaption="time"
         />
+        {renderError()}
         <button className="continue-menu" onClick={handleContinue} disabled={!selectedDate}>Continue To Menu</button>
       </div>
     </div>

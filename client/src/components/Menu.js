@@ -33,7 +33,7 @@ const Menu = () => {
   }, [products.length]);
   
   useEffect(() => {
-    if(token && !user){
+    if(token){
       dispatch(fetchUser(token))
     }
   }, [token])
@@ -215,6 +215,9 @@ const Menu = () => {
           </iframe>
         </div>
       </div>
+      <p className="text-center" style={{"fontSize": "23px"}}>
+        Welcome {user.name.first}! Click <a style={{"color": "white"}} onClick={() => setCreate(true)} href="/set-time">here</a> to create a new order.
+      </p>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">
         {renderProducts()}
@@ -224,6 +227,7 @@ const Menu = () => {
     </div>
   ) : (
     <div>
+      <img width="70px" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/logo_1623772645.png?width=400" alt="H and A" style={{"margin": "20px", "position": "absolute"}} />
       <div style={{ "width": "8%", "float": "right"}}>
         <div className="nav-item" onClick={() => navigate("/account/signup")}>Signup</div>
       </div>
@@ -250,6 +254,9 @@ const Menu = () => {
           </iframe>
         </div>
       </div>
+      <p className="text-center" style={{"fontSize": "23px"}}>
+        Welcome! Feel free to browse our menu or <a style={{"color": "white"}} href="/account/signin">signin</a> to create an order.
+      </p>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">
         {renderProducts()}

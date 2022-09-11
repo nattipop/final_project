@@ -364,8 +364,7 @@ input.profile-details {
 }
 
 .continue-menu {
-  margin-left: 87px;
-  margin-top: 20px;
+  margin: auto;
   background-color: rgba(255, 255, 255, 0);
   padding: 5px;
   color: white;
@@ -573,4 +572,13 @@ p.restaurant-phone {
   border-radius: 5px;
   margin: auto;
   align-items: center;
+}
+
+.sign-up-in {
+  font-size: 22px;
+  padding: 20px;
+}
+
+.sign-up-in a {
+  color: white;
 }

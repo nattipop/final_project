@@ -44,6 +44,9 @@ const Signin = () => {
       onSubmit={handleSignin}
     >
       <Form>
+        <div style={{ "width": "8%", "float": "right", "marginTop": "-120px"}}>
+          <div className="nav-item" onClick={() => navigate("/")}>Home</div>
+        </div>
         <div className="container signin-container">
           {renderError()}
           <div>
@@ -63,6 +66,9 @@ const Signin = () => {
             </button>
           </div>
         </div>
+        <p className="text-center sign-up-in">
+          Don't have an account? <a href="/account/signup">signup</a>
+        </p>
       </Form>
     </Formik>
   )

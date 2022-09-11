@@ -1,16 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
-import { editUser, fetchUser, fetchUserByEmail } from "../actions";
+import { useNavigate } from "react-router";
+import { editUser, fetchUser } from "../actions";
 import Signout from "./Signout";
 
 const Profile = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const userEmail = location.state.login?.email;
   const user = useSelector(state => state.user.user);
   const birthday = user ? new Date(user.birthday) : undefined;
   const [clickTrigger, setClick] = useState(false)
@@ -19,18 +17,12 @@ const Profile = () => {
   useEffect(() => {
     if(!user){
       if (token) {
-        dispatch(fetchUser())
-      } else if (userEmail) {
-        dispatch(fetchUserByEmail(userEmail))
+        dispatch(fetchUser(token))
+      } else {
+        navigate("/account/signin")
       }
     }
   }, [token]);
-  
-  useEffect(() => {
-    if(!user){
-      navigate("/account/signin")
-    }
-  }, [userEmail]);
 
   const renderCover = () => {
     if(user){
@@ -183,7 +175,7 @@ const Profile = () => {
 
   return user ? (
     <div>
-      <div className="back-div">
+      <div className="back-div nav-item" style={{"width": "100%"}}>
         <div id="back-to-menu" onClick={() => navigate(-1)}>Back To Menu</div>
       </div>
       {renderCover()}
