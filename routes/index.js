@@ -11,7 +11,6 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
-const { upload, uploadImage } = require("../services/multer");
 
 // faker.locale = "en_US";
 
@@ -105,20 +104,6 @@ router.post("/auth/signin", requireSignin, (req, res) => {
 router.get("/restaurant", async (req, res) => {
   const restaurant = await Restaurant.find();
   res.status(200).send(restaurant)
-})
-
-router.get("/images/:imageId", (req, res) => {
-  const { imageId } = req.params
-  Image.find({ _id: imageId }, (err, images) => {
-    if(err){
-      res.status(500).send(err)
-    }
-    if(images){
-      res.status(200).send(images)
-    } else {
-      res.status(404).send("no images found")
-    }
-  })
 })
 
 router.get("/orders/:orderId", requireAuth, (req, res) => {
@@ -248,8 +233,6 @@ router.get("/items/product/:productId", (req, res) => {
     }
   })
 });
-
-router.post("/image/upload", uploadImage, upload)
 
 router.post("/products", async (req, res) => {
   if(req.body.title){
