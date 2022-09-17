@@ -315,6 +315,7 @@ input.profile-details {
 }
 
 .nav-item {
+  margin-top: 5px;
   font-size: 25px;
   -webkit-transition: margin-top ease-in 0.2s;
   -moz-transition: margin-top ease-in 0.2s;
@@ -325,7 +326,7 @@ input.profile-details {
 
 .nav-item:hover {
   cursor: pointer;
-  margin-top: 5px;
+  margin-top: 7px;
   color: rgba(30, 25, 19, 0.7);
 }
 

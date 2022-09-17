@@ -235,7 +235,7 @@ const Menu = () => {
   ) : (
     <div>
       <div className="nav">
-        <div style={{"width": "84%"}}>
+        <div style={{"width": "83%", "margin": "5px"}}>
           <img width="50px" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/logo_1623772645.png?width=400" alt="H and A" style={{"margin": "5px", "position": "absolute"}} />
         </div>
         <div style={{ "width": "8%", "float": "right"}}>
