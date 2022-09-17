@@ -113,8 +113,8 @@ const Menu = () => {
         </div>
       ) : ""
     }) : (
-        <p>Breakfast only served 7:00am - 11:00am</p>
-      )
+      <p>Breakfast only served 7:00am - 11:00am</p>
+    )
   }
 
   const renderProducts = () => {
@@ -176,7 +176,7 @@ const Menu = () => {
   }
 
   const locationUrl = restaurant.title ? "https://www.google.com/maps/embed/v1/place?key=AIzaSyBhffW2K0hmR5dOA5Jg4UsW_a9YY_1AhyI&q=" + restaurant.title : ""
-  
+
   return (user?.name) ? (
     <div>
       <div title="Your Profile" style={{ "width": "10%", "float": "left", "margin": "auto"}}>
@@ -217,9 +217,11 @@ const Menu = () => {
         </div>
       </div>
       <p className="text-center" style={{"fontSize": "23px"}}>
-        Welcome {user.name.first}! Click <a style={{"color": "white"}} onClick={() => {
+        Welcome {user.name.first}! Click <a style={{"color": "white"}} onClick={(e) => {
+          e.preventDefault()
           navigate("/set-time")
-          setCreate(true)}} href="/set-time">here</a> to create a new order.
+          setCreate(true)}
+        } href="/set-time">here</a> to create a new order.
       </p>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">

@@ -64,7 +64,7 @@ const SetTime = ({trigger, toggleTrigger}) => {
       </div>
     ) : ""
   }
-
+    
   return trigger ? (
     <div className="popup-outer">
       <div className="popup-inner">
