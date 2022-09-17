@@ -83,7 +83,7 @@ const Signup = () => {
           </div>
         </div>
         <p className="text-center sign-up-in">
-          Already a member? <a href="/account/signup">signin</a>
+          Already a member?  <span onClick={() => navigate("/account/signin")}>signin</span>
         </p>
       </Form>
     </Formik>

@@ -67,7 +67,7 @@ const Signin = () => {
           </div>
         </div>
         <p className="text-center sign-up-in">
-          Don't have an account? <a href="/account/signup">signup</a>
+          Don't have an account? <span onClick={() => navigate("/account/signup")}>signup</span>
         </p>
       </Form>
     </Formik>

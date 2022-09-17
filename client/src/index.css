@@ -581,8 +581,13 @@ p.restaurant-phone {
   padding: 20px;
 }
 
-.sign-up-in a {
+.sign-up-in span {
   color: white;
+  text-decoration: underline;
+}
+
+.sign-up-in span:hover {
+  cursor: pointer;
 }
 
 .nav {
