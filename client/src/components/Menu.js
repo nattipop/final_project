@@ -33,8 +33,9 @@ const Menu = () => {
   }, [products.length]);
   
   useEffect(() => {
-    if(token){
-      dispatch(fetchUser(token))
+    const currentToken = localStorage.getItem("token");
+    if(currentToken){
+      dispatch(fetchUser(currentToken))
     }
   }, [token])
 
@@ -216,7 +217,9 @@ const Menu = () => {
         </div>
       </div>
       <p className="text-center" style={{"fontSize": "23px"}}>
-        Welcome {user.name.first}! Click <a style={{"color": "white"}} onClick={() => setCreate(true)} href="/set-time">here</a> to create a new order.
+        Welcome {user.name.first}! Click <a style={{"color": "white"}} onClick={() => {
+          navigate("/set-time")
+          setCreate(true)}} href="/set-time">here</a> to create a new order.
       </p>
       <h2 className="text-center menu-title">Menu</h2>
       <div className="row d-flex justify-content-center all-products">
