@@ -165,7 +165,7 @@ const OrderMenu = () => {
         </div>
       </div>
       <div style={{ "width": "5%", "float": "right"}}>
-        <div className="cartimage" onClick={handleCartClick}></div>
+        <div id="cartimage" onClick={handleCartClick}></div>
       </div>
       <div className="signout" onClick={handleSignout} ></div>
       <div style={{ "width": "9%", "float": "right"}}>

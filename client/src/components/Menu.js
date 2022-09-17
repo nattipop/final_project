@@ -179,22 +179,24 @@ const Menu = () => {
 
   return (user?.name) ? (
     <div>
-      <div title="Your Profile" style={{ "width": "10%", "float": "left", "margin": "auto"}}>
-        <div className="pfp">
-          <div onClick={handlePfpClick}>{initial}</div>
+      <div className="nav">
+        <div title="Your Profile" style={{ "width": "78%", "float": "left"}}>
+          <div className="pfp">
+            <div onClick={handlePfpClick}>{initial}</div>
+          </div>
         </div>
-      </div>
-      <div style={{ "width": "8%", "float": "right"}}>
-        <div className="nav-item" onClick={() => {
-          navigate("signout")
-          setSignout(true)
-        }}>Signout</div>
-      </div>
-      <div style={{ "width": "13%", "float": "right"}}>
-        <div className="nav-item" onClick={() => {
-          navigate("/set-time")
-          setCreate(true)
-        }}>Create Order</div>
+        <div style={{ "width": "8%", "float": "right"}}>
+          <div className="nav-item" onClick={() => {
+            navigate("signout")
+            setSignout(true)
+          }}>Signout</div>
+        </div>
+        <div style={{ "width": "13%", "float": "right"}}>
+          <div className="nav-item" onClick={() => {
+            navigate("/set-time")
+            setCreate(true)
+          }}>Create Order</div>
+        </div>
       </div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 id="restaurant-title">{restaurant.title}</h1>
@@ -224,7 +226,7 @@ const Menu = () => {
         } href="/set-time">here</a> to create a new order.
       </p>
       <h2 className="text-center menu-title">Menu</h2>
-      <div className="row d-flex justify-content-center all-products">
+      <div className="row all-products">
         {renderProducts()}
       </div>
       <Signout trigger={signoutTrigger} toggleTrigger={setSignout} />
@@ -232,12 +234,16 @@ const Menu = () => {
     </div>
   ) : (
     <div>
-      <img width="70px" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/logo_1623772645.png?width=400" alt="H and A" style={{"margin": "20px", "position": "absolute"}} />
-      <div style={{ "width": "8%", "float": "right"}}>
-        <div className="nav-item" onClick={() => navigate("/account/signup")}>Signup</div>
-      </div>
-      <div style={{ "width": "8%", "float": "right"}}>
-        <div className="nav-item" onClick={() => navigate("/account/signin")}>Signin</div>
+      <div className="nav">
+        <div style={{"width": "84%"}}>
+          <img width="50px" src="https://hopeandanchorcoffee.square.site/uploads/b/5982d32cc4467ff501f3090ae965c7b926a36bc89cf00d611a8787d034f4d885/logo_1623772645.png?width=400" alt="H and A" style={{"margin": "5px", "position": "absolute"}} />
+        </div>
+        <div style={{ "width": "8%", "float": "right"}}>
+          <div className="nav-item" onClick={() => navigate("/account/signup")}>Signup</div>
+        </div>
+        <div style={{ "width": "8%", "float": "right"}}>
+          <div className="nav-item" onClick={() => navigate("/account/signin")}>Signin</div>
+        </div>
       </div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
         <h1 id="restaurant-title">{restaurant.title}</h1>

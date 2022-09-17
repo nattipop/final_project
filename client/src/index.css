@@ -53,6 +53,7 @@ code {
 }
 
 .all-products .card {
+  position: inherit;
   margin: 10px;
   padding: 5px;
   min-width: 300px;
@@ -100,8 +101,8 @@ code {
 
 .pfp {
   position: fixed;
-  text-align: right;
-  width: 70px;
+  text-align: left;
+  width: 50px;
   -webkit-transition: margin-left ease-in 0.2s;
   -moz-transition: margin-left ease-in 0.2s;
   -ms-transition: margin-left ease-in 0.2s;
@@ -113,13 +114,13 @@ code {
   float: right;
   background-color: rgb(44, 38, 30);
   color: white;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
   border-radius: 50%;
   text-align: center;
-  font-size: 30px;
-  margin-top: 10px;
+  font-size: 25px;
+  margin-top: 7px;
 }
 
 .pfp:hover {
@@ -279,14 +280,14 @@ input.profile-details {
   color: white;
 }
 
-.cartimage {
+#cartimage {
   background: url("./images/cart.png") no-repeat;
   background-size: 40px;
   width: 40px;
   height: 35px;
 }
 
-.cartimage:hover {
+#cartimage:hover {
   cursor: pointer;
   -webkit-transform: rotate(7deg);
   -moz-transform: rotate(7deg);
@@ -581,4 +582,11 @@ p.restaurant-phone {
 
 .sign-up-in a {
   color: white;
+}
+
+.nav {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: fixed;
+  height: 60px;
 }

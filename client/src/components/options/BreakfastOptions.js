@@ -40,7 +40,6 @@ const BreakfastOptions = ({product}) => {
     price_id: priceId
   }
 
-  console.log(priceId)
   const handleAddToCart = () => {
     if(!optionValues.meat && product.title !== "Anchors Away Oatmeal" && product.title !== "Yogurt Parfait" && product.title !== "Chain of Lakes Bagel"){
       return alert("Please choose a Meat Option")
@@ -70,7 +69,6 @@ const BreakfastOptions = ({product}) => {
 
     switch(product.title) {
       case "Yogurt Parfait":
-        console.log("HI")
         setPriceId("price_1LfW2PBGLP1BV30TX5cOoYGj")
         break;
       case "Anchors Away Oatmeal":
