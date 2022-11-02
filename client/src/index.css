@@ -593,6 +593,43 @@ p.restaurant-phone {
 .nav {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.5);
-  position: fixed;
+  position: absolute;
   height: 60px;
+}
+
+#location-input {
+  position: absolute;
+  margin-top: -440px;
+  margin-left: 40px;
+  width: 470px;
+}
+
+#get-directions {
+  position: absolute;
+  margin-top: -400px;
+  margin-left: 100px;
+}
+
+#clear-directions {
+  position: absolute;
+  margin-top: -400px;
+  margin-left: 300px;
+}
+
+.distance {
+  position: absolute;
+  margin-top: -50px;
+  padding: 4px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.duration {
+  position: absolute;
+  padding: 4px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: -25px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
