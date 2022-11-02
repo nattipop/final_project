@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { fetchProducts, fetchRestaurant, fetchUser } from "../actions";
 import SetTime from "./SetTime";
 import Signout from "./Signout";
+import Map from "./Map";
 import coffeeLoading from "../Coffee_Loading.gif"
 
 const Menu = () => {
@@ -206,16 +207,7 @@ const Menu = () => {
         <h3 className="restaurant-phone" style={{"paddingBottom": "20px"}}>Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
-          <iframe
-            className="col-6"
-            title="coffeeshop map"
-            width="600"
-            height="450"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-            src={locationUrl}>
-          </iframe>
+          <Map className="col-6" />
         </div>
       </div>
       <p className="text-center" style={{"fontSize": "23px"}}>
@@ -253,16 +245,7 @@ const Menu = () => {
         <h3 className="restaurant-phone" style={{"paddingBottom": "20px"}}>Phone: {restaurant.phone}</h3>
         <div className="row">
           <img className="hero col-6" src={restaurant.img} alt="hope and anchor" />
-          <iframe
-            className="col-6"
-            title="coffeeshop map"
-            width="600"
-            height="450"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-            src={locationUrl}>
-          </iframe>
+          <Map className="col-6" />
         </div>
       </div>
       <p className="text-center" style={{"fontSize": "23px"}}>
