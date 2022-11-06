@@ -618,7 +618,7 @@ p.restaurant-phone {
 
 .distance {
   position: absolute;
-  margin-top: -50px;
+  margin-top: -70px;
   padding: 4px;
   padding-top: 0px;
   padding-bottom: 0px;
@@ -630,6 +630,6 @@ p.restaurant-phone {
   padding: 4px;
   padding-top: 0px;
   padding-bottom: 0px;
-  margin-top: -25px;
+  margin-top: -45px;
   background-color: rgba(255, 255, 255, 0.5);
 }

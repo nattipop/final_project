@@ -1,14 +1,22 @@
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
 import { api_key } from "../config/dev";
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 const libraries = ["places"];
 const google = window.google;
 
 const Map = () => {
+  console.log(api_key)
   const [map, setMap] = useState( /** @type google.maps.Map */ (null))
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
+
+  useEffect(() => {
+    if(map !== null) {
+      calculateRoute()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /** @type React.MutableRefObjectHTMLInputElement> */
   const originRef = useRef()
@@ -16,6 +24,9 @@ const Map = () => {
     googleMapsApiKey: api_key,
     libraries: libraries,
   })
+
+  console.log(map)
+  const handaLocation = {lat: 45.3141, lng: -91.6510};
   
   if(!isLoaded){
     return <h1 style={{textAlign: "center", margin: "auto"}}>Loading...</h1>
@@ -30,7 +41,7 @@ const Map = () => {
     const directionsService = new google.maps.DirectionsService();
     const results = await directionsService.route({
       origin: originRef.current.value,
-      destination: {lat: 45.3141, lng: -91.6510},
+      destination: handaLocation,
       travelMode: google.maps.TravelMode.DRIVING
     });
 
@@ -62,7 +73,7 @@ const Map = () => {
   return (
     <div style={{width: "574px", height: "450px"}}>
       <GoogleMap
-        center={{lat: 45.3141, lng: -91.6510}}
+        center={handaLocation}
         zoom={15}
         mapContainerStyle={{height: "100%", width: "100%"}}
         options={{
@@ -77,7 +88,7 @@ const Map = () => {
         }}
       >
         {directionsResponse ? <DirectionsRenderer directions={directionsResponse} /> : ""}
-        <Marker position={{lat: 45.3141, lng: -91.6510}} />
+        <Marker position={handaLocation} />
       </GoogleMap>
       <Autocomplete>
         <input placeholder="Enter you location to see how far you are from Hope & Anchor" id="location-input" ref={originRef} />
