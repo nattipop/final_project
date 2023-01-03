@@ -8,7 +8,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #072d19b5;
-  color: rgb(30, 25, 19);
+  color: #1e1913;
   font-family: "DM Serif Display", serif;
 }
 
@@ -608,21 +608,16 @@ p.restaurant-phone {
   position: absolute;
   margin-top: -400px;
   margin-left: 100px;
+  background-color: #1e1913;
+  border: 1px solid #1e1913;
 }
 
 #clear-directions {
   position: absolute;
   margin-top: -400px;
   margin-left: 300px;
-}
-
-.distance {
-  position: absolute;
-  margin-top: -70px;
-  padding: 4px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #1e1913;
+  border: 1px solid #1e1913;
 }
 
 .duration {
@@ -630,6 +625,9 @@ p.restaurant-phone {
   padding: 4px;
   padding-top: 0px;
   padding-bottom: 0px;
-  margin-top: -45px;
-  background-color: rgba(255, 255, 255, 0.5);
+  margin-top: -50px;
+  width: 550px;
+  text-align: center;
+  font-size: 17px;
+  background-color: rgb(243, 170, 182);
 }

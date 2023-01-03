@@ -1,23 +1,14 @@
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
 import { api_key } from "../config/dev";
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 const libraries = ["places"];
-const google = window.google;
 
 const Map = () => {
-  console.log(api_key)
   const [map, setMap] = useState( /** @type google.maps.Map */ (null))
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
-
-  useEffect(() => {
-    if(map !== null) {
-      calculateRoute()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+  
   /** @type React.MutableRefObjectHTMLInputElement> */
   const originRef = useRef()
   const {isLoaded} = useJsApiLoader({
@@ -25,29 +16,31 @@ const Map = () => {
     libraries: libraries,
   })
 
-  console.log(map)
   const handaLocation = {lat: 45.3141, lng: -91.6510};
   
   if(!isLoaded){
     return <h1 style={{textAlign: "center", margin: "auto"}}>Loading...</h1>
   }
-
-  const calculateRoute = async (e) => {
-    e.preventDefault()
+  
+  const calculateRoute = async () => {
     if(originRef.current.value === "") {
       return 
     }
+    const google = window.google;
     
-    const directionsService = new google.maps.DirectionsService();
-    const results = await directionsService.route({
-      origin: originRef.current.value,
-      destination: handaLocation,
-      travelMode: google.maps.TravelMode.DRIVING
-    });
-
-    setDirectionsResponse(results);
-    setDistance(results.routes[0].legs[0].distance.text);
-    setDuration(results.routes[0].legs[0].duration.text);
+    if(google){
+      debugger
+      const directionsService = new google.maps.DirectionsService();
+      const results = await directionsService.route({
+        origin: originRef.current.value,
+        destination: handaLocation,
+        travelMode: google.maps.TravelMode.DRIVING
+      });
+     
+      setDirectionsResponse(results);
+      setDistance(results.routes[0].legs[0].distance.text);
+      setDuration(results.routes[0].legs[0].duration.text);
+    }
   };
 
   const clearRoute = (e) => {
@@ -58,15 +51,9 @@ const Map = () => {
     originRef.current.value = '';
   }
 
-  const renderDistance = () => {
-    return distance ? (
-      <div className="distance">Distance: {distance}</div>
-    ) : ""
-  }
-
-  const renderDuration = () => {
-    return duration ? (
-      <div className="duration">Duration: {duration}</div>
+  const renderDistanceDuration = () => {
+    return (distance && duration) ? (
+      `You are ${distance} and ${duration} away from a delicious cup of coffee!`
     ) : ""
   }
 
@@ -88,15 +75,16 @@ const Map = () => {
         }}
       >
         {directionsResponse ? <DirectionsRenderer directions={directionsResponse} /> : ""}
-        <Marker position={handaLocation} />
+        <Marker position={handaLocation} title="H&A">H&A</Marker>
       </GoogleMap>
       <Autocomplete>
-        <input placeholder="Enter you location to see how far you are from Hope & Anchor" id="location-input" ref={originRef} />
+        <input placeholder="Enter your location to see how far you are from Hope & Anchor" id="location-input" ref={originRef} />
       </Autocomplete>
       <button type="submit" className="btn btn-primary" id="get-directions" onClick={calculateRoute}>Get Directions</button>
       <button className="btn btn-primary" id="clear-directions" onClick={clearRoute}>Clear Directions</button>
-      {renderDistance()}
-      {renderDuration()}
+      <div className="duration">
+        {renderDistanceDuration()}
+      </div>
     </div>
   )
 };
