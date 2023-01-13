@@ -70,7 +70,7 @@ router.post("/auth/signup", (req, res) => {
 
   User.findOne({ "login.email": email }, function(err, existingUser) {
     if (err) { return next(err); }
-
+    console.log(existingUser)
     if (existingUser) {
       return res.status(422).send('Email is in use');
     }

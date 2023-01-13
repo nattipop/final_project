@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import axios from "axios";
 import { useState } from "react";
+import { url } from "../config/keys"
 
 const Signup = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -15,7 +16,7 @@ const Signup = () => {
   
   const handleSignup = async (formValues) => {
     setOpened(true);
-    axios.post(`http://localhost:3000/auth/signup`, formValues).then(response => {
+    axios.post(`${url}/auth/signup`, formValues).then(response => {
       console.log("user has been added to the database.");
       setSubmitted(true);
     }).catch(err => {
