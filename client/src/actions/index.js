@@ -5,7 +5,7 @@ import { url } from "../config/keys"
 
 export const signin = (formProps) => dispatch => {
   axios.post(`${url}/auth/signin`, formProps).then((response) => {
-    localStorage.setItem('token', response.data.token);
+    dispatch({ type: FETCH_USER, payload: response.data.user})
   }).catch(function (error) {
     dispatch({ type: AUTH_ERROR, payload: error });
   });

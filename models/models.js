@@ -39,6 +39,7 @@ const UserSchema = new Schema({
     cover: String
   },
   birthday: String,
+  confirmed_email: Boolean,
 });
 
 UserSchema.methods.setPassword = function(password){

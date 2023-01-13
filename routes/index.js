@@ -8,6 +8,7 @@ require('../services/passport')
 const keys = require("../config/keys")
 const crypto = require("crypto");
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const emails = require('../services/email')
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
@@ -53,6 +54,7 @@ router.put("/images/:userId", (req, res) => {
 })
 
 router.post("/auth/signup", (req, res) => {
+  console.log(req.body)
   const email = req.body.email;
   const password = req.body.password;
   const firstName = req.body.first;
@@ -70,7 +72,7 @@ router.post("/auth/signup", (req, res) => {
     if (err) { return next(err); }
 
     if (existingUser) {
-      return res.status(422).send({ error: 'Email is in use' });
+      return res.status(422).send('Email is in use');
     }
 
     const user = new User({
@@ -82,10 +84,13 @@ router.post("/auth/signup", (req, res) => {
         last: lastName
       },
       birthday: birthday,
-      status: status
+      status: status,
+      confirmed_email: false,
     });
 
     user.setPassword(password);
+
+    emails.verifyUserEmail(firstName, lastName, req.body.email, tokenForUser(user))
 
     user.save(function(err, user) {
       if (err) { return next(err); }
@@ -97,7 +102,8 @@ router.post("/auth/signup", (req, res) => {
 
 router.post("/auth/signin", requireSignin, (req, res) => {
   res.send({
-    token: tokenForUser(req.user)
+    token: tokenForUser(req.user),
+    user: req.user
   });
 })
 
@@ -158,6 +164,7 @@ router.get("/users/by-email/:email", (req, res) => {
 
 router.get("/user", requireAuth, (req, res) => {
   const user = req.user
+  console.log(user)
   
   if(user){
     res.status(200).send(user);

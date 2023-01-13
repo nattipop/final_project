@@ -18,7 +18,6 @@ const Menu = () => {
   const [signoutTrigger, setSignout] = useState(false)
   const [createTrigger, setCreate] = useState(false)
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -32,13 +31,6 @@ const Menu = () => {
       dispatch(fetchRestaurant())
     }
   }, [products.length]);
-  
-  useEffect(() => {
-    const currentToken = localStorage.getItem("token");
-    if(currentToken){
-      dispatch(fetchUser(currentToken))
-    }
-  }, [token])
 
   const getProducts = () => {
     dispatch(fetchProducts())

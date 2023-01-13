@@ -70,7 +70,7 @@ const Profile = () => {
   
   const handleSignout = () => {
     setClick(true)
-    navigate(`/profile/${user.name.first}/signout`, { state: user })
+    navigate(`/profile/signout`, { state: user })
   }
 
   const handleNameClick = (e) => {
@@ -98,11 +98,7 @@ const Profile = () => {
       handleBirthdayBlur(e)
     }
   }
-  const handleEmailKey = (e) => {
-    if(e.key === "Enter"){
-      handleEmailBlur(e)
-    }
-  }
+
   const handleFirstBlur = (e) => {
     const input = e.target;
     const first = e.target.parentElement.childNodes[0];
@@ -142,18 +138,6 @@ const Profile = () => {
     input.style.display = "block";
   }
 
-  const handleEmailBlur = (e) => {
-    const input = e.target;
-    const email = e.target.parentElement.childNodes[0];
-
-    const value = input.value;
-    const path = "login.email";
-    dispatch(editUser(user._id, path, value))
-
-    input.style.display = "none";
-    email.style.display = "block";
-  }
-
   const handleBirthdayBlur = (e) => {
     setInvalidDate(false)
     const input = e.target;
@@ -181,8 +165,8 @@ const Profile = () => {
       {renderCover()}
       {renderProfile()}
       <div className="detail-div">
-        <p onClick={handleDetailClick} className="profile-details">Email: {user.login.email}</p>
-        <input className="profile-details" onBlur={handleEmailBlur} onKeyUp={handleEmailKey} style={{"display": "none"}} />
+        <p className="profile-details">Email: {user.login.email}</p>
+        <input className="profile-details" style={{"display": "none"}} />
         {renderBirthday()}
         <p className="profile-details">Role: {user.status}</p>
       </div>

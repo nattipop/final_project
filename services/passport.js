@@ -33,17 +33,11 @@ const jwtOptions = {
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  console.log(payload.sub)
+  console.log(payload)
   User.findById(payload.sub, (err, user) => {
     if(err) {
       return done(err, false)
     }
-
-    // (jwtPayload, done) => {
-    //   User.findOne({ where: { email: jwtPayload.email } })
-    //    .then((user) => done(null, user.dataValues))
-    //    .catch((jwtErr) => console.error(`JWT Error: ${jwtErr}`));
-    //  }
     console.log(user)
     if(user) {
       done(null, user)

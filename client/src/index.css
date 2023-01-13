@@ -100,7 +100,7 @@ code {
 }
 
 .pfp {
-  position: fixed;
+  position: aboslute;
   text-align: left;
   width: 50px;
   -webkit-transition: margin-left ease-in 0.2s;
