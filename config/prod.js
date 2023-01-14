@@ -5,5 +5,5 @@ module.exports = {
   url:  "https://final-project-parsity.herokuapp.com",
   EMAIL_USERNAME: "nattipop815@gmail.com",
   EMAIL_PASS: "kawvgjmvejjohqzm",
-  hosturl: "https://final-project-parsity.herokuapp.com/"
+  hosturl: "https://final-project-parsity.herokuapp.com"
 };
