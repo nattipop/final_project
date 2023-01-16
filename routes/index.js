@@ -22,7 +22,7 @@ function tokenForUser(user) {
 };
 
 router.get("/verify-user-email", (req, res) => {
-  res.send("hi")
+  res.sendFile(path.join(__dirname, "client", "public", "index.html"))
 })
 router.post('/create-checkout-session', async (req, res) => {
   const { price } = req.body.price;
