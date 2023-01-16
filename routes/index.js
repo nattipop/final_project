@@ -21,6 +21,9 @@ function tokenForUser(user) {
     exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
 
+router.get("/verify-user-email", (req, res) => {
+  res.send("hi")
+})
 router.post('/create-checkout-session', async (req, res) => {
   const { price } = req.body.price;
 
