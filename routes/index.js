@@ -107,6 +107,10 @@ router.post("/auth/signin", requireSignin, (req, res) => {
   });
 })
 
+router.get("/verify-user-email", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"))
+})
+
 router.get("/restaurant", async (req, res) => {
   const restaurant = await Restaurant.find();
   res.status(200).send(restaurant)
