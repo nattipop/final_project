@@ -38,7 +38,7 @@ root.render(
             <Route path="/order-menu/signout" element={<OrderSignout />} />
             <Route path="/order-menu/cart" element={<Cart />} />
           </Route>
-          <Route exact path="verify-user-email/:token" element={<EmailVerification/>}/>
+          <Route exact path="/verify-user-email/:token" element={<EmailVerification/>}/>
           <Route path="/order-checkout" element={<Checkout />} />
           <Route path="/products/:productId" element={<MenuItem />} />
           <Route path="account/signup" element={<Signup/>} />
