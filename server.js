@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { ServerApiVersion } = require('mongodb');
 const keys = require("./config/keys")
+const path = require("path")
 
 const indexRouter = require("./routes/index")
 
@@ -28,6 +29,7 @@ const db = mongoose.connection;
 db.on("error", error => console.log(error))
 db.once("open", () => console.log("connected to database"))
 
-app.use("/", indexRouter)
+app.use("/", indexRouter);
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 app.listen(process.env.PORT || 3000)
