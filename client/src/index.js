@@ -31,6 +31,7 @@ root.render(
           <Route exact path="/" element={<Menu/>} >
             <Route exact path="/signout" element={<Signout/>} />
             <Route exact path="/set-time" element={<SetTime />} />
+            <Route exact path="/verify-user-email/:token" element={<EmailVerification/>}/>
           </Route>
           <Route exact path="/profile" element={<Profile />} >
             <Route path="/profile/signout" element={<ProfileSignout />} />
@@ -39,7 +40,6 @@ root.render(
             <Route path="/order-menu/signout" element={<OrderSignout />} />
             <Route path="/order-menu/cart" element={<Cart />} />
           </Route>
-          <Route path="/verify-user-email/:token" element={<EmailVerification/>}/>
           <Route path="/hi" element={<Hi/>} />
           <Route path="/order-checkout" element={<Checkout />} />
           <Route path="/products/:productId" element={<MenuItem />} />
