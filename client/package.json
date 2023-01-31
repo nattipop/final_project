@@ -38,7 +38,7 @@
       "react-app/jest"
     ]
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "https://final-project-parsity.herokuapp.com",
   "homepage": ".",
   "browserslist": {
     "production": [
