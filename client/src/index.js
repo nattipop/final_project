@@ -25,7 +25,8 @@ import Hi from './components/Hi';
 const store = createStore(rootReducer, {}, applyMiddleware(thunk));
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
+  <React.StrictMode>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Menu/>} >
@@ -47,6 +48,7 @@ root.render(
           <Route path="account/signin" element={<Signin/>} />
         </Routes>
       </BrowserRouter>
-  </Provider>
+    </Provider>
+  </React.StrictMode>
 );
 
