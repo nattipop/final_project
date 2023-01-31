@@ -29,12 +29,12 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/#/" element={<Menu/>} >
+          <Route exact path="/" element={<Menu/>} >
             <Route exact path="/#/signout" element={<Signout/>} />
             <Route exact path="/#/set-time" element={<SetTime />} />
             <Route exact path="/#/verify-user-email/:token" element={<EmailVerification/>}/>
           </Route>
-          <Route exact path="/profile" element={<Profile />} >
+          <Route exact path="/#/profile" element={<Profile />} >
             <Route path="/profile/signout" element={<ProfileSignout />} />
           </Route>
           <Route exact path="/order-menu" element={<OrderMenu />}>
