@@ -29,7 +29,7 @@ const db = mongoose.connection;
 db.on("error", error => console.log(error))
 db.once("open", () => console.log("connected to database"))
 
-app.use("/", indexRouter);
+app.use("/api/", indexRouter);
 app.use(express.static('client/build'));
 
 app.listen(process.env.PORT || 3000)
