@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css'
 import './index.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CreateBrowserRouter, RouterProvider } from "react-router-dom";
 import Menu from './components/Menu';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
@@ -20,35 +20,68 @@ import ProfileSignout from './components/ProfileSignout';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
 import EmailVerification from './components/EmailVerification';
-import Hi from './components/Hi';
 
 const store = createStore(rootReducer, {}, applyMiddleware(thunk));
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = CreateBrowserRouter([
+  {
+    path: "/",
+    element: Menu
+  },
+  {
+    path: "/signout",
+    element: Signout
+  },
+  {
+    path: "/set-time",
+    element: SetTime
+  },
+  {
+    path: "verify-user-email/:userToken",
+    element: EmailVerification
+  },
+  {
+    path: "/profile",
+    element: Profile
+  },
+  {
+    path: "/profile/signout",
+    element: ProfileSignout
+  },
+  {
+    path: "/order-menu",
+    element: OrderMenu
+  },
+  {
+    path: "/order-menu/signout",
+    element: OrderSignout
+  },
+  {
+    path: "/order-menu/cart",
+    element: Cart
+  },
+  {
+    path: "/order-checkout",
+    element: Checkout
+  },
+  {
+    path: "/products/:productId",
+    element: MenuItem
+  },
+  {
+    path: "account/signup",
+    element: Signup
+  },
+  {
+    path: "account/signin",
+    element: Signin
+  }
+])
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={<Menu/>} >
-            <Route exact path="/signout" element={<Signout/>} />
-            <Route exact path="/set-time" element={<SetTime />} />
-            <Route exact path="/verify-user-email/:token" element={<EmailVerification/>}/>
-          </Route>
-          <Route exact path="/profile" element={<Profile />} >
-            <Route path="/profile/signout" element={<ProfileSignout />} />
-          </Route>
-          <Route exact path="/order-menu" element={<OrderMenu />}>
-            <Route path="/order-menu/signout" element={<OrderSignout />} />
-            <Route path="/order-menu/cart" element={<Cart />} />
-          </Route>
-          <Route path="/hi" element={<Hi/>} />
-          <Route path="/order-checkout" element={<Checkout />} />
-          <Route path="/products/:productId" element={<MenuItem />} />
-          <Route path="account/signup" element={<Signup/>} />
-          <Route path="account/signin" element={<Signin/>} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );
-
