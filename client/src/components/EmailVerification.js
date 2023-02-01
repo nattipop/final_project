@@ -6,14 +6,14 @@ import { useNavigate, useParams } from "react-router";
 import { editUser, fetchUser } from "../actions";
 
 const EmailVerification = () => {
-  let { token } = useParams();
+  let { userToken } = useParams();
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector((state) => state.user.user)
 
   useEffect(() => {
     console.log("fetch effect ran")
-    dispatch(fetchUser(token))
+    dispatch(fetchUser(userToken))
   }, [])
   
   useEffect(() => {

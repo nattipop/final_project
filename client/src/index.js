@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css'
 import './index.css';
-import { CreateBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Menu from './components/Menu';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
@@ -23,58 +23,58 @@ import EmailVerification from './components/EmailVerification';
 
 const store = createStore(rootReducer, {}, applyMiddleware(thunk));
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const router = CreateBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element: Menu
+    element: <Menu />
   },
   {
     path: "/signout",
-    element: Signout
+    element: <Signout />
   },
   {
     path: "/set-time",
-    element: SetTime
+    element: <SetTime />
   },
   {
     path: "verify-user-email/:userToken",
-    element: EmailVerification
+    element: <EmailVerification />
   },
   {
     path: "/profile",
-    element: Profile
+    element: <Profile />
   },
   {
     path: "/profile/signout",
-    element: ProfileSignout
+    element: <ProfileSignout />
   },
   {
     path: "/order-menu",
-    element: OrderMenu
+    element: <OrderMenu />
   },
   {
     path: "/order-menu/signout",
-    element: OrderSignout
+    element: <OrderSignout />
   },
   {
     path: "/order-menu/cart",
-    element: Cart
+    element: <Cart />
   },
   {
     path: "/order-checkout",
-    element: Checkout
+    element: <Checkout />
   },
   {
     path: "/products/:productId",
-    element: MenuItem
+    element: <MenuItem />
   },
   {
     path: "account/signup",
-    element: Signup
+    element: <Signup />
   },
   {
     path: "account/signin",
-    element: Signin
+    element: <Signin />
   }
 ])
 
