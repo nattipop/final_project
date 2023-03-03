@@ -1,19 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // import { useEffect } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { editUser, fetchUser } from "../actions";
+import { editUser } from "../actions";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const EmailVerification = () => {
   let { userToken } = useParams();
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const user = useSelector((state) => state.user.user)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    console.log("fetch effect ran")
-    dispatch(fetchUser(userToken))
+    axios.get(
+      `https://final-project-parsity.herokuapp.com/api/user`,
+      {
+        headers: {
+        Authorization: 'Bearer ' + userToken,
+      }
+      }
+    ).then(res => {
+      setUser(res.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }, [])
   
   useEffect(() => {
