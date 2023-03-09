@@ -21,17 +21,8 @@ function tokenForUser(user) {
     exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
 
-router.get("/verify-user-email/:token", function (req, res) {
-  const {token} = req.params();
-  console.log(token)
-  res.sendFile(path.join(__dirname, "client/src/components/EmailVerification"), function (err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
 
-router.post('/api/create-checkout-session', async (req, res) => {
+router.post('/create-checkout-session', async (req, res) => {
   const { price } = req.body.price;
 
   const session = await stripe.checkout.sessions.create({
@@ -50,7 +41,7 @@ router.post('/api/create-checkout-session', async (req, res) => {
   res.redirect(303, session.url);
 });
 
-router.put("/api/images/:userId", (req, res) => {
+router.put("/images/:userId", (req, res) => {
   const { userId } = req.params;
   console.log(req.body)
 
@@ -63,7 +54,7 @@ router.put("/api/images/:userId", (req, res) => {
   })
 })
 
-router.post("/api/auth/signup", (req, res) => {
+router.post("/auth/signup", (req, res) => {
   console.log(req.body)
   const email = req.body.email;
   const password = req.body.password;
@@ -110,19 +101,19 @@ router.post("/api/auth/signup", (req, res) => {
   });
 })
 
-router.post("/api/auth/signin", requireSignin, (req, res) => {
+router.post("/auth/signin", requireSignin, (req, res) => {
   res.send({
     token: tokenForUser(req.user),
     user: req.user
   });
 })
 
-router.get("/api/restaurant", async (req, res) => {
+router.get("/restaurant", async (req, res) => {
   const restaurant = await Restaurant.find();
   res.status(200).send(restaurant)
 })
 
-router.get("/api/orders/:orderId", requireAuth, (req, res) => {
+router.get("/orders/:orderId", requireAuth, (req, res) => {
   const { orderId } = req.params
 
   Order.findById(orderId, (err, order) => {
@@ -138,11 +129,11 @@ router.get("/api/orders/:orderId", requireAuth, (req, res) => {
   })
 })
 
-router.get("/api/test", (req, res) => {
+router.get("/test", (req, res) => {
   res.send("WORKS")
 });
 
-router.get("/api/set", (req, res) => {
+router.get("/set", (req, res) => {
   const user = new User();
   const restaurant = new Restaurant();
   const item = new MenuItem();
@@ -156,7 +147,7 @@ router.get("/api/set", (req, res) => {
   res.send(user, restaurant, item, order)
 })
 
-router.get("/api/users/by-email/:email", (req, res) => {
+router.get("/users/by-email/:email", (req, res) => {
   const { email } = req.params;
 
   User.find({ "login.email": email }, (err, user) => {
@@ -172,7 +163,7 @@ router.get("/api/users/by-email/:email", (req, res) => {
   })
 })
 
-router.get("/api/user", requireAuth, (req, res) => {
+router.get("/user", requireAuth, (req, res) => {
   const user = req.user
   console.log(user)
   
@@ -183,7 +174,7 @@ router.get("/api/user", requireAuth, (req, res) => {
   }
 });
 
-router.get("/api/items", (req, res) => {
+router.get("/items", (req, res) => {
   MenuItem.find({}, (err, products) => {
     if(err){
       res.status(500).send("there was an error with the format of your request");
@@ -199,7 +190,7 @@ router.get("/api/items", (req, res) => {
 });
 
 //get items by availability 
-router.get("/api/items/:time", (req, res) => {
+router.get("/items/:time", (req, res) => {
   const { time } = req.params;
 
   MenuItem.find(
@@ -218,7 +209,7 @@ router.get("/api/items/:time", (req, res) => {
   })
 })
 
-router.get("/api/items/:category", (req, res) => {
+router.get("/items/:category", (req, res) => {
   const { category } = req.params;
 
   MenuItem.find({ "category": category }, (err, products) => {
@@ -234,7 +225,7 @@ router.get("/api/items/:category", (req, res) => {
   })
 });
 
-router.get("/api/items/product/:productId", (req, res) => {
+router.get("/items/product/:productId", (req, res) => {
   const { productId } = req.params;
   
   MenuItem.find({ "_id": productId }, (err, product) => {
@@ -251,7 +242,7 @@ router.get("/api/items/product/:productId", (req, res) => {
   })
 });
 
-router.post("/api/products", async (req, res) => {
+router.post("/products", async (req, res) => {
   if(req.body.title){
     if(req.body.description){
       if(req.body.category){
@@ -292,7 +283,7 @@ router.post("/api/products", async (req, res) => {
 
 })
 
-router.post("/api/orders", requireAuth, (req, res, next) => {
+router.post("/orders", requireAuth, (req, res, next) => {
   const user = req.user;
   const order = req.body;
 
@@ -322,7 +313,7 @@ router.post("/api/orders", requireAuth, (req, res, next) => {
   })
 });
 
-router.put("/api/orders/:orderId", requireAuth, (req, res) => {
+router.put("/orders/:orderId", requireAuth, (req, res) => {
   const { orderId } = req.params
 
   for(key in req.body) {
@@ -345,7 +336,7 @@ router.put("/api/orders/:orderId", requireAuth, (req, res) => {
   }
 });
 
-router.put("/api/users/cart/:userId", (req, res) => {
+router.put("/users/cart/:userId", (req, res) => {
   const { userId } = req.params
 
   User.findOneAndUpdate({ _id: userId }, {"$push": {"cart": req.body}}, { "new": true }, (err, user) => {
@@ -356,7 +347,7 @@ router.put("/api/users/cart/:userId", (req, res) => {
     })
 });
 
-router.put("/api/user/:userId", (req, res) => {
+router.put("/user/:userId", (req, res) => {
   const { userId } = req.params;
   const path = req.body.path;
   const value = req.body.value;
@@ -369,7 +360,7 @@ router.put("/api/user/:userId", (req, res) => {
   })
 })
 
-router.put("/api/users/cart/edit/:userId", (req, res) => {
+router.put("/users/cart/edit/:userId", (req, res) => {
   const { userId } = req.params
 
   User.findOneAndUpdate({ _id: userId }, {"$set": { "cart": req.body }}, { "new": true}, (err, user) => {
@@ -380,7 +371,7 @@ router.put("/api/users/cart/edit/:userId", (req, res) => {
   })
 })
 
-router.delete("/api/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {
+router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {
   const { orderId, restaurantId } = req.params;
 
   if(orderId){
@@ -455,7 +446,7 @@ router.delete("/api/orders/:orderId/:restaurantId", requireAuth, async (req, res
 //   // generating restaurant v v v
 //   const {title} = req.params
 
-//   const placeId = await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${title}&inputtype=textquery&key=${process.env.API_KEY}`)
+//   const placeId = await axios.get(`https://maps.googleapis.com/maps/place/findplacefromtext/json?input=${title}&inputtype=textquery&key=${process.env.API_KEY}`)
 
 //   const owner = await User.findOne({"status": "owner"})
 //   let menu = await MenuItem.find({}, {"_id": 1, "total": 1})
