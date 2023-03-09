@@ -13,7 +13,7 @@ import MenuItem from "./MenuItem";
 import Signup from "./Signup";
 import Signin from "./Signin";
 
-const App = () => {
+const PageRoutes = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Menu />} />
@@ -37,4 +37,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default PageRoutes;
