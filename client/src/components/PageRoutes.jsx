@@ -21,13 +21,13 @@ const PageRoutes = () => {
       <Route path="set-time" element={<SetTime />} />
       <Route path="/verify-user-email/:userToken" element={<EmailVerification />} />
       <Route path="/profile" >
-        <Route path="/" element={<Profile/>} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/profile/signout" element={<ProfileSignout />} />
       </Route>
       <Route path="/order-menu" >
-        <Route path="/" element={<OrderMenu />} />
-        <Route path="/signout" element={<OrderSignout />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/order-menu" element={<OrderMenu />} />
+        <Route path="/order-menu/signout" element={<OrderSignout />} />
+        <Route path="/order-menu/cart" element={<Cart />} />
       </Route>
       <Route path="/order-checkout" element={<Checkout />} />
       <Route path="/products/:productId" element={<MenuItem />} />
