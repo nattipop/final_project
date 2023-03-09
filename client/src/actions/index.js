@@ -29,7 +29,7 @@ export const signup = (formProps) => dispatch => {
 }
 
 export const fetchProducts = () => dispatch => {
-  axios.get(`${url}/api/items`).then((response) => {
+  axios.get(`${url}/items`).then((response) => {
     dispatch({ type: FETCH_PRODUCTS, payload: response.data })
   }).catch((err) => {
     console.log(err)
@@ -37,7 +37,7 @@ export const fetchProducts = () => dispatch => {
 };
 
 export const fetchAvailable = (time) => dispatch => {
-  axios.get(`${url}/api/items/${time}`).then((response) => {
+  axios.get(`${url}/items/${time}`).then((response) => {
     dispatch({ type: FETCH_AVAILABLE, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -52,7 +52,7 @@ export const fetchUser = (token) => dispatch => {
   };
 
   axios.get(
-    `${url}/api/user`,
+    `${url}/user`,
     config
   ).then(function (response) {
     dispatch({ type: FETCH_USER, payload: response.data });
@@ -63,7 +63,7 @@ export const fetchUser = (token) => dispatch => {
 };
 
 export const fetchUserByEmail = (email) => dispatch => {
-  axios.get(`${url}/api/users/by-email/${email}`).then((response) => {
+  axios.get(`${url}/users/by-email/${email}`).then((response) => {
     dispatch({ type: FETCH_BY_EMAIL, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -71,7 +71,7 @@ export const fetchUserByEmail = (email) => dispatch => {
 };
 
 export const fetchProduct = (id) => dispatch => {
-  axios.get(`${url}/api/items/product/${id}`).then((response) => {
+  axios.get(`${url}/items/product/${id}`).then((response) => {
     dispatch({ type: FETCH_PRODUCT, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -79,7 +79,7 @@ export const fetchProduct = (id) => dispatch => {
 }
 
 export const fetchRestaurant = () => dispatch => {
-  axios.get(`${url}/api/restaurant`).then((response) => {
+  axios.get(`${url}/restaurant`).then((response) => {
     dispatch({ type: FETCH_RESTAURANT, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -87,7 +87,7 @@ export const fetchRestaurant = () => dispatch => {
 };
 
 export const addToCart = (id, user) => dispatch => {
-  axios.put(`${url}/api/users/cart/${id}`, user).then(response => {
+  axios.put(`${url}/users/cart/${id}`, user).then(response => {
     dispatch({ type: CLEAR_USER })
     dispatch({ type: ADD_TO_CART, payload: response.data });
   }).catch(err => {
@@ -96,7 +96,7 @@ export const addToCart = (id, user) => dispatch => {
 };
 
 export const editCart = (id, cart) => dispatch => {
-  axios.put(`${url}/api/users/cart/edit/${id}`, cart).then(response => {
+  axios.put(`${url}/users/cart/edit/${id}`, cart).then(response => {
     dispatch({ type: EDIT_CART, payload: response.data.cart})
   }).catch(err => {
     console.log(err)
@@ -104,7 +104,7 @@ export const editCart = (id, cart) => dispatch => {
 }
 
 export const editUser = (id, path, value) => dispatch => {
-  axios.put(`${url}/api/user/${id}`, {path: path, value: value}).then(response => {
+  axios.put(`${url}/user/${id}`, {path: path, value: value}).then(response => {
     dispatch({ type: EDIT_USER, payload: response.data })
   }).catch(err => {
     console.log(err)
@@ -112,7 +112,7 @@ export const editUser = (id, path, value) => dispatch => {
 }
 
 export const uploadImage = (file) => dispatch => {
-  axios.post(`${url}/api/image/upload`, file).then(response => {
+  axios.post(`${url}/image/upload`, file).then(response => {
     dispatch({ type: UPLOAD_IMG, payload: response.data })
   }).catch(err => {
     console.log(err)
