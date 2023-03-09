@@ -19,7 +19,7 @@ module.exports = {
         to: userEmail, 
         subject: `Hope and Anchor Verify Email`,
         html: `${firstName} ${lastName},
-        Please verify your email by clicking the link: ${keys.hosturl}/verify-user-email/${token}`
+        Please verify your email by clicking the link: ${keys.hosturl}/`
       })
     } catch (err) {
       console.log(err)
