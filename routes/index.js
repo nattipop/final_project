@@ -21,7 +21,9 @@ function tokenForUser(user) {
     exp: Math.round(Date.now() / 1000 + 5 * 60 * 60)}, keys.TOKEN_SECRET)
 };
 
-router.get("/verify-user-email/*", function (req, res) {
+router.get("/verify-user-email/:token", function (req, res) {
+  const {token} = req.params();
+  console.log(token)
   res.sendFile(path.join(__dirname, "client/src/components/EmailVerification"), function (err) {
     if (err) {
       res.status(500).send(err);
