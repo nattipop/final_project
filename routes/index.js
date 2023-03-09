@@ -29,7 +29,7 @@ router.get("/*", function (req, res) {
   });
 });
 
-router.post('/create-checkout-session', async (req, res) => {
+router.post('/api/create-checkout-session', async (req, res) => {
   const { price } = req.body.price;
 
   const session = await stripe.checkout.sessions.create({
@@ -48,7 +48,7 @@ router.post('/create-checkout-session', async (req, res) => {
   res.redirect(303, session.url);
 });
 
-router.put("/images/:userId", (req, res) => {
+router.put("/api/images/:userId", (req, res) => {
   const { userId } = req.params;
   console.log(req.body)
 
@@ -61,7 +61,7 @@ router.put("/images/:userId", (req, res) => {
   })
 })
 
-router.post("/auth/signup", (req, res) => {
+router.post("/api/auth/signup", (req, res) => {
   console.log(req.body)
   const email = req.body.email;
   const password = req.body.password;
@@ -108,19 +108,19 @@ router.post("/auth/signup", (req, res) => {
   });
 })
 
-router.post("/auth/signin", requireSignin, (req, res) => {
+router.post("/api/auth/signin", requireSignin, (req, res) => {
   res.send({
     token: tokenForUser(req.user),
     user: req.user
   });
 })
 
-router.get("/restaurant", async (req, res) => {
+router.get("/api/restaurant", async (req, res) => {
   const restaurant = await Restaurant.find();
   res.status(200).send(restaurant)
 })
 
-router.get("/orders/:orderId", requireAuth, (req, res) => {
+router.get("/api/orders/:orderId", requireAuth, (req, res) => {
   const { orderId } = req.params
 
   Order.findById(orderId, (err, order) => {
@@ -136,11 +136,11 @@ router.get("/orders/:orderId", requireAuth, (req, res) => {
   })
 })
 
-router.get("/test", (req, res) => {
+router.get("/api/test", (req, res) => {
   res.send("WORKS")
 });
 
-router.get("/set", (req, res) => {
+router.get("/api/set", (req, res) => {
   const user = new User();
   const restaurant = new Restaurant();
   const item = new MenuItem();
@@ -154,7 +154,7 @@ router.get("/set", (req, res) => {
   res.send(user, restaurant, item, order)
 })
 
-router.get("/users/by-email/:email", (req, res) => {
+router.get("/api/users/by-email/:email", (req, res) => {
   const { email } = req.params;
 
   User.find({ "login.email": email }, (err, user) => {
@@ -170,7 +170,7 @@ router.get("/users/by-email/:email", (req, res) => {
   })
 })
 
-router.get("/user", requireAuth, (req, res) => {
+router.get("/api/user", requireAuth, (req, res) => {
   const user = req.user
   console.log(user)
   
@@ -181,7 +181,7 @@ router.get("/user", requireAuth, (req, res) => {
   }
 });
 
-router.get("/items", (req, res) => {
+router.get("/api/items", (req, res) => {
   MenuItem.find({}, (err, products) => {
     if(err){
       res.status(500).send("there was an error with the format of your request");
@@ -197,7 +197,7 @@ router.get("/items", (req, res) => {
 });
 
 //get items by availability 
-router.get("/items/:time", (req, res) => {
+router.get("/api/items/:time", (req, res) => {
   const { time } = req.params;
 
   MenuItem.find(
@@ -216,7 +216,7 @@ router.get("/items/:time", (req, res) => {
   })
 })
 
-router.get("/items/:category", (req, res) => {
+router.get("/api/items/:category", (req, res) => {
   const { category } = req.params;
 
   MenuItem.find({ "category": category }, (err, products) => {
@@ -232,7 +232,7 @@ router.get("/items/:category", (req, res) => {
   })
 });
 
-router.get("/items/product/:productId", (req, res) => {
+router.get("/api/items/product/:productId", (req, res) => {
   const { productId } = req.params;
   
   MenuItem.find({ "_id": productId }, (err, product) => {
@@ -249,7 +249,7 @@ router.get("/items/product/:productId", (req, res) => {
   })
 });
 
-router.post("/products", async (req, res) => {
+router.post("/api/products", async (req, res) => {
   if(req.body.title){
     if(req.body.description){
       if(req.body.category){
@@ -290,7 +290,7 @@ router.post("/products", async (req, res) => {
 
 })
 
-router.post("/orders", requireAuth, (req, res, next) => {
+router.post("/api/orders", requireAuth, (req, res, next) => {
   const user = req.user;
   const order = req.body;
 
@@ -320,7 +320,7 @@ router.post("/orders", requireAuth, (req, res, next) => {
   })
 });
 
-router.put("/orders/:orderId", requireAuth, (req, res) => {
+router.put("/api/orders/:orderId", requireAuth, (req, res) => {
   const { orderId } = req.params
 
   for(key in req.body) {
@@ -343,7 +343,7 @@ router.put("/orders/:orderId", requireAuth, (req, res) => {
   }
 });
 
-router.put("/users/cart/:userId", (req, res) => {
+router.put("/api/users/cart/:userId", (req, res) => {
   const { userId } = req.params
 
   User.findOneAndUpdate({ _id: userId }, {"$push": {"cart": req.body}}, { "new": true }, (err, user) => {
@@ -354,7 +354,7 @@ router.put("/users/cart/:userId", (req, res) => {
     })
 });
 
-router.put("/user/:userId", (req, res) => {
+router.put("/api/user/:userId", (req, res) => {
   const { userId } = req.params;
   const path = req.body.path;
   const value = req.body.value;
@@ -367,7 +367,7 @@ router.put("/user/:userId", (req, res) => {
   })
 })
 
-router.put("/users/cart/edit/:userId", (req, res) => {
+router.put("/api/users/cart/edit/:userId", (req, res) => {
   const { userId } = req.params
 
   User.findOneAndUpdate({ _id: userId }, {"$set": { "cart": req.body }}, { "new": true}, (err, user) => {
@@ -378,7 +378,7 @@ router.put("/users/cart/edit/:userId", (req, res) => {
   })
 })
 
-router.delete("/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {
+router.delete("/api/orders/:orderId/:restaurantId", requireAuth, async (req, res) => {
   const { orderId, restaurantId } = req.params;
 
   if(orderId){
