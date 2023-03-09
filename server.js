@@ -11,7 +11,6 @@ const keys = require("./config/keys")
 const path = require("path")
 
 const indexRouter = require("./routes/index");
-const clientRouter = require("./routes/client");
 
 if(process.env.NODE_ENV === "production") {
   const path = require("path");
@@ -31,6 +30,5 @@ db.on("error", error => console.log(error))
 db.once("open", () => console.log("connected to database"))
 
 app.use("/api", indexRouter);
-app.use('/client', clientRouter);
 
 app.listen(process.env.PORT || 3000)
