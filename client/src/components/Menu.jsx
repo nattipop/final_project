@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-const { useEffect, useState } =  require("react");
-const { useDispatch, useSelector } = require("react-redux");
-const { useNavigate } = require("react-router");
-const { fetchProducts, fetchRestaurant, fetchUser } = require("../actions");
-const SetTime = require("./SetTime");
-const Signout = require("./Signout");
-const Map = require("./Map");
-const coffeeLoading = require("../Coffee_Loading.gif");
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { fetchProducts, fetchRestaurant, fetchUser } from "../actions";
+import SetTime from "./SetTime";
+import Signout from "./Signout";
+import Map from "./Map";
+import coffeeLoading from "../Coffee_Loading.gif";
 
 const Menu = () => {
   const navigate = useNavigate();
