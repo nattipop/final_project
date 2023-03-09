@@ -7,6 +7,7 @@ import SetTime from "./SetTime";
 import Signout from "./Signout";
 import Map from "./Map";
 import coffeeLoading from "../Coffee_Loading.gif";
+import { Link } from "react-router-dom";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -226,7 +227,7 @@ const Menu = () => {
           <div className="nav-item" onClick={() => navigate("/account/signup")}>Signup</div>
         </div>
         <div style={{ "width": "8%", "float": "right"}}>
-          <div className="nav-item" onClick={() => navigate("/account/signin")}>Signin</div>
+          <Link to="/account/signin" className="nav-item" >Signin</Link>
         </div>
       </div>
       <div style={{"width": "100%", "margin": "auto", "padding": "80px"}}>
