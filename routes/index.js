@@ -22,7 +22,7 @@ function tokenForUser(user) {
 };
 
 router.get("/verify-user-email/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "client/build/index.html"), function (err) {
+  res.sendFile(path.join(__dirname, "client/src/components/EmailVerification"), function (err) {
     if (err) {
       res.status(500).send(err);
     }
