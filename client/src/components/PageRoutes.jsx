@@ -1,17 +1,17 @@
 import { Route, Routes } from "react-router-dom"
-import Menu from "./Menu";
-import SetTime from "./SetTime";
-import Signout from "./Signout";
-import EmailVerification from "./EmailVerification";
-import Profile from "./Profile";
-import ProfileSignout from "./ProfileSignout";
-import OrderMenu from "./OrderMenu";
-import OrderSignout from "./OrderSignout";
-import Cart from "./Cart";
-import Checkout from "./Checkout";
-import MenuItem from "./MenuItem";
-import Signup from "./Signup";
-import Signin from "./Signin";
+import Menu from "./Menu.jsx";
+import SetTime from "./SetTime.jsx";
+import Signout from "./Signout.jsx";
+import EmailVerification from "./EmailVerification.jsx";
+import Profile from "./Profile.jsx";
+import ProfileSignout from "./ProfileSignout.jsx";
+import OrderMenu from "./OrderMenu.jsx";
+import OrderSignout from "./OrderSignout.jsx";
+import Cart from "./Cart.jsx";
+import Checkout from "./Checkout.jsx";
+import MenuItem from "./MenuItem.jsx";
+import Signup from "./Signup.jsx";
+import Signin from "./Signin.jsx";
 
 const PageRoutes = () => {
   return (
