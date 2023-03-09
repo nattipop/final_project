@@ -16,7 +16,7 @@ import Signin from "./Signin";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Menu />} />
+      <Route exact path="/" element={<Menu />} />
       <Route path="/signout" element={<Signout />} />
       <Route path="set-time" element={<SetTime />} />
       <Route path="/verify-user-email/:userToken" element={<EmailVerification />} />
