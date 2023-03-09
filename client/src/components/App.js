@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router"
+import { Route, Routes } from "react-router-dom"
 import Menu from "./Menu";
 import SetTime from "./SetTime";
 import Signout from "./Signout";
