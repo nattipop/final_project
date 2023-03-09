@@ -31,6 +31,7 @@ db.once("open", () => console.log("connected to database"))
 
 app.use(express.static('./build'));
 
+app.use("/api", indexRouter);
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"), function(err) {
     if (err) {
@@ -39,6 +40,5 @@ app.get('/*', function(req, res) {
   })
 })
 
-app.use("/api", indexRouter);
 
 app.listen(process.env.PORT || 3000)
