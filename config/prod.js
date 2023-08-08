@@ -4,6 +4,6 @@ module.exports = {
   API_KEY: process.env.API_KEY,
   url:  "https://final-project-parsity.herokuapp.com",
   EMAIL_USERNAME: "nattipop815@gmail.com",
-  EMAIL_PASS: "kawvgjmvejjohqzm",
+  EMAIL_PASS: "lbgblykhgkdmxvpp",
   hosturl: "https://final-project-parsity.herokuapp.com"
 };
