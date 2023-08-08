@@ -5,7 +5,7 @@ const EmailVerification = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/")
+    navigate("/account/signin")
   }
   return (
     <div style={{width: "100vw", height: "30vw"}}>
