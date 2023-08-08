@@ -19,7 +19,7 @@ const PageRoutes = () => {
       <Route exact path="/" element={<Menu />} />
       <Route path="/signout" element={<Signout />} />
       <Route path="set-time" element={<SetTime />} />
-      <Route path="/verify-user-email/:userToken" element={<EmailVerification />} />
+      <Route path="/verify-user-email" element={<EmailVerification />} />
       <Route path="/profile" >
         <Route path="/profile" element={<Profile/>} />
         <Route path="/profile/signout" element={<ProfileSignout />} />
